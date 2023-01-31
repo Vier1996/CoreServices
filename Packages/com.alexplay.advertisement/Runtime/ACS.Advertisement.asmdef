@@ -2,10 +2,10 @@
     "name": "ACS.Advertisement",
     "rootNamespace": "ACS.Ads",
     "references": [
-        "GUID:4f21c891bf3b5d149bca88a83c9c25b3",
-        "GUID:6ec95cf1d1c4a174faae6a49d479b492",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:6d80c856f98c28f479bdba1d88d8db19"
+        "ServicesConfigDefenition",
+        "ACS.IS",
+        "UniTask",
+        "Core.Intent"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
