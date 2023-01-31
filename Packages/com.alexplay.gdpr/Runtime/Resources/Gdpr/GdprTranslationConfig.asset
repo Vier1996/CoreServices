@@ -1,0 +1,195 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebfb06681b59c904ca7cb4595bb73ce1, type: 3}
+  m_Name: GdprTranslationConfig
+  m_EditorClassIdentifier: 
+  Localization:
+  - LanguageCode: en
+    Translations:
+      TitleTranslation: Terms of Use and Privacy Policy
+      DescriptionTranslation: By clicking on the "Accept" button, you confirm that
+        you have carefully read and agree to our
+      TermsOfUseTranslation: Terms of Use
+      AndArticleTranslation: And
+      PrivacyPoliceTranslation: Privacy Policy.
+      AcceptButtonTranslation: Accept
+      DeclineButtonTranslation: Do not allow
+  - LanguageCode: zh-CN
+    Translations:
+      TitleTranslation: "\u4F7F\u7528\u6761\u6B3E\u548C\u9690\u79C1\u653F\u7B56"
+      DescriptionTranslation: "\u5355\u51FB\u201C\u63A5\u53D7\u201D\u6309\u94AE\uFF0C\u5373\u8868\u793A\u60A8\u786E\u8BA4\u5DF2\u4ED4\u7EC6\u9605\u8BFB\u5E76\u540C\u610F\u6211\u4EEC\u7684"
+      TermsOfUseTranslation: "\u4F7F\u7528\u6761\u6B3E"
+      AndArticleTranslation: "\u548C"
+      PrivacyPoliceTranslation: "\u9690\u79C1\u653F\u7B56\u3002"
+      AcceptButtonTranslation: "\u63A5\u53D7"
+      DeclineButtonTranslation: "\u4E0D\u5141\u8BB8"
+  - LanguageCode: ru
+    Translations:
+      TitleTranslation: "\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u044F
+        \u0438 \u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043A\u043E\u043D\u0444\u0438\u0434\u0435\u043D\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0438"
+      DescriptionTranslation: "\u041D\u0430\u0436\u0430\u0432 \u043D\u0430 \u043A\u043D\u043E\u043F\u043A\u0443
+        \"\u041F\u0440\u0438\u043D\u044F\u0442\u044C\", \u0432\u044B \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u0435\u0442\u0435,
+        \u0447\u0442\u043E \u0432\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C\u043D\u043E
+        \u043F\u0440\u043E\u0447\u043B\u0438 \u0438 \u0441\u043E\u0433\u043B\u0430\u0448\u0430\u0435\u0442\u0435\u0441\u044C
+        \u0441 \u043D\u0430\u0448\u0438\u043C\u0438"
+      TermsOfUseTranslation: "\u0423\u0441\u043B\u043E\u0432\u0438\u044F\u043C\u0438
+        \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u044F"
+      AndArticleTranslation: "\u0438"
+      PrivacyPoliceTranslation: "\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u043E\u0439
+        \u043A\u043E\u043D\u0444\u0438\u0434\u0435\u043D\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0438."
+      AcceptButtonTranslation: "\u041F\u0440\u0438\u043D\u044F\u0442\u044C"
+      DeclineButtonTranslation: "\u041D\u0435 \u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0442\u044C"
+  - LanguageCode: de
+    Translations:
+      TitleTranslation: Nutzungsbedingungen und Datenschutzrichtlinie
+      DescriptionTranslation: "Indem Sie auf die Schaltfl\xE4che \u201EAkzeptieren\u201C
+        klicken, best\xE4tigen Sie, dass Sie unsere Datenschutzbestimmungen sorgf\xE4ltig
+        gelesen haben und ihnen zustimmen"
+      TermsOfUseTranslation: Nutzungsbedingungen
+      AndArticleTranslation: Und
+      PrivacyPoliceTranslation: Datenschutz-Bestimmungen.
+      AcceptButtonTranslation: Annehmen
+      DeclineButtonTranslation: Nicht zulassen
+  - LanguageCode: uk
+    Translations:
+      TitleTranslation: "\u0423\u043C\u043E\u0432\u0438 \u0432\u0438\u043A\u043E\u0440\u0438\u0441\u0442\u0430\u043D\u043D\u044F
+        \u0442\u0430 \u043F\u043E\u043B\u0456\u0442\u0438\u043A\u0430 \u043A\u043E\u043D\u0444\u0456\u0434\u0435\u043D\u0446\u0456\u0439\u043D\u043E\u0441\u0442\u0456"
+      DescriptionTranslation: "\u041D\u0430\u0442\u0438\u0441\u043A\u0430\u044E\u0447\u0438
+        \u043A\u043D\u043E\u043F\u043A\u0443 \xAB\u041F\u0440\u0438\u0439\u043D\u044F\u0442\u0438\xBB,
+        \u0432\u0438 \u043F\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u0435,
+        \u0449\u043E \u0443\u0432\u0430\u0436\u043D\u043E \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043B\u0438
+        \u0442\u0430 \u043F\u043E\u0433\u043E\u0434\u0436\u0443\u0454\u0442\u0435\u0441\u044F
+        \u0437 \u043D\u0430\u0448\u0438\u043C\u0438"
+      TermsOfUseTranslation: "\u0423\u043C\u043E\u0432\u0438 \u0432\u0438\u043A\u043E\u0440\u0438\u0441\u0442\u0430\u043D\u043D\u044F"
+      AndArticleTranslation: "\u0406"
+      PrivacyPoliceTranslation: "\u041F\u043E\u043B\u0456\u0442\u0438\u043A\u0430
+        \u041A\u043E\u043D\u0444\u0456\u0434\u0435\u043D\u0446\u0456\u0439\u043D\u043E\u0441\u0442\u0456."
+      AcceptButtonTranslation: "\u041F\u0440\u0438\u0439\u043D\u044F\u0442\u0438"
+      DeclineButtonTranslation: "\u041D\u0435 \u0434\u043E\u0437\u0432\u043E\u043B\u044F\u0442\u0438"
+  - LanguageCode: ar
+    Translations:
+      TitleTranslation: "\u0634\u0631\u0648\u0637 \u0627\u0644\u0627\u0633\u062A\u062E\u062F\u0627\u0645
+        \u0648 \u0633\u064A\u0627\u0633\u0629 \u0627\u0644\u062E\u0635\u0648\u0635\u064A\u0629"
+      DescriptionTranslation: "\u0628\u0627\u0644\u0646\u0642\u0631 \u0641\u0648\u0642
+        \u0627\u0644\u0632\u0631 \"\u0642\u0628\u0648\u0644\" \u060C \u0641\u0625\u0646\u0643
+        \u062A\u0624\u0643\u062F \u0623\u0646\u0643 \u0642\u062F \u0642\u0631\u0623\u062A
+        \u0628\u0639\u0646\u0627\u064A\u0629 \u0648\u0648\u0627\u0641\u0642\u062A
+        \u0639\u0644\u0649"
+      TermsOfUseTranslation: "\u0634\u0631\u0648\u0637 \u0627\u0644\u0627\u0633\u062A\u062E\u062F\u0627\u0645"
+      AndArticleTranslation: "\u0648"
+      PrivacyPoliceTranslation: "\u0633\u064A\u0627\u0633\u0629 \u0627\u0644\u062E\u0635\u0648\u0635\u064A\u0629."
+      AcceptButtonTranslation: "\u0642\u0628\u0648\u0644"
+      DeclineButtonTranslation: "\u0644\u0627 \u062A\u0633\u0645\u062D"
+  - LanguageCode: es-ES
+    Translations:
+      TitleTranslation: "T\xE9rminos de uso y pol\xEDtica de privacidad"
+      DescriptionTranslation: "Al hacer clic en el bot\xF3n \"Aceptar\", confirma
+        que ha le\xEDdo atentamente y est\xE1 de acuerdo con nuestros"
+      TermsOfUseTranslation: "T\xE9rminos de Uso"
+      AndArticleTranslation: Y
+      PrivacyPoliceTranslation: "Pol\xEDtica De Privacidad."
+      AcceptButtonTranslation: Aceptar
+      DeclineButtonTranslation: No permitir
+  - LanguageCode: fr
+    Translations:
+      TitleTranslation: "Conditions d'utilisation et politique de confidentialit\xE9"
+      DescriptionTranslation: "En cliquant sur le bouton \"Accepter\", vous confirmez
+        avoir lu attentivement et accept\xE9 nos"
+      TermsOfUseTranslation: Conditions d'utilisation
+      AndArticleTranslation: Et
+      PrivacyPoliceTranslation: "Politique De Confidentialit\xE9."
+      AcceptButtonTranslation: J'accepte
+      DeclineButtonTranslation: Ne permettent pas
+  - LanguageCode: hu
+    Translations:
+      TitleTranslation: "Felhaszn\xE1l\xE1si felt\xE9telek \xE9s adatv\xE9delmi szab\xE1lyzat"
+      DescriptionTranslation: "Az \"Elfogadom\" gombra kattintva meger\u0151s\xEDti,
+        hogy figyelmesen elolvasta \xE9s elfogadja a jelen t\xE1j\xE9koztat\xF3nkat"
+      TermsOfUseTranslation: "Haszn\xE1lati felt\xE9telek"
+      AndArticleTranslation: "\xC9s"
+      PrivacyPoliceTranslation: "Adatv\xE9delmi Ir\xE1nyelvek."
+      AcceptButtonTranslation: Elfogad
+      DeclineButtonTranslation: Nem enged
+  - LanguageCode: it
+    Translations:
+      TitleTranslation: Condizioni d'uso e Informativa sulla privacy
+      DescriptionTranslation: Cliccando sul pulsante "Accetto", confermi di aver
+        letto attentamente e di accettare la ns
+      TermsOfUseTranslation: Termini di utilizzo
+      AndArticleTranslation: E
+      PrivacyPoliceTranslation: Politica Sulla Riservatezza.
+      AcceptButtonTranslation: Accettare
+      DeclineButtonTranslation: Non permettere
+  - LanguageCode: pl
+    Translations:
+      TitleTranslation: "Warunki u\u017Cytkowania i Polityka prywatno\u015Bci"
+      DescriptionTranslation: "Klikaj\u0105c przycisk \u201EAkceptuj\u0119\u201D,
+        potwierdzasz, \u017Ce dok\u0142adnie przeczyta\u0142e\u015B i zgadzasz si\u0119
+        z naszymi"
+      TermsOfUseTranslation: Warunki korzystania
+      AndArticleTranslation: Oraz
+      PrivacyPoliceTranslation: "Polityka Prywatno\u015Bci."
+      AcceptButtonTranslation: "Zaakceptowa\u0107"
+      DeclineButtonTranslation: Nie pozwalaj
+  - LanguageCode: tr
+    Translations:
+      TitleTranslation: "Kullan\u0131m ve gizlilik politikas\u0131 \u015Fartlar\u0131"
+      DescriptionTranslation: "\"Kabul Et\" d\xFC\u011Fmesine t\u0131klayarak, ko\u015Fullar\u0131m\u0131z\u0131
+        dikkatlice okudu\u011Funuzu ve kabul etti\u011Finizi onaylam\u0131\u015F
+        olursunuz."
+      TermsOfUseTranslation: "Kullan\u0131m \u015Eartlar\u0131"
+      AndArticleTranslation: Ve
+      PrivacyPoliceTranslation: "Gizlilik Politikas\u0131."
+      AcceptButtonTranslation: Kabul
+      DeclineButtonTranslation: "\u0130zin verme"
+  - LanguageCode: pt
+    Translations:
+      TitleTranslation: Termos de uso e politica de privacidade
+      DescriptionTranslation: "Ao clicar no bot\xE3o \"Aceitar\", voc\xEA confirma
+        que leu atentamente e concorda com nossos"
+      TermsOfUseTranslation: Termos de uso
+      AndArticleTranslation: E
+      PrivacyPoliceTranslation: "Pol\xEDtica De Privacidade."
+      AcceptButtonTranslation: Aceitar
+      DeclineButtonTranslation: "N\xE3o permita"
+  - LanguageCode: pt-BR
+    Translations:
+      TitleTranslation: Termos de uso e politica de privacidade
+      DescriptionTranslation: "Ao clicar no bot\xE3o \"Aceitar\", voc\xEA confirma
+        que leu atentamente e concorda com nossos"
+      TermsOfUseTranslation: Termos de uso
+      AndArticleTranslation: E
+      PrivacyPoliceTranslation: "Pol\xEDtica De Privacidade."
+      AcceptButtonTranslation: Aceitar
+      DeclineButtonTranslation: "N\xE3o permita"
+  - LanguageCode: ja
+    Translations:
+      TitleTranslation: "\u5229\u7528\u898F\u7D04\u3068\u30D7\u30E9\u30A4\u30D0\u30B7\u30FC
+        \u30DD\u30EA\u30B7\u30FC"
+      DescriptionTranslation: "\u300C\u540C\u610F\u3059\u308B\u300D\u30DC\u30BF\u30F3\u3092\u30AF\u30EA\u30C3\u30AF\u3059\u308B\u3053\u3068\u306B\u3088\u308A\u3001\u3042\u306A\u305F\u306F\u79C1\u305F\u3061\u306E"
+      TermsOfUseTranslation: "\u5229\u7528\u898F\u7D04"
+      AndArticleTranslation: "\u3068"
+      PrivacyPoliceTranslation: "\u30D7\u30E9\u30A4\u30D0\u30B7\u30FC\u30DD\u30EA\u30B7\u30FC\u3002"
+      AcceptButtonTranslation: "\u53D7\u3051\u5165\u308C\u308B"
+      DeclineButtonTranslation: "\u8A31\u53EF\u3057\u306A\u3044"
+  - LanguageCode: ko
+    Translations:
+      TitleTranslation: "\uC774\uC6A9\uC57D\uAD00 \uBC0F \uAC1C\uC778\uC815\uBCF4
+        \uBCF4\uD638\uC815\uCC45"
+      DescriptionTranslation: "\"\uB3D9\uC758\" \uBC84\uD2BC\uC744 \uD074\uB9AD\uD568\uC73C\uB85C\uC368
+        \uADC0\uD558\uB294 \uADC0\uD558\uAC00 \uB2F9\uC0AC\uC758 \uC57D\uAD00\uC744
+        \uC8FC\uC758 \uAE4A\uAC8C \uC77D\uACE0 \uB3D9\uC758\uD568\uC744 \uD655\uC778\uD569\uB2C8\uB2E4."
+      TermsOfUseTranslation: "\uC774\uC6A9\uC57D\uAD00"
+      AndArticleTranslation: "\uADF8\uB9AC\uACE0"
+      PrivacyPoliceTranslation: "\uAC1C\uC778 \uC815\uBCF4 \uC815\uCC45."
+      AcceptButtonTranslation: "\uB3D9\uC758\uD558\uAE30"
+      DeclineButtonTranslation: "\uD5C8\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4"

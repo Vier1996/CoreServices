@@ -1,0 +1,29 @@
+{
+    "name": "ACS.Core",
+    "rootNamespace": "ACS.Core",
+    "references": [
+        "GUID:6d80c856f98c28f479bdba1d88d8db19",
+        "GUID:1160fe5911884944faa13000ade2b3f1",
+        "GUID:5825bee2888a4e34f977635d70bc65fa",
+        "GUID:4f21c891bf3b5d149bca88a83c9c25b3",
+        "GUID:9b39a26ff4134fa4d82e0e244efa3e49",
+        "GUID:ff9914ca27f87964db18f37e15534c29",
+        "GUID:9efb2ff003b6f4972930f2514d32e680",
+        "GUID:0d2326c4c2564476aa2bf4a9748285bb",
+        "GUID:579bde1819e5b42aa86c4240ef101c5b",
+        "GUID:60bfecf5cb232594891bc622f40d6bed",
+        "GUID:d0a4c19068b924278839b67630147f33",
+        "GUID:8cf838ff3fc65654883ec73fb5758365",
+        "GUID:cab3a628859dc7342b60ad3c7ae3d368",
+        "GUID:3078264faea74a147819b7f64d7def1c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

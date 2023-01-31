@@ -1,0 +1,18 @@
+{
+    "name": "ACS.Audio",
+    "rootNamespace": "ACS.Audio",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:4f21c891bf3b5d149bca88a83c9c25b3",
+        "GUID:1160fe5911884944faa13000ade2b3f1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

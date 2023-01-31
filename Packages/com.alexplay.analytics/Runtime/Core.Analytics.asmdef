@@ -1,0 +1,17 @@
+{
+    "name": "ACS.Analytics",
+    "rootNamespace": "ACS.Analytics",
+    "references": [
+        "GUID:4f21c891bf3b5d149bca88a83c9c25b3",
+        "GUID:4383d23238aad914eaa6e5074b8e8c71"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
