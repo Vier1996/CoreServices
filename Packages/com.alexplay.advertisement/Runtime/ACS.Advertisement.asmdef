@@ -3,9 +3,9 @@
     "rootNamespace": "ACS.Ads",
     "references": [
         "ServicesConfigDefenition",
-        "ACS.IS",
         "UniTask",
-        "Core.Intent"
+        "Core.Intent",
+        "IS"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

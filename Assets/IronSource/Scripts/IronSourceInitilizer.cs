@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using IronS = ACS.IS.IronSource.Scripts.IronSource;
-
-public class IronSourceInitilizer
+﻿namespace IS.IronSource.Scripts
 {
+    public class IronSourceInitilizer
+    {
 #if UNITY_IOS || UNITY_ANDROID
     [RuntimeInitializeOnLoadMethod]
     static void Initilize()
@@ -42,4 +41,5 @@ public class IronSourceInitilizer
     }
 #endif
 
+    }
 }

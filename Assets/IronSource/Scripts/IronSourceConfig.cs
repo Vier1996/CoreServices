@@ -1,25 +1,24 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
-using System.Collections.Generic;
-
-public class IronSourceConfig
+namespace IS.IronSource.Scripts
 {
-	private const string unsupportedPlatformStr = "Unsupported Platform";
-	private static IronSourceConfig _instance;
+	public class IronSourceConfig
+	{
+		private const string unsupportedPlatformStr = "Unsupported Platform";
+		private static IronSourceConfig _instance;
 
-	public static IronSourceConfig Instance {
-		get {
-			if (_instance == null) {
-				_instance = new IronSourceConfig ();
+		public static IronSourceConfig Instance {
+			get {
+				if (_instance == null) {
+					_instance = new IronSourceConfig ();
+				}
+				return _instance;
 			}
-			return _instance;
 		}
-	}
 
 
-	#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 	private static AndroidJavaObject _androidBridge;
 	private readonly static string AndroidBridge = "com.ironsource.unity.androidbridge.AndroidBridge";
 	
@@ -53,7 +52,7 @@ public class IronSourceConfig
 	}
 
 
-	#elif (UNITY_IPHONE || UNITY_IOS) && !UNITY_EDITOR
+#elif (UNITY_IPHONE || UNITY_IOS) && !UNITY_EDITOR
 	[DllImport("__Internal")]
 	private static extern void CFSetLanguage (string language);
 
@@ -95,33 +94,34 @@ public class IronSourceConfig
 	}
 
 
-	#else		
-	public void setLanguage (string language)
-	{
-		Debug.Log (unsupportedPlatformStr);
-	}
+#else		
+		public void setLanguage (string language)
+		{
+			Debug.Log (unsupportedPlatformStr);
+		}
 	
-	public void setClientSideCallbacks (bool status)
-	{
-		Debug.Log (unsupportedPlatformStr);
-	}
+		public void setClientSideCallbacks (bool status)
+		{
+			Debug.Log (unsupportedPlatformStr);
+		}
 	
-	public void setRewardedVideoCustomParams (Dictionary<string,string> rewardedVideoCustomParams)
-	{ 
-		Debug.Log (unsupportedPlatformStr);
-	}
+		public void setRewardedVideoCustomParams (Dictionary<string,string> rewardedVideoCustomParams)
+		{ 
+			Debug.Log (unsupportedPlatformStr);
+		}
 	
-	public void setOfferwallCustomParams (Dictionary<string,string> offerwallCustomParams)
-	{
-		Debug.Log (unsupportedPlatformStr);
-	}
+		public void setOfferwallCustomParams (Dictionary<string,string> offerwallCustomParams)
+		{
+			Debug.Log (unsupportedPlatformStr);
+		}
 
-	public IronSourceConfig ()
-	{
-		Debug.Log (unsupportedPlatformStr);
-	}
+		public IronSourceConfig ()
+		{
+			Debug.Log (unsupportedPlatformStr);
+		}
 	
-	#endif
+#endif
+	}
 }
 
 

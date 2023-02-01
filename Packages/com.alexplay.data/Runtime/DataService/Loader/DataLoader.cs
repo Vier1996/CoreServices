@@ -38,7 +38,7 @@ namespace ACS.Data.DataService.Loader
                 }
                 catch (Exception e)
                 {
-                    Debug.Log($"Corrupted data for [{modelType.Name}], set default data");
+                    Debug.Log($"Corrupted data for [{modelType.Name}], set default data. \n {e.Message}");
                     model = (TModel) Activator.CreateInstance(modelType);
                 }
                 

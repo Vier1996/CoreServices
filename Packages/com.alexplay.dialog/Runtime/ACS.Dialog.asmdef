@@ -2,9 +2,9 @@
     "name": "ACS.Dialog",
     "rootNamespace": "ACS.Dialog",
     "references": [
-        "GUID:4f21c891bf3b5d149bca88a83c9c25b3",
-        "GUID:5825bee2888a4e34f977635d70bc65fa",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+        "ServicesConfigDefenition",
+        "UniTask",
+        "Zenject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

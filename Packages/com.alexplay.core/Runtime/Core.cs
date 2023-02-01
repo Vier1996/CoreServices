@@ -27,7 +27,6 @@ using ACS.Data.DataService.Service;
 using ACS.Audio;
 #endif
 using System;
-using Alexplay.Core.Third_Party_Plugins.Zenject.Source.Install.Contexts;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -47,6 +46,7 @@ namespace ACS.Core
         {
             get
             {
+                
                 if (_dataService == null)
                     throw new NullReferenceException($"Before using {typeof(DataService)} you must -turn (ON) it in config");
 

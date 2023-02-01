@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using ACS.Ads.com.alexplay.advertisement.Runtime;
 using Cysharp.Threading.Tasks;
+using IS.IronSource.Scripts;
 using UnityEngine;
-using IronS = ACS.IS.IronSource.Scripts.IronSource;
+using IronS = IS.IronSource.Scripts.IronSource;
 
 namespace ACS.Ads
 {

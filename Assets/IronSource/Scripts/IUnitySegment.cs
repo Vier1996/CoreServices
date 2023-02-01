@@ -1,6 +1,9 @@
 ﻿using System;
-    
-public interface IUnitySegment
+
+namespace IS.IronSource.Scripts
 {
-    event Action<String> OnSegmentRecieved;
+    public interface IUnitySegment
+    {
+        event Action<String> OnSegmentRecieved;
+    }
 }

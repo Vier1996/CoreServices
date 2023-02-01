@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ACS.IS.IronSource.Scripts
+namespace IS.IronSource.Scripts
 {
 	public class IronSource : IronSourceIAgent
 	{

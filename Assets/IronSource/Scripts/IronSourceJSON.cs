@@ -1,6 +1,7 @@
 /*
  * Based on the miniJSON by Calvin Rien
  */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace IronSourceJSON
+namespace IS.IronSource.Scripts
 {
 	public static class Json
 	{
