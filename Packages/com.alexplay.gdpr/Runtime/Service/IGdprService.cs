@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ACS.GDPR.com.alexplay.gdpr.Runtime.Service
+namespace ACS.GDPR.Service
 {
     public interface IGdprService
     {

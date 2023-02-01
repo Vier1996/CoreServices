@@ -1,9 +1,8 @@
 ﻿using System;
-using ACS.GDPR.com.alexplay.gdpr.Runtime.Config;
 using ACS.GDPR.Config;
 using UnityEngine;
 
-namespace ACS.GDPR.com.alexplay.gdpr.Runtime.Service
+namespace ACS.GDPR.Service
 {
     public class GdprService : IGdprService
     {

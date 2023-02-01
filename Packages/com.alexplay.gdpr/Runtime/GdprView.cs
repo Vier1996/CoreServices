@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using ACS.GDPR.com.alexplay.gdpr.Runtime.Config;
+using ACS.GDPR.Config;
 using DG.Tweening;
 using I2.Loc;
 using TMPro;
 using UnityEngine;
 
-namespace ACS.GDPR.com.alexplay.gdpr.Runtime
+namespace ACS.GDPR
 {
     public class GdprView : MonoBehaviour
     {

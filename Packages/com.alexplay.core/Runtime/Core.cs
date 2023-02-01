@@ -3,7 +3,6 @@ using ACS.Ads;
 using ACS.Ads.com.alexplay.advertisement.Runtime;
 #endif
 #if COM_ALEXPLAY_NET_GDPR
-using ACS.GDPR.com.alexplay.gdpr.Runtime.Service;
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
 using ACS.Analytics.Analytics.Service;
@@ -27,6 +26,7 @@ using ACS.Data.DataService.Service;
 using ACS.Audio;
 #endif
 using System;
+using ACS.GDPR.Service;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;

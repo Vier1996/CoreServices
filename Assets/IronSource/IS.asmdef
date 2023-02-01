@@ -1,11 +1,7 @@
 {
-    "name": "ACS.GDPR",
-    "rootNamespace": "ACS.GDPR",
-    "references": [
-        "ServicesConfigDefenition",
-        "Unity.TextMeshPro",
-        "I2Loc"
-    ],
+    "name": "IS",
+    "rootNamespace": "IS",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

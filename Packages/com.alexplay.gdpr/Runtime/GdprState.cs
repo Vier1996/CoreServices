@@ -1,4 +1,4 @@
-﻿namespace ACS.GDPR.com.alexplay.gdpr.Runtime
+﻿namespace ACS.GDPR
 {
     public enum GdprState
     {

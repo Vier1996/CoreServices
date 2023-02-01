@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ACS.GDPR.com.alexplay.gdpr.Runtime.Config
+namespace ACS.GDPR.Config
 {
     [CreateAssetMenu(fileName = "GdprTranslationConfig", menuName = "GDPR/Translation/Config")]
     [Serializable]

@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace ACS.GDPR.com.alexplay.gdpr.Runtime
+namespace ACS.GDPR
 {
     public class GdprButtonScaler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {

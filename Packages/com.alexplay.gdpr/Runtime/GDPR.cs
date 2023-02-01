@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ACS.GDPR.com.alexplay.gdpr.Runtime
+namespace ACS.GDPR
 {
     public class GDPR : IDisposable
     {
