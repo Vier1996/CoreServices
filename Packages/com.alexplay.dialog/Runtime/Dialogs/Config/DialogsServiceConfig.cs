@@ -12,6 +12,9 @@ namespace ACS.Dialog.Dialogs.Config
         
         [ShowIf("@IsEnabled == true")]
         public int DialogSortingOrder;
+
+        [ShowIf("@IsEnabled == true")] 
+        public string DefaultResources = "Dialogs/";
         public string GetLayerName() => LayerName;
 
         public void OnValidate() => TryCreateLayer();

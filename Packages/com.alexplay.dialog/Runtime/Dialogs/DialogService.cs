@@ -24,8 +24,6 @@ namespace ACS.Dialog.Dialogs
         }
 
         private readonly ObservableCollection<DialogView> _activeDialogs = new ObservableCollection<DialogView>();
-
-        private const string _resourcesPath = "Dialogs/"; 
         
         private readonly DiContainer _diContainer;
         private readonly DialogsServiceConfig _dialogsServiceConfig;
@@ -54,7 +52,7 @@ namespace ACS.Dialog.Dialogs
 
         private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs
         {
-            ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_resourcesPath + dialogType.Name);
+            ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + dialogType.Name);
             GameObject dialogPrefab = await resourceRequest as GameObject;
             
             if (dialogPrefab != null)
