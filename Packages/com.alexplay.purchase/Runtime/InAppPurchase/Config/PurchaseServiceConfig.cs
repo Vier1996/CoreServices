@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Packages.com.alexplay.core.Runtime.Config;
+using Config;
 using UnityEditor;
 
 namespace ACS.IAP.InAppPurchase.Config

@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace Alexplay.Editor
+namespace ACS.CoreEditor.Editor
 {
     public class AlexplayEditor : OdinMenuEditorWindow
     {

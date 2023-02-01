@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using ACS.Ads.com.alexplay.advertisement.Runtime;
-using ACS.Core.IntentService;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using IronS = ACS.IS.IronSource.Scripts.IronSource;
@@ -13,14 +12,14 @@ namespace ACS.Ads
         public event Action<bool> OnVideoStateChanged;
         
         private readonly AdvertisementServiceConfig _config;
-        private readonly IntentService _intentService;
+        private readonly IntentService.IntentService _intentService;
         
         private DateTime _lastAdPlayingTime;
         private Action _shownCallback;
         private Action _failedCallback;
         private readonly TimeSpan _initDelay;
 
-        public AdvertisementService(IntentService intentService, AdvertisementServiceConfig config)
+        public AdvertisementService(IntentService.IntentService intentService, AdvertisementServiceConfig config)
         {
             _intentService = intentService;
             _initDelay = TimeSpan.FromSeconds(1);

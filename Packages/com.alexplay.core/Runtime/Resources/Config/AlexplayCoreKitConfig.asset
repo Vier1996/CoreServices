@@ -13,9 +13,47 @@ MonoBehaviour:
   m_Name: AlexplayCoreKitConfig
   m_EditorClassIdentifier: 
   _dataSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     CryptoKey:
-      CryptoPartA: 0
-      CryptoPartB: 0
-      CryptoPartC: 0
-      CryptoPartD: 0
+      CryptoPartA: 7
+      CryptoPartB: 5
+      CryptoPartC: 2
+      CryptoPartD: 2
+  _signalBusSettings:
+    _isEnabled: 0
+  _dialogsSettings:
+    _isEnabled: 0
+    DialogSortingOrder: 0
+  _objectPoolSettings:
+    _isEnabled: 0
+    AddressablePool: 0
+    StandardPool: 0
+  _advertisementSettings:
+    _isEnabled: 0
+    AndroidIdentifier: 
+    IosIdentifier: 
+    InterstitialsTimeout: 0
+    FreeInterstitialsAtStart: 0
+    RewardedTimeout: 0
+  _gdprSettings:
+    _isEnabled: 0
+    _globalVersionIndex: 0
+    _globalMajorIndex: 0
+    _globalMinorIndex: 1
+  _audioSettings:
+    _isEnabled: 0
+    Mixer: {fileID: 0}
+    SourcesLimit2D: 0
+    SourcesLimit3D: 0
+    MusicTransitionDuration: 0
+    ScenesThemes: []
+    MixerVolumeParameters: []
+  _purchaseSettings:
+    _isEnabled: 0
+  _analyticsSettings:
+    _isEnabled: 0
+    TrackInAmplitudeService: 0
+    AmplitudeAnalyticsConfig:
+      ServerURL: 
+      ApiKey: 
+    TrackInFirebaseService: 0

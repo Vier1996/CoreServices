@@ -1,6 +1,6 @@
 using Sirenix.OdinInspector;
 
-namespace Alexplay.Editor
+namespace ACS.CoreEditor.Editor
 {
     public class AlexplayCoreHomePage
     {

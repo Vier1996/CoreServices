@@ -1,7 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace ACS.Core.com.alexplay.core.Runtime
+namespace ACS.Core
 {
     [System.Serializable]
     public abstract class CoreServiceConfig

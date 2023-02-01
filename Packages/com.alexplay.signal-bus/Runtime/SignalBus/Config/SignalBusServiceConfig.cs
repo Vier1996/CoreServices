@@ -1,5 +1,5 @@
 using System;
-using Packages.com.alexplay.core.Runtime.Config;
+using Config;
 
 namespace ACS.SignalBus.SignalBus.Config
 {

@@ -2,7 +2,7 @@ using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Packages.com.alexplay.core.Runtime.Config
+namespace Config
 {
     [Serializable]
     public abstract class ServiceConfigBase

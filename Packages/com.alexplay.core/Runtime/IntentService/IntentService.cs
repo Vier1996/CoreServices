@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ACS.Core.IntentService
+namespace IntentService
 {
     public class IntentService : MonoBehaviour
     {

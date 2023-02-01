@@ -1,6 +1,6 @@
 ﻿using System;
 using ACS.Analytics.Analytics.AmplitudeService;
-using Packages.com.alexplay.core.Runtime.Config;
+using Config;
 using Sirenix.OdinInspector;
 
 namespace ACS.Analytics.Analytics.Config

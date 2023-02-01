@@ -1,5 +1,5 @@
 using System;
-using Packages.com.alexplay.core.Runtime.Config;
+using Config;
 using Sirenix.OdinInspector;
 
 namespace ACS.GDPR.Config

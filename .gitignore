@@ -8,8 +8,9 @@ AndroidBuild
 IosBuild
 /[Ll]ibrary/
 /Assets/Resources/SharedAssets/EditorGameCenter?*.asset*
-/Assets/Plugins/Editor/JetBrains/
-/Assets/Third Party Plugins/
+/Assets/Plugins/Editor/JetBrains
+/Assets/Third Party Plugins
+/Assets/IronSource
 /AndroidBuild/
 /[Bb]uilds/
 sysinfo.txt

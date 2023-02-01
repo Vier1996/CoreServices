@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ACS.Core.com.alexplay.core.Runtime
+namespace ACS.Core
 {
     public class CoreConfig : ScriptableObject
     {

@@ -1,4 +1,4 @@
-﻿namespace ACS.Core.Constants
+﻿namespace Constants
 {
     public static class ACSConst
     {

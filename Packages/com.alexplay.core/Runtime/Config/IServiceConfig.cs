@@ -1,4 +1,4 @@
-namespace Packages.com.alexplay.core.Runtime.Config
+namespace Config
 {
     public interface IServiceConfig
     {
