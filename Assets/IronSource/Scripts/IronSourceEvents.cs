@@ -15,80 +15,81 @@ namespace IS.IronSource.Scripts
 
 #endif
 
-#if UNITY_ANDROID 
+#if UNITY_ANDROID
+#pragma warning disable CS0067
+        public static event Action onSdkInitializationCompletedEvent;
 
-    public static event Action onSdkInitializationCompletedEvent;
+        public static event Action<IronSourceError> onRewardedVideoAdShowFailedEvent;
+        public static event Action onRewardedVideoAdOpenedEvent;
+        public static event Action onRewardedVideoAdClosedEvent;
+        public static event Action onRewardedVideoAdStartedEvent;
+        public static event Action onRewardedVideoAdEndedEvent;
+        public static event Action<IronSourcePlacement> onRewardedVideoAdRewardedEvent;
+        public static event Action<IronSourcePlacement> onRewardedVideoAdClickedEvent;
+        public static event Action<bool> onRewardedVideoAvailabilityChangedEvent;
 
-    public static event Action<IronSourceError> onRewardedVideoAdShowFailedEvent;
-    public static event Action onRewardedVideoAdOpenedEvent;
-    public static event Action onRewardedVideoAdClosedEvent;
-    public static event Action onRewardedVideoAdStartedEvent;
-    public static event Action onRewardedVideoAdEndedEvent;
-    public static event Action<IronSourcePlacement> onRewardedVideoAdRewardedEvent;
-    public static event Action<IronSourcePlacement> onRewardedVideoAdClickedEvent;
-    public static event Action<bool> onRewardedVideoAvailabilityChangedEvent;
+        public static event Action<IronSourceError> onRewardedVideoAdLoadFailedEvent;
+        public static event Action onRewardedVideoAdReadyEvent;
 
-    public static event Action<IronSourceError> onRewardedVideoAdLoadFailedEvent;
-    public static event Action onRewardedVideoAdReadyEvent;
+        public static event Action<string> onRewardedVideoAdOpenedDemandOnlyEvent;
+        public static event Action<string> onRewardedVideoAdClosedDemandOnlyEvent;
+        public static event Action<string> onRewardedVideoAdLoadedDemandOnlyEvent;
+        public static event Action<string> onRewardedVideoAdRewardedDemandOnlyEvent;
+        public static event Action<string, IronSourceError> onRewardedVideoAdShowFailedDemandOnlyEvent;
+        public static event Action<string> onRewardedVideoAdClickedDemandOnlyEvent;
+        public static event Action<string, IronSourceError> onRewardedVideoAdLoadFailedDemandOnlyEvent;
 
-    public static event Action<string> onRewardedVideoAdOpenedDemandOnlyEvent;
-    public static event Action<string> onRewardedVideoAdClosedDemandOnlyEvent;
-    public static event Action<string> onRewardedVideoAdLoadedDemandOnlyEvent;
-    public static event Action<string> onRewardedVideoAdRewardedDemandOnlyEvent;
-    public static event Action<string, IronSourceError> onRewardedVideoAdShowFailedDemandOnlyEvent;
-    public static event Action<string> onRewardedVideoAdClickedDemandOnlyEvent;
-    public static event Action<string, IronSourceError> onRewardedVideoAdLoadFailedDemandOnlyEvent;
+        public static event Action onInterstitialAdReadyEvent;
+        public static event Action<IronSourceError> onInterstitialAdLoadFailedEvent;
+        public static event Action onInterstitialAdOpenedEvent;
+        public static event Action onInterstitialAdClosedEvent;
+        public static event Action onInterstitialAdShowSucceededEvent;
+        public static event Action<IronSourceError> onInterstitialAdShowFailedEvent;
+        public static event Action onInterstitialAdClickedEvent;
 
-    public static event Action onInterstitialAdReadyEvent;
-    public static event Action<IronSourceError> onInterstitialAdLoadFailedEvent;
-    public static event Action onInterstitialAdOpenedEvent;
-    public static event Action onInterstitialAdClosedEvent;
-    public static event Action onInterstitialAdShowSucceededEvent;
-    public static event Action<IronSourceError> onInterstitialAdShowFailedEvent;
-    public static event Action onInterstitialAdClickedEvent;
+        public static event Action<string> onInterstitialAdReadyDemandOnlyEvent;
+        public static event Action<string> onInterstitialAdOpenedDemandOnlyEvent;
+        public static event Action<string> onInterstitialAdClosedDemandOnlyEvent;
+        public static event Action<string, IronSourceError> onInterstitialAdLoadFailedDemandOnlyEvent;
+        public static event Action<string> onInterstitialAdClickedDemandOnlyEvent;
+        public static event Action<string, IronSourceError> onInterstitialAdShowFailedDemandOnlyEvent;
 
-    public static event Action<string> onInterstitialAdReadyDemandOnlyEvent;
-    public static event Action<string> onInterstitialAdOpenedDemandOnlyEvent;
-    public static event Action<string> onInterstitialAdClosedDemandOnlyEvent;
-    public static event Action<string, IronSourceError> onInterstitialAdLoadFailedDemandOnlyEvent;
-    public static event Action<string> onInterstitialAdClickedDemandOnlyEvent;
-    public static event Action<string, IronSourceError> onInterstitialAdShowFailedDemandOnlyEvent;
+        public static event Action<bool> onOfferwallAvailableEvent;
+        public static event Action onOfferwallOpenedEvent;
+        public static event Action<Dictionary<string, object>> onOfferwallAdCreditedEvent;
+        public static event Action<IronSourceError> onGetOfferwallCreditsFailedEvent;
+        public static event Action onOfferwallClosedEvent;
+        public static event Action<IronSourceError> onOfferwallShowFailedEvent;
 
-    public static event Action<bool> onOfferwallAvailableEvent;
-    public static event Action onOfferwallOpenedEvent;
-    public static event Action<Dictionary<string, object>> onOfferwallAdCreditedEvent;
-    public static event Action<IronSourceError> onGetOfferwallCreditsFailedEvent;
-    public static event Action onOfferwallClosedEvent;
-    public static event Action<IronSourceError> onOfferwallShowFailedEvent;
+        public static event Action onBannerAdLoadedEvent;
+        public static event Action onBannerAdLeftApplicationEvent;
+        public static event Action onBannerAdScreenDismissedEvent;
+        public static event Action onBannerAdScreenPresentedEvent;
+        public static event Action onBannerAdClickedEvent;
+        public static event Action<IronSourceError> onBannerAdLoadFailedEvent;
 
-    public static event Action onBannerAdLoadedEvent;
-    public static event Action onBannerAdLeftApplicationEvent;
-    public static event Action onBannerAdScreenDismissedEvent;
-    public static event Action onBannerAdScreenPresentedEvent;
-    public static event Action onBannerAdClickedEvent;
-    public static event Action<IronSourceError> onBannerAdLoadFailedEvent;
+        public static event Action<string> onSegmentReceivedEvent;
 
-    public static event Action<string> onSegmentReceivedEvent;
-
-    public static event Action<IronSourceImpressionData> onImpressionSuccessEvent;
+        [Obsolete("This method has been deprecated and won't be included in ironSource SDK versions 7.3.0 and above. Please use OnImpressionDataReady instead.")]
+        public static event Action<IronSourceImpressionData> onImpressionSuccessEvent;
 #endif
 
         private const string ERROR_CODE = "error_code";
         private const string ERROR_DESCRIPTION = "error_description";
         private const string INSTANCE_ID_KEY = "instanceId";
         private const string PLACEMENT_KEY = "placement";
-
+#pragma warning disable CS0067
         public static event Action<IronSourceImpressionData> onImpressionDataReadyEvent;
 
 #if UNITY_ANDROID
-    private IUnityInitialization initializationAndroid;
-    private IUnityRewardedVideo rewardedVideoAndroid;
-    private IUnityRewardedVideoManual rewardedVideoAndroidManual;
-    private IUnityInterstitial interstitialAndroid;
-    private IUnityOfferwall offerwallAndroid;
-    private IUnityBanner bannerAndroid;
-    private IUnitySegment segmentAndroid;
-    private IUnityImpressionData impressionDataAndroid;
+        private IUnityInitialization initializationAndroid;
+        private IUnityRewardedVideo rewardedVideoAndroid;
+        private IUnityRewardedVideoManual rewardedVideoAndroidManual;
+        private IUnityInterstitial interstitialAndroid;
+        private IUnityOfferwall offerwallAndroid;
+        private IUnityBanner bannerAndroid;
+        private IUnitySegment segmentAndroid;
+        private IUnityImpressionData impressionDataAndroid;
 #endif
 
         void Awake()
@@ -126,7 +127,6 @@ namespace IS.IronSource.Scripts
 
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-
     private void registerInitializationEvents()
     {
         initializationAndroid.OnSdkInitializationCompletedEvent += () =>
@@ -455,6 +455,7 @@ namespace IS.IronSource.Scripts
     {
         impressionDataAndroid.OnImpressionSuccess += (impressionData) =>
         {
+
             if (onImpressionSuccessEvent != null)
             {
                 IronSourceEventsDispatcher.executeAction(() =>
@@ -686,1331 +687,1330 @@ namespace IS.IronSource.Scripts
     }
 #endif
 
-        // ******************************* Init Event *******************************
+    // ******************************* Init Event *******************************
 
-        private static event Action _onSdkInitializationCompletedEvent;
+    private static event Action _onSdkInitializationCompletedEvent;
 
-        public static event Action onSdkInitializationCompletedEvent
+    public static event Action onSdkInitializationCompletedEvent
+    {
+        add
         {
-            add
+            if (_onSdkInitializationCompletedEvent == null || !_onSdkInitializationCompletedEvent.GetInvocationList().Contains(value))
             {
-                if (_onSdkInitializationCompletedEvent == null || !_onSdkInitializationCompletedEvent.GetInvocationList().Contains(value))
-                {
-                    _onSdkInitializationCompletedEvent += value;
-                }
+                _onSdkInitializationCompletedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onSdkInitializationCompletedEvent != null && _onSdkInitializationCompletedEvent.GetInvocationList().Contains(value))
             {
-                if (_onSdkInitializationCompletedEvent != null || _onSdkInitializationCompletedEvent.GetInvocationList().Contains(value))
-                {
-                    _onSdkInitializationCompletedEvent -= value;
-                }
+                _onSdkInitializationCompletedEvent -= value;
             }
         }
+    }
 
-        public void onSdkInitializationCompleted(string empty)
+    public void onSdkInitializationCompleted(string empty)
+    {
+        if (_onSdkInitializationCompletedEvent != null)
         {
-            if (_onSdkInitializationCompletedEvent != null)
-            {
-                _onSdkInitializationCompletedEvent();
-            }
+            _onSdkInitializationCompletedEvent();
         }
+    }
 
-        // ******************************* Rewarded Video Events *******************************
-        private static event Action<IronSourceError> _onRewardedVideoAdShowFailedEvent;
+    // ******************************* Rewarded Video Events *******************************
+    private static event Action<IronSourceError> _onRewardedVideoAdShowFailedEvent;
 
-        public static event Action<IronSourceError> onRewardedVideoAdShowFailedEvent
+    public static event Action<IronSourceError> onRewardedVideoAdShowFailedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdShowFailedEvent == null || !_onRewardedVideoAdShowFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdShowFailedEvent == null || !_onRewardedVideoAdShowFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdShowFailedEvent += value;
-                }
+                _onRewardedVideoAdShowFailedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdShowFailedEvent != null && _onRewardedVideoAdShowFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdShowFailedEvent != null || _onRewardedVideoAdShowFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdShowFailedEvent -= value;
-                }
+                _onRewardedVideoAdShowFailedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdShowFailed(string description)
+    public void onRewardedVideoAdShowFailed(string description)
+    {
+        if (_onRewardedVideoAdShowFailedEvent != null)
         {
-            if (_onRewardedVideoAdShowFailedEvent != null)
-            {
-                IronSourceError sse = getErrorFromErrorObject(description);
-                _onRewardedVideoAdShowFailedEvent(sse);
-            }
+            IronSourceError sse = getErrorFromErrorObject(description);
+            _onRewardedVideoAdShowFailedEvent(sse);
         }
+    }
 
-        private static event Action _onRewardedVideoAdOpenedEvent;
+    private static event Action _onRewardedVideoAdOpenedEvent;
 
-        public static event Action onRewardedVideoAdOpenedEvent
+    public static event Action onRewardedVideoAdOpenedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdOpenedEvent == null || !_onRewardedVideoAdOpenedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdOpenedEvent == null || !_onRewardedVideoAdOpenedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdOpenedEvent += value;
-                }
+                _onRewardedVideoAdOpenedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdOpenedEvent != null && _onRewardedVideoAdOpenedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdOpenedEvent != null || _onRewardedVideoAdOpenedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdOpenedEvent -= value;
-                }
+                _onRewardedVideoAdOpenedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdOpened(string empty)
+    public void onRewardedVideoAdOpened(string empty)
+    {
+        if (_onRewardedVideoAdOpenedEvent != null)
         {
-            if (_onRewardedVideoAdOpenedEvent != null)
-            {
-                _onRewardedVideoAdOpenedEvent();
-            }
+            _onRewardedVideoAdOpenedEvent();
         }
+    }
 
-        private static event Action _onRewardedVideoAdClosedEvent;
+    private static event Action _onRewardedVideoAdClosedEvent;
 
-        public static event Action onRewardedVideoAdClosedEvent
+    public static event Action onRewardedVideoAdClosedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdClosedEvent == null || !_onRewardedVideoAdClosedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdClosedEvent == null || !_onRewardedVideoAdClosedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdClosedEvent += value;
-                }
+                _onRewardedVideoAdClosedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdClosedEvent != null && _onRewardedVideoAdClosedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdClosedEvent != null || _onRewardedVideoAdClosedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdClosedEvent -= value;
-                }
+                _onRewardedVideoAdClosedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdClosed(string empty)
+    public void onRewardedVideoAdClosed(string empty)
+    {
+        if (_onRewardedVideoAdClosedEvent != null)
         {
-            if (_onRewardedVideoAdClosedEvent != null)
-            {
-                _onRewardedVideoAdClosedEvent();
-            }
+            _onRewardedVideoAdClosedEvent();
         }
+    }
 
-        private static event Action _onRewardedVideoAdStartedEvent;
+    private static event Action _onRewardedVideoAdStartedEvent;
 
-        public static event Action onRewardedVideoAdStartedEvent
+    public static event Action onRewardedVideoAdStartedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdStartedEvent == null || !_onRewardedVideoAdStartedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdStartedEvent == null || !_onRewardedVideoAdStartedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdStartedEvent += value;
-                }
+                _onRewardedVideoAdStartedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdStartedEvent != null && _onRewardedVideoAdStartedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdStartedEvent != null || _onRewardedVideoAdStartedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdStartedEvent -= value;
-                }
+                _onRewardedVideoAdStartedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdStarted(string empty)
+    public void onRewardedVideoAdStarted(string empty)
+    {
+        if (_onRewardedVideoAdStartedEvent != null)
         {
-            if (_onRewardedVideoAdStartedEvent != null)
-            {
-                _onRewardedVideoAdStartedEvent();
-            }
+            _onRewardedVideoAdStartedEvent();
         }
+    }
 
-        private static event Action _onRewardedVideoAdEndedEvent;
+    private static event Action _onRewardedVideoAdEndedEvent;
 
-        public static event Action onRewardedVideoAdEndedEvent
+    public static event Action onRewardedVideoAdEndedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdEndedEvent == null || !_onRewardedVideoAdEndedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdEndedEvent == null || !_onRewardedVideoAdEndedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdEndedEvent += value;
-                }
+                _onRewardedVideoAdEndedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdEndedEvent != null && _onRewardedVideoAdEndedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdEndedEvent != null || _onRewardedVideoAdEndedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdEndedEvent -= value;
-                }
+                _onRewardedVideoAdEndedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdEnded(string empty)
+    public void onRewardedVideoAdEnded(string empty)
+    {
+        if (_onRewardedVideoAdEndedEvent != null)
         {
-            if (_onRewardedVideoAdEndedEvent != null)
-            {
-                _onRewardedVideoAdEndedEvent();
-            }
+            _onRewardedVideoAdEndedEvent();
         }
+    }
 
-        private static event Action<IronSourcePlacement> _onRewardedVideoAdRewardedEvent;
+    private static event Action<IronSourcePlacement> _onRewardedVideoAdRewardedEvent;
 
-        public static event Action<IronSourcePlacement> onRewardedVideoAdRewardedEvent
+    public static event Action<IronSourcePlacement> onRewardedVideoAdRewardedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdRewardedEvent == null || !_onRewardedVideoAdRewardedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdRewardedEvent == null || !_onRewardedVideoAdRewardedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdRewardedEvent += value;
-                }
+                _onRewardedVideoAdRewardedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdRewardedEvent != null && _onRewardedVideoAdRewardedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdRewardedEvent != null || _onRewardedVideoAdRewardedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdRewardedEvent -= value;
-                }
+                _onRewardedVideoAdRewardedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdRewarded(string description)
+    public void onRewardedVideoAdRewarded(string description)
+    {
+        if (_onRewardedVideoAdRewardedEvent != null)
         {
-            if (_onRewardedVideoAdRewardedEvent != null)
-            {
-                IronSourcePlacement ssp = getPlacementFromObject(description);
-                _onRewardedVideoAdRewardedEvent(ssp);
-            }
+            IronSourcePlacement ssp = getPlacementFromObject(description);
+            _onRewardedVideoAdRewardedEvent(ssp);
         }
+    }
 
-        private static event Action<IronSourcePlacement> _onRewardedVideoAdClickedEvent;
+    private static event Action<IronSourcePlacement> _onRewardedVideoAdClickedEvent;
 
-        public static event Action<IronSourcePlacement> onRewardedVideoAdClickedEvent
+    public static event Action<IronSourcePlacement> onRewardedVideoAdClickedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdClickedEvent == null || !_onRewardedVideoAdClickedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdClickedEvent == null || !_onRewardedVideoAdClickedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdClickedEvent += value;
-                }
+                _onRewardedVideoAdClickedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdClickedEvent != null && _onRewardedVideoAdClickedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdClickedEvent != null || _onRewardedVideoAdClickedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdClickedEvent -= value;
-                }
+                _onRewardedVideoAdClickedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdClicked(string description)
+    public void onRewardedVideoAdClicked(string description)
+    {
+        if (_onRewardedVideoAdClickedEvent != null)
         {
-            if (_onRewardedVideoAdClickedEvent != null)
-            {
-                IronSourcePlacement ssp = getPlacementFromObject(description);
-                _onRewardedVideoAdClickedEvent(ssp);
-            }
+            IronSourcePlacement ssp = getPlacementFromObject(description);
+            _onRewardedVideoAdClickedEvent(ssp);
         }
+    }
 
-        private static event Action<bool> _onRewardedVideoAvailabilityChangedEvent;
+    private static event Action<bool> _onRewardedVideoAvailabilityChangedEvent;
 
-        public static event Action<bool> onRewardedVideoAvailabilityChangedEvent
+    public static event Action<bool> onRewardedVideoAvailabilityChangedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAvailabilityChangedEvent == null || !_onRewardedVideoAvailabilityChangedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAvailabilityChangedEvent == null || !_onRewardedVideoAvailabilityChangedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAvailabilityChangedEvent += value;
-                }
+                _onRewardedVideoAvailabilityChangedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAvailabilityChangedEvent != null && _onRewardedVideoAvailabilityChangedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAvailabilityChangedEvent != null || _onRewardedVideoAvailabilityChangedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAvailabilityChangedEvent -= value;
-                }
+                _onRewardedVideoAvailabilityChangedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAvailabilityChanged(string stringAvailable)
-        {
-            bool isAvailable = (stringAvailable == "true") ? true : false;
-            if (_onRewardedVideoAvailabilityChangedEvent != null)
-                _onRewardedVideoAvailabilityChangedEvent(isAvailable);
-        }
+    public void onRewardedVideoAvailabilityChanged(string stringAvailable)
+    {
+        bool isAvailable = (stringAvailable == "true") ? true : false;
+        if (_onRewardedVideoAvailabilityChangedEvent != null)
+            _onRewardedVideoAvailabilityChangedEvent(isAvailable);
+    }
 
-        // ******************************* RewardedVideo DemandOnly Events *******************************
+    // ******************************* RewardedVideo DemandOnly Events *******************************
 
-        private static event Action<string> _onRewardedVideoAdLoadedDemandOnlyEvent;
+    private static event Action<string> _onRewardedVideoAdLoadedDemandOnlyEvent;
 
-        public static event Action<string> onRewardedVideoAdLoadedDemandOnlyEvent
+    public static event Action<string> onRewardedVideoAdLoadedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdLoadedDemandOnlyEvent == null || !_onRewardedVideoAdLoadedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdLoadedDemandOnlyEvent == null || !_onRewardedVideoAdLoadedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdLoadedDemandOnlyEvent += value;
-                }
+                _onRewardedVideoAdLoadedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdLoadedDemandOnlyEvent != null && _onRewardedVideoAdLoadedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdLoadedDemandOnlyEvent != null || _onRewardedVideoAdLoadedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdLoadedDemandOnlyEvent -= value;
-                }
+                _onRewardedVideoAdLoadedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdLoadedDemandOnly(string instanceId)
+    public void onRewardedVideoAdLoadedDemandOnly(string instanceId)
+    {
+        if (_onRewardedVideoAdLoadedDemandOnlyEvent != null)
         {
-            if (_onRewardedVideoAdLoadedDemandOnlyEvent != null)
-            {
-                _onRewardedVideoAdLoadedDemandOnlyEvent(instanceId);
-            }
+            _onRewardedVideoAdLoadedDemandOnlyEvent(instanceId);
         }
+    }
 
-        private static event Action<string, IronSourceError> _onRewardedVideoAdLoadFailedDemandOnlyEvent;
+    private static event Action<string, IronSourceError> _onRewardedVideoAdLoadFailedDemandOnlyEvent;
 
-        public static event Action<string, IronSourceError> onRewardedVideoAdLoadFailedDemandOnlyEvent
+    public static event Action<string, IronSourceError> onRewardedVideoAdLoadFailedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdLoadFailedDemandOnlyEvent == null || !_onRewardedVideoAdLoadFailedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdLoadFailedDemandOnlyEvent == null || !_onRewardedVideoAdLoadFailedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdLoadFailedDemandOnlyEvent += value;
-                }
+                _onRewardedVideoAdLoadFailedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdLoadFailedDemandOnlyEvent != null && _onRewardedVideoAdLoadFailedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdLoadFailedDemandOnlyEvent != null || _onRewardedVideoAdLoadFailedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdLoadFailedDemandOnlyEvent -= value;
-                }
+                _onRewardedVideoAdLoadFailedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdLoadFailedDemandOnly(string args)
+    public void onRewardedVideoAdLoadFailedDemandOnly(string args)
+    {
+        if (_onRewardedVideoAdLoadFailedDemandOnlyEvent != null && !String.IsNullOrEmpty(args))
         {
-            if (_onRewardedVideoAdLoadFailedDemandOnlyEvent != null && !String.IsNullOrEmpty(args))
-            {
-                List<object> argList = Json.Deserialize(args) as List<object>;
-                IronSourceError err = getErrorFromErrorObject(argList[1]);
-                string instanceId = argList[0].ToString();
-                _onRewardedVideoAdLoadFailedDemandOnlyEvent(instanceId, err);
-            }
+            List<object> argList = IronSourceJSON.Json.Deserialize(args) as List<object>;
+            IronSourceError err = getErrorFromErrorObject(argList[1]);
+            string instanceId = argList[0].ToString();
+            _onRewardedVideoAdLoadFailedDemandOnlyEvent(instanceId, err);
         }
+    }
 
-        private static event Action<string> _onRewardedVideoAdOpenedDemandOnlyEvent;
+    private static event Action<string> _onRewardedVideoAdOpenedDemandOnlyEvent;
 
-        public static event Action<string> onRewardedVideoAdOpenedDemandOnlyEvent
+    public static event Action<string> onRewardedVideoAdOpenedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdOpenedDemandOnlyEvent == null || !_onRewardedVideoAdOpenedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdOpenedDemandOnlyEvent == null || !_onRewardedVideoAdOpenedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdOpenedDemandOnlyEvent += value;
-                }
+                _onRewardedVideoAdOpenedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdOpenedDemandOnlyEvent != null && _onRewardedVideoAdOpenedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdOpenedDemandOnlyEvent != null || _onRewardedVideoAdOpenedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdOpenedDemandOnlyEvent -= value;
-                }
+                _onRewardedVideoAdOpenedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdOpenedDemandOnly(string instanceId)
+    public void onRewardedVideoAdOpenedDemandOnly(string instanceId)
+    {
+        if (_onRewardedVideoAdOpenedDemandOnlyEvent != null)
         {
-            if (_onRewardedVideoAdOpenedDemandOnlyEvent != null)
-            {
-                _onRewardedVideoAdOpenedDemandOnlyEvent(instanceId);
-            }
+            _onRewardedVideoAdOpenedDemandOnlyEvent(instanceId);
         }
+    }
 
-        private static event Action<string> _onRewardedVideoAdClosedDemandOnlyEvent;
+    private static event Action<string> _onRewardedVideoAdClosedDemandOnlyEvent;
 
-        public static event Action<string> onRewardedVideoAdClosedDemandOnlyEvent
+    public static event Action<string> onRewardedVideoAdClosedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdClosedDemandOnlyEvent == null || !_onRewardedVideoAdClosedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdClosedDemandOnlyEvent == null || !_onRewardedVideoAdClosedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdClosedDemandOnlyEvent += value;
-                }
+                _onRewardedVideoAdClosedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdClosedDemandOnlyEvent != null && _onRewardedVideoAdClosedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdClosedDemandOnlyEvent != null || _onRewardedVideoAdClosedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdClosedDemandOnlyEvent -= value;
-                }
+                _onRewardedVideoAdClosedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdClosedDemandOnly(string instanceId)
+    public void onRewardedVideoAdClosedDemandOnly(string instanceId)
+    {
+        if (_onRewardedVideoAdClosedDemandOnlyEvent != null)
         {
-            if (_onRewardedVideoAdClosedDemandOnlyEvent != null)
-            {
-                _onRewardedVideoAdClosedDemandOnlyEvent(instanceId);
-            }
+            _onRewardedVideoAdClosedDemandOnlyEvent(instanceId);
         }
+    }
 
-        private static event Action<string> _onRewardedVideoAdRewardedDemandOnlyEvent;
+    private static event Action<string> _onRewardedVideoAdRewardedDemandOnlyEvent;
 
-        public static event Action<string> onRewardedVideoAdRewardedDemandOnlyEvent
+    public static event Action<string> onRewardedVideoAdRewardedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdRewardedDemandOnlyEvent == null || !_onRewardedVideoAdRewardedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdRewardedDemandOnlyEvent == null || !_onRewardedVideoAdRewardedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdRewardedDemandOnlyEvent += value;
-                }
+                _onRewardedVideoAdRewardedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdRewardedDemandOnlyEvent != null && _onRewardedVideoAdRewardedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdRewardedDemandOnlyEvent != null || _onRewardedVideoAdRewardedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdRewardedDemandOnlyEvent -= value;
-                }
+                _onRewardedVideoAdRewardedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdRewardedDemandOnly(string instanceId)
+    public void onRewardedVideoAdRewardedDemandOnly(string instanceId)
+    {
+        if (_onRewardedVideoAdRewardedDemandOnlyEvent != null)
         {
-            if (_onRewardedVideoAdRewardedDemandOnlyEvent != null)
-            {
-                _onRewardedVideoAdRewardedDemandOnlyEvent(instanceId);
-            }
+            _onRewardedVideoAdRewardedDemandOnlyEvent(instanceId);
         }
+    }
 
-        private static event Action<string, IronSourceError> _onRewardedVideoAdShowFailedDemandOnlyEvent;
+    private static event Action<string, IronSourceError> _onRewardedVideoAdShowFailedDemandOnlyEvent;
 
-        public static event Action<string, IronSourceError> onRewardedVideoAdShowFailedDemandOnlyEvent
+    public static event Action<string, IronSourceError> onRewardedVideoAdShowFailedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdShowFailedDemandOnlyEvent == null || !_onRewardedVideoAdShowFailedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdShowFailedDemandOnlyEvent == null || !_onRewardedVideoAdShowFailedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdShowFailedDemandOnlyEvent += value;
-                }
+                _onRewardedVideoAdShowFailedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdShowFailedDemandOnlyEvent != null && _onRewardedVideoAdShowFailedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdShowFailedDemandOnlyEvent != null || _onRewardedVideoAdShowFailedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdShowFailedDemandOnlyEvent -= value;
-                }
+                _onRewardedVideoAdShowFailedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdShowFailedDemandOnly(string args)
+    public void onRewardedVideoAdShowFailedDemandOnly(string args)
+    {
+        if (_onRewardedVideoAdShowFailedDemandOnlyEvent != null && !String.IsNullOrEmpty(args))
         {
-            if (_onRewardedVideoAdShowFailedDemandOnlyEvent != null && !String.IsNullOrEmpty(args))
-            {
-                List<object> argList = Json.Deserialize(args) as List<object>;
-                IronSourceError err = getErrorFromErrorObject(argList[1]);
-                string instanceId = argList[0].ToString();
-                _onRewardedVideoAdShowFailedDemandOnlyEvent(instanceId, err);
-            }
+            List<object> argList = IronSourceJSON.Json.Deserialize(args) as List<object>;
+            IronSourceError err = getErrorFromErrorObject(argList[1]);
+            string instanceId = argList[0].ToString();
+            _onRewardedVideoAdShowFailedDemandOnlyEvent(instanceId, err);
         }
+    }
 
-        private static event Action<string> _onRewardedVideoAdClickedDemandOnlyEvent;
+    private static event Action<string> _onRewardedVideoAdClickedDemandOnlyEvent;
 
-        public static event Action<string> onRewardedVideoAdClickedDemandOnlyEvent
+    public static event Action<string> onRewardedVideoAdClickedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdClickedDemandOnlyEvent == null || !_onRewardedVideoAdClickedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdClickedDemandOnlyEvent == null || !_onRewardedVideoAdClickedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdClickedDemandOnlyEvent += value;
-                }
+                _onRewardedVideoAdClickedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdClickedDemandOnlyEvent != null && _onRewardedVideoAdClickedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdClickedDemandOnlyEvent != null || _onRewardedVideoAdClickedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdClickedDemandOnlyEvent -= value;
-                }
+                _onRewardedVideoAdClickedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdClickedDemandOnly(string instanceId)
+    public void onRewardedVideoAdClickedDemandOnly(string instanceId)
+    {
+        if (_onRewardedVideoAdClickedDemandOnlyEvent != null)
         {
-            if (_onRewardedVideoAdClickedDemandOnlyEvent != null)
-            {
-                _onRewardedVideoAdClickedDemandOnlyEvent(instanceId);
-            }
+            _onRewardedVideoAdClickedDemandOnlyEvent(instanceId);
         }
+    }
 
-        private static event Action<string> _onSegmentReceivedEvent;
-        public static event Action<string> onSegmentReceivedEvent
+    private static event Action<string> _onSegmentReceivedEvent;
+    public static event Action<string> onSegmentReceivedEvent
+    {
+        add
         {
-            add
+            if (_onSegmentReceivedEvent == null || !_onSegmentReceivedEvent.GetInvocationList().Contains(value))
             {
-                if (_onSegmentReceivedEvent == null || !_onSegmentReceivedEvent.GetInvocationList().Contains(value))
-                {
-                    _onSegmentReceivedEvent += value;
-                }
+                _onSegmentReceivedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onSegmentReceivedEvent != null && _onSegmentReceivedEvent.GetInvocationList().Contains(value))
             {
-                if (_onSegmentReceivedEvent != null || _onSegmentReceivedEvent.GetInvocationList().Contains(value))
-                {
-                    _onSegmentReceivedEvent -= value;
-                }
+                _onSegmentReceivedEvent -= value;
             }
         }
+    }
 
-        public void onSegmentReceived(string segmentName)
-        {
-            if (_onSegmentReceivedEvent != null)
-                _onSegmentReceivedEvent(segmentName);
-        }
+    public void onSegmentReceived(string segmentName)
+    {
+        if (_onSegmentReceivedEvent != null)
+            _onSegmentReceivedEvent(segmentName);
+    }
 
-        // ******************************* Interstitial Events *******************************
+    // ******************************* Interstitial Events *******************************
 
-        private static event Action _onInterstitialAdReadyEvent;
+    private static event Action _onInterstitialAdReadyEvent;
 
-        public static event Action onInterstitialAdReadyEvent
+    public static event Action onInterstitialAdReadyEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdReadyEvent == null || !_onInterstitialAdReadyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdReadyEvent == null || !_onInterstitialAdReadyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdReadyEvent += value;
-                }
+                _onInterstitialAdReadyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdReadyEvent != null && _onInterstitialAdReadyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdReadyEvent != null || _onInterstitialAdReadyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdReadyEvent -= value;
-                }
+                _onInterstitialAdReadyEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdReady()
-        {
-            if (_onInterstitialAdReadyEvent != null)
-                _onInterstitialAdReadyEvent();
-        }
+    public void onInterstitialAdReady()
+    {
+        if (_onInterstitialAdReadyEvent != null)
+            _onInterstitialAdReadyEvent();
+    }
 
-        private static event Action<IronSourceError> _onInterstitialAdLoadFailedEvent;
+    private static event Action<IronSourceError> _onInterstitialAdLoadFailedEvent;
 
-        public static event Action<IronSourceError> onInterstitialAdLoadFailedEvent
+    public static event Action<IronSourceError> onInterstitialAdLoadFailedEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdLoadFailedEvent == null || !_onInterstitialAdLoadFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdLoadFailedEvent == null || !_onInterstitialAdLoadFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdLoadFailedEvent += value;
-                }
+                _onInterstitialAdLoadFailedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdLoadFailedEvent != null && _onInterstitialAdLoadFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdLoadFailedEvent != null || _onInterstitialAdLoadFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdLoadFailedEvent -= value;
-                }
+                _onInterstitialAdLoadFailedEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdLoadFailed(string description)
+    public void onInterstitialAdLoadFailed(string description)
+    {
+        if (_onInterstitialAdLoadFailedEvent != null)
         {
-            if (_onInterstitialAdLoadFailedEvent != null)
-            {
-                IronSourceError sse = getErrorFromErrorObject(description);
-                _onInterstitialAdLoadFailedEvent(sse);
-            }
+            IronSourceError sse = getErrorFromErrorObject(description);
+            _onInterstitialAdLoadFailedEvent(sse);
         }
+    }
 
-        private static event Action _onInterstitialAdOpenedEvent;
+    private static event Action _onInterstitialAdOpenedEvent;
 
-        public static event Action onInterstitialAdOpenedEvent
+    public static event Action onInterstitialAdOpenedEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdOpenedEvent == null || !_onInterstitialAdOpenedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdOpenedEvent == null || !_onInterstitialAdOpenedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdOpenedEvent += value;
-                }
+                _onInterstitialAdOpenedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdOpenedEvent != null && _onInterstitialAdOpenedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdOpenedEvent != null || _onInterstitialAdOpenedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdOpenedEvent -= value;
-                }
+                _onInterstitialAdOpenedEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdOpened(string empty)
+    public void onInterstitialAdOpened(string empty)
+    {
+        if (_onInterstitialAdOpenedEvent != null)
         {
-            if (_onInterstitialAdOpenedEvent != null)
-            {
-                _onInterstitialAdOpenedEvent();
-            }
+            _onInterstitialAdOpenedEvent();
         }
+    }
 
-        private static event Action _onInterstitialAdClosedEvent;
+    private static event Action _onInterstitialAdClosedEvent;
 
-        public static event Action onInterstitialAdClosedEvent
+    public static event Action onInterstitialAdClosedEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdClosedEvent == null || !_onInterstitialAdClosedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdClosedEvent == null || !_onInterstitialAdClosedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdClosedEvent += value;
-                }
+                _onInterstitialAdClosedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdClosedEvent != null && _onInterstitialAdClosedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdClosedEvent != null || _onInterstitialAdClosedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdClosedEvent -= value;
-                }
+                _onInterstitialAdClosedEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdClosed(string empty)
+    public void onInterstitialAdClosed(string empty)
+    {
+        if (_onInterstitialAdClosedEvent != null)
         {
-            if (_onInterstitialAdClosedEvent != null)
-            {
-                _onInterstitialAdClosedEvent();
-            }
+            _onInterstitialAdClosedEvent();
         }
+    }
 
-        private static event Action _onInterstitialAdShowSucceededEvent;
+    private static event Action _onInterstitialAdShowSucceededEvent;
 
-        public static event Action onInterstitialAdShowSucceededEvent
+    public static event Action onInterstitialAdShowSucceededEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdShowSucceededEvent == null || !_onInterstitialAdShowSucceededEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdShowSucceededEvent == null || !_onInterstitialAdShowSucceededEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdShowSucceededEvent += value;
-                }
+                _onInterstitialAdShowSucceededEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdShowSucceededEvent != null && _onInterstitialAdShowSucceededEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdShowSucceededEvent != null || _onInterstitialAdShowSucceededEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdShowSucceededEvent -= value;
-                }
+                _onInterstitialAdShowSucceededEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdShowSucceeded(string empty)
+    public void onInterstitialAdShowSucceeded(string empty)
+    {
+        if (_onInterstitialAdShowSucceededEvent != null)
         {
-            if (_onInterstitialAdShowSucceededEvent != null)
-            {
-                _onInterstitialAdShowSucceededEvent();
-            }
+            _onInterstitialAdShowSucceededEvent();
         }
+    }
 
-        private static event Action<IronSourceError> _onInterstitialAdShowFailedEvent;
+    private static event Action<IronSourceError> _onInterstitialAdShowFailedEvent;
 
-        public static event Action<IronSourceError> onInterstitialAdShowFailedEvent
+    public static event Action<IronSourceError> onInterstitialAdShowFailedEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdShowFailedEvent == null || !_onInterstitialAdShowFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdShowFailedEvent == null || !_onInterstitialAdShowFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdShowFailedEvent += value;
-                }
+                _onInterstitialAdShowFailedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdShowFailedEvent != null && _onInterstitialAdShowFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdShowFailedEvent != null || _onInterstitialAdShowFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdShowFailedEvent -= value;
-                }
+                _onInterstitialAdShowFailedEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdShowFailed(string description)
+    public void onInterstitialAdShowFailed(string description)
+    {
+        if (_onInterstitialAdShowFailedEvent != null)
         {
-            if (_onInterstitialAdShowFailedEvent != null)
-            {
-                IronSourceError sse = getErrorFromErrorObject(description);
-                _onInterstitialAdShowFailedEvent(sse);
-            }
+            IronSourceError sse = getErrorFromErrorObject(description);
+            _onInterstitialAdShowFailedEvent(sse);
         }
+    }
 
-        private static event Action _onInterstitialAdClickedEvent;
+    private static event Action _onInterstitialAdClickedEvent;
 
-        public static event Action onInterstitialAdClickedEvent
+    public static event Action onInterstitialAdClickedEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdClickedEvent == null || !_onInterstitialAdClickedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdClickedEvent == null || !_onInterstitialAdClickedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdClickedEvent += value;
-                }
+                _onInterstitialAdClickedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdClickedEvent != null && _onInterstitialAdClickedEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdClickedEvent != null || _onInterstitialAdClickedEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdClickedEvent -= value;
-                }
+                _onInterstitialAdClickedEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdClicked(string empty)
+    public void onInterstitialAdClicked(string empty)
+    {
+        if (_onInterstitialAdClickedEvent != null)
         {
-            if (_onInterstitialAdClickedEvent != null)
-            {
-                _onInterstitialAdClickedEvent();
-            }
+            _onInterstitialAdClickedEvent();
         }
+    }
 
-        // ******************************* Interstitial DemanOnly Events *******************************
+    // ******************************* Interstitial DemanOnly Events *******************************
 
-        private static event Action<string> _onInterstitialAdReadyDemandOnlyEvent;
+    private static event Action<string> _onInterstitialAdReadyDemandOnlyEvent;
 
-        public static event Action<string> onInterstitialAdReadyDemandOnlyEvent
+    public static event Action<string> onInterstitialAdReadyDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdReadyDemandOnlyEvent == null || !_onInterstitialAdReadyDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdReadyDemandOnlyEvent == null || !_onInterstitialAdReadyDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdReadyDemandOnlyEvent += value;
-                }
+                _onInterstitialAdReadyDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdReadyDemandOnlyEvent != null && _onInterstitialAdReadyDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdReadyDemandOnlyEvent != null || _onInterstitialAdReadyDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdReadyDemandOnlyEvent -= value;
-                }
+                _onInterstitialAdReadyDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdReadyDemandOnly(string instanceId)
-        {
-            if (_onInterstitialAdReadyDemandOnlyEvent != null)
-                _onInterstitialAdReadyDemandOnlyEvent(instanceId);
-        }
+    public void onInterstitialAdReadyDemandOnly(string instanceId)
+    {
+        if (_onInterstitialAdReadyDemandOnlyEvent != null)
+            _onInterstitialAdReadyDemandOnlyEvent(instanceId);
+    }
 
 
-        private static event Action<string, IronSourceError> _onInterstitialAdLoadFailedDemandOnlyEvent;
+    private static event Action<string, IronSourceError> _onInterstitialAdLoadFailedDemandOnlyEvent;
 
-        public static event Action<string, IronSourceError> onInterstitialAdLoadFailedDemandOnlyEvent
+    public static event Action<string, IronSourceError> onInterstitialAdLoadFailedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdLoadFailedDemandOnlyEvent == null || !_onInterstitialAdLoadFailedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdLoadFailedDemandOnlyEvent == null || !_onInterstitialAdLoadFailedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdLoadFailedDemandOnlyEvent += value;
-                }
+                _onInterstitialAdLoadFailedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdLoadFailedDemandOnlyEvent != null && _onInterstitialAdLoadFailedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdLoadFailedDemandOnlyEvent != null || _onInterstitialAdLoadFailedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdLoadFailedDemandOnlyEvent -= value;
-                }
+                _onInterstitialAdLoadFailedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdLoadFailedDemandOnly(string args)
+    public void onInterstitialAdLoadFailedDemandOnly(string args)
+    {
+        if (_onInterstitialAdLoadFailedDemandOnlyEvent != null && !String.IsNullOrEmpty(args))
         {
-            if (_onInterstitialAdLoadFailedDemandOnlyEvent != null && !String.IsNullOrEmpty(args))
-            {
-                List<object> argList = Json.Deserialize(args) as List<object>;
-                IronSourceError err = getErrorFromErrorObject(argList[1]);
-                string instanceId = argList[0].ToString();
-                _onInterstitialAdLoadFailedDemandOnlyEvent(instanceId, err);
-            }
+            List<object> argList = IronSourceJSON.Json.Deserialize(args) as List<object>;
+            IronSourceError err = getErrorFromErrorObject(argList[1]);
+            string instanceId = argList[0].ToString();
+            _onInterstitialAdLoadFailedDemandOnlyEvent(instanceId, err);
         }
+    }
 
-        private static event Action<string> _onInterstitialAdOpenedDemandOnlyEvent;
+    private static event Action<string> _onInterstitialAdOpenedDemandOnlyEvent;
 
-        public static event Action<string> onInterstitialAdOpenedDemandOnlyEvent
+    public static event Action<string> onInterstitialAdOpenedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdOpenedDemandOnlyEvent == null || !_onInterstitialAdOpenedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdOpenedDemandOnlyEvent == null || !_onInterstitialAdOpenedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdOpenedDemandOnlyEvent += value;
-                }
+                _onInterstitialAdOpenedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdOpenedDemandOnlyEvent != null && _onInterstitialAdOpenedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdOpenedDemandOnlyEvent != null || _onInterstitialAdOpenedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdOpenedDemandOnlyEvent -= value;
-                }
+                _onInterstitialAdOpenedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdOpenedDemandOnly(string instanceId)
+    public void onInterstitialAdOpenedDemandOnly(string instanceId)
+    {
+        if (_onInterstitialAdOpenedDemandOnlyEvent != null)
         {
-            if (_onInterstitialAdOpenedDemandOnlyEvent != null)
-            {
-                _onInterstitialAdOpenedDemandOnlyEvent(instanceId);
-            }
+            _onInterstitialAdOpenedDemandOnlyEvent(instanceId);
         }
+    }
 
-        private static event Action<string> _onInterstitialAdClosedDemandOnlyEvent;
+    private static event Action<string> _onInterstitialAdClosedDemandOnlyEvent;
 
-        public static event Action<string> onInterstitialAdClosedDemandOnlyEvent
+    public static event Action<string> onInterstitialAdClosedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdClosedDemandOnlyEvent == null || !_onInterstitialAdClosedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdClosedDemandOnlyEvent == null || !_onInterstitialAdClosedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdClosedDemandOnlyEvent += value;
-                }
+                _onInterstitialAdClosedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdClosedDemandOnlyEvent != null && _onInterstitialAdClosedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdClosedDemandOnlyEvent != null || _onInterstitialAdClosedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdClosedDemandOnlyEvent -= value;
-                }
+                _onInterstitialAdClosedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdClosedDemandOnly(string instanceId)
+    public void onInterstitialAdClosedDemandOnly(string instanceId)
+    {
+        if (_onInterstitialAdClosedDemandOnlyEvent != null)
         {
-            if (_onInterstitialAdClosedDemandOnlyEvent != null)
-            {
-                _onInterstitialAdClosedDemandOnlyEvent(instanceId);
-            }
+            _onInterstitialAdClosedDemandOnlyEvent(instanceId);
         }
+    }
 
-        private static event Action<string, IronSourceError> _onInterstitialAdShowFailedDemandOnlyEvent;
+    private static event Action<string, IronSourceError> _onInterstitialAdShowFailedDemandOnlyEvent;
 
-        public static event Action<string, IronSourceError> onInterstitialAdShowFailedDemandOnlyEvent
+    public static event Action<string, IronSourceError> onInterstitialAdShowFailedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdShowFailedDemandOnlyEvent == null || !_onInterstitialAdShowFailedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdShowFailedDemandOnlyEvent == null || !_onInterstitialAdShowFailedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdShowFailedDemandOnlyEvent += value;
-                }
+                _onInterstitialAdShowFailedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdShowFailedDemandOnlyEvent != null && _onInterstitialAdShowFailedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdShowFailedDemandOnlyEvent != null || _onInterstitialAdShowFailedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdShowFailedDemandOnlyEvent -= value;
-                }
+                _onInterstitialAdShowFailedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdShowFailedDemandOnly(string args)
+    public void onInterstitialAdShowFailedDemandOnly(string args)
+    {
+        if (_onInterstitialAdLoadFailedDemandOnlyEvent != null && !String.IsNullOrEmpty(args))
         {
-            if (_onInterstitialAdLoadFailedDemandOnlyEvent != null && !String.IsNullOrEmpty(args))
-            {
-                List<object> argList = Json.Deserialize(args) as List<object>;
-                IronSourceError sse = getErrorFromErrorObject(argList[1]);
-                string instanceId = argList[0].ToString();
-                _onInterstitialAdShowFailedDemandOnlyEvent(instanceId, sse);
-            }
+            List<object> argList = IronSourceJSON.Json.Deserialize(args) as List<object>;
+            IronSourceError sse = getErrorFromErrorObject(argList[1]);
+            string instanceId = argList[0].ToString();
+            _onInterstitialAdShowFailedDemandOnlyEvent(instanceId, sse);
         }
+    }
 
-        private static event Action<string> _onInterstitialAdClickedDemandOnlyEvent;
+    private static event Action<string> _onInterstitialAdClickedDemandOnlyEvent;
 
-        public static event Action<string> onInterstitialAdClickedDemandOnlyEvent
+    public static event Action<string> onInterstitialAdClickedDemandOnlyEvent
+    {
+        add
         {
-            add
+            if (_onInterstitialAdClickedDemandOnlyEvent == null || !_onInterstitialAdClickedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdClickedDemandOnlyEvent == null || !_onInterstitialAdClickedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdClickedDemandOnlyEvent += value;
-                }
+                _onInterstitialAdClickedDemandOnlyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onInterstitialAdClickedDemandOnlyEvent != null && _onInterstitialAdClickedDemandOnlyEvent.GetInvocationList().Contains(value))
             {
-                if (_onInterstitialAdClickedDemandOnlyEvent != null || _onInterstitialAdClickedDemandOnlyEvent.GetInvocationList().Contains(value))
-                {
-                    _onInterstitialAdClickedDemandOnlyEvent -= value;
-                }
+                _onInterstitialAdClickedDemandOnlyEvent -= value;
             }
         }
+    }
 
-        public void onInterstitialAdClickedDemandOnly(string instanceId)
+    public void onInterstitialAdClickedDemandOnly(string instanceId)
+    {
+        if (_onInterstitialAdClickedDemandOnlyEvent != null)
         {
-            if (_onInterstitialAdClickedDemandOnlyEvent != null)
-            {
-                _onInterstitialAdClickedDemandOnlyEvent(instanceId);
-            }
+            _onInterstitialAdClickedDemandOnlyEvent(instanceId);
         }
+    }
 
-        // ******************************* Offerwall Events ******************************* 
+    // ******************************* Offerwall Events ******************************* 
 
-        private static event Action _onOfferwallOpenedEvent;
+    private static event Action _onOfferwallOpenedEvent;
 
-        public static event Action onOfferwallOpenedEvent
+    public static event Action onOfferwallOpenedEvent
+    {
+        add
         {
-            add
+            if (_onOfferwallOpenedEvent == null || !_onOfferwallOpenedEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallOpenedEvent == null || !_onOfferwallOpenedEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallOpenedEvent += value;
-                }
+                _onOfferwallOpenedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onOfferwallOpenedEvent != null && _onOfferwallOpenedEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallOpenedEvent != null || _onOfferwallOpenedEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallOpenedEvent -= value;
-                }
+                _onOfferwallOpenedEvent -= value;
             }
         }
+    }
 
-        public void onOfferwallOpened(string empty)
+    public void onOfferwallOpened(string empty)
+    {
+        if (_onOfferwallOpenedEvent != null)
         {
-            if (_onOfferwallOpenedEvent != null)
-            {
-                _onOfferwallOpenedEvent();
-            }
+            _onOfferwallOpenedEvent();
         }
+    }
 
-        private static event Action<IronSourceError> _onOfferwallShowFailedEvent;
+    private static event Action<IronSourceError> _onOfferwallShowFailedEvent;
 
-        public static event Action<IronSourceError> onOfferwallShowFailedEvent
+    public static event Action<IronSourceError> onOfferwallShowFailedEvent
+    {
+        add
         {
-            add
+            if (_onOfferwallShowFailedEvent == null || !_onOfferwallShowFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallShowFailedEvent == null || !_onOfferwallShowFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallShowFailedEvent += value;
-                }
+                _onOfferwallShowFailedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onOfferwallShowFailedEvent != null && _onOfferwallShowFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallShowFailedEvent != null || _onOfferwallShowFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallShowFailedEvent -= value;
-                }
+                _onOfferwallShowFailedEvent -= value;
             }
         }
+    }
 
-        public void onOfferwallShowFailed(string description)
+    public void onOfferwallShowFailed(string description)
+    {
+        if (_onOfferwallShowFailedEvent != null)
         {
-            if (_onOfferwallShowFailedEvent != null)
-            {
-                IronSourceError sse = getErrorFromErrorObject(description);
-                _onOfferwallShowFailedEvent(sse);
-            }
+            IronSourceError sse = getErrorFromErrorObject(description);
+            _onOfferwallShowFailedEvent(sse);
         }
+    }
 
-        private static event Action _onOfferwallClosedEvent;
+    private static event Action _onOfferwallClosedEvent;
 
-        public static event Action onOfferwallClosedEvent
+    public static event Action onOfferwallClosedEvent
+    {
+        add
         {
-            add
+            if (_onOfferwallClosedEvent == null || !_onOfferwallClosedEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallClosedEvent == null || !_onOfferwallClosedEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallClosedEvent += value;
-                }
+                _onOfferwallClosedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onOfferwallClosedEvent != null && _onOfferwallClosedEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallClosedEvent != null || _onOfferwallClosedEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallClosedEvent -= value;
-                }
+                _onOfferwallClosedEvent -= value;
             }
         }
+    }
 
-        public void onOfferwallClosed(string empty)
+    public void onOfferwallClosed(string empty)
+    {
+        if (_onOfferwallClosedEvent != null)
         {
-            if (_onOfferwallClosedEvent != null)
-            {
-                _onOfferwallClosedEvent();
-            }
+            _onOfferwallClosedEvent();
         }
+    }
 
-        private static event Action<IronSourceError> _onGetOfferwallCreditsFailedEvent;
+    private static event Action<IronSourceError> _onGetOfferwallCreditsFailedEvent;
 
-        public static event Action<IronSourceError> onGetOfferwallCreditsFailedEvent
+    public static event Action<IronSourceError> onGetOfferwallCreditsFailedEvent
+    {
+        add
         {
-            add
+            if (_onGetOfferwallCreditsFailedEvent == null || !_onGetOfferwallCreditsFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onGetOfferwallCreditsFailedEvent == null || !_onGetOfferwallCreditsFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onGetOfferwallCreditsFailedEvent += value;
-                }
+                _onGetOfferwallCreditsFailedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onGetOfferwallCreditsFailedEvent != null && _onGetOfferwallCreditsFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onGetOfferwallCreditsFailedEvent != null || _onGetOfferwallCreditsFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onGetOfferwallCreditsFailedEvent -= value;
-                }
+                _onGetOfferwallCreditsFailedEvent -= value;
             }
         }
+    }
 
-        public void onGetOfferwallCreditsFailed(string description)
+    public void onGetOfferwallCreditsFailed(string description)
+    {
+        if (_onGetOfferwallCreditsFailedEvent != null)
         {
-            if (_onGetOfferwallCreditsFailedEvent != null)
-            {
-                IronSourceError sse = getErrorFromErrorObject(description);
-                _onGetOfferwallCreditsFailedEvent(sse);
+            IronSourceError sse = getErrorFromErrorObject(description);
+            _onGetOfferwallCreditsFailedEvent(sse);
 
-            }
         }
+    }
 
-        private static event Action<Dictionary<string, object>> _onOfferwallAdCreditedEvent;
+    private static event Action<Dictionary<string, object>> _onOfferwallAdCreditedEvent;
 
-        public static event Action<Dictionary<string, object>> onOfferwallAdCreditedEvent
+    public static event Action<Dictionary<string, object>> onOfferwallAdCreditedEvent
+    {
+        add
         {
-            add
+            if (_onOfferwallAdCreditedEvent == null || !_onOfferwallAdCreditedEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallAdCreditedEvent == null || !_onOfferwallAdCreditedEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallAdCreditedEvent += value;
-                }
+                _onOfferwallAdCreditedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onOfferwallAdCreditedEvent != null && _onOfferwallAdCreditedEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallAdCreditedEvent != null || _onOfferwallAdCreditedEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallAdCreditedEvent -= value;
-                }
+                _onOfferwallAdCreditedEvent -= value;
             }
         }
+    }
 
-        public void onOfferwallAdCredited(string json)
-        {
-            if (_onOfferwallAdCreditedEvent != null)
-                _onOfferwallAdCreditedEvent(Json.Deserialize(json) as Dictionary<string, object>);
-        }
+    public void onOfferwallAdCredited(string json)
+    {
+        if (_onOfferwallAdCreditedEvent != null)
+            _onOfferwallAdCreditedEvent(IronSourceJSON.Json.Deserialize(json) as Dictionary<string, object>);
+    }
 
-        private static event Action<bool> _onOfferwallAvailableEvent;
+    private static event Action<bool> _onOfferwallAvailableEvent;
 
-        public static event Action<bool> onOfferwallAvailableEvent
+    public static event Action<bool> onOfferwallAvailableEvent
+    {
+        add
         {
-            add
+            if (_onOfferwallAvailableEvent == null || !_onOfferwallAvailableEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallAvailableEvent == null || !_onOfferwallAvailableEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallAvailableEvent += value;
-                }
+                _onOfferwallAvailableEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onOfferwallAvailableEvent != null && _onOfferwallAvailableEvent.GetInvocationList().Contains(value))
             {
-                if (_onOfferwallAvailableEvent != null || _onOfferwallAvailableEvent.GetInvocationList().Contains(value))
-                {
-                    _onOfferwallAvailableEvent -= value;
-                }
+                _onOfferwallAvailableEvent -= value;
             }
         }
+    }
 
-        public void onOfferwallAvailable(string stringAvailable)
-        {
-            bool isAvailable = (stringAvailable == "true") ? true : false;
-            if (_onOfferwallAvailableEvent != null)
-                _onOfferwallAvailableEvent(isAvailable);
-        }
+    public void onOfferwallAvailable(string stringAvailable)
+    {
+        bool isAvailable = (stringAvailable == "true") ? true : false;
+        if (_onOfferwallAvailableEvent != null)
+            _onOfferwallAvailableEvent(isAvailable);
+    }
 
-        // ******************************* Banner Events *******************************    
-        private static event Action _onBannerAdLoadedEvent;
+    // ******************************* Banner Events *******************************    
+    private static event Action _onBannerAdLoadedEvent;
 
-        public static event Action onBannerAdLoadedEvent
+    public static event Action onBannerAdLoadedEvent
+    {
+        add
         {
-            add
+            if (_onBannerAdLoadedEvent == null || !_onBannerAdLoadedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdLoadedEvent == null || !_onBannerAdLoadedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdLoadedEvent += value;
-                }
+                _onBannerAdLoadedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onBannerAdLoadedEvent != null && _onBannerAdLoadedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdLoadedEvent != null || _onBannerAdLoadedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdLoadedEvent -= value;
-                }
+                _onBannerAdLoadedEvent -= value;
             }
         }
+    }
 
-        public void onBannerAdLoaded()
-        {
-            if (_onBannerAdLoadedEvent != null)
-                _onBannerAdLoadedEvent();
-        }
+    public void onBannerAdLoaded()
+    {
+        if (_onBannerAdLoadedEvent != null)
+            _onBannerAdLoadedEvent();
+    }
 
-        private static event Action<IronSourceError> _onBannerAdLoadFailedEvent;
+    private static event Action<IronSourceError> _onBannerAdLoadFailedEvent;
 
-        public static event Action<IronSourceError> onBannerAdLoadFailedEvent
+    public static event Action<IronSourceError> onBannerAdLoadFailedEvent
+    {
+        add
         {
-            add
-            {
-                if (_onBannerAdLoadFailedEvent == null || !_onBannerAdLoadFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdLoadFailedEvent += value;
-                }
-            }
-
-            remove
+            if (_onBannerAdLoadFailedEvent == null || !_onBannerAdLoadFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdLoadFailedEvent != null || _onBannerAdLoadFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdLoadFailedEvent -= value;
-                }
+                _onBannerAdLoadFailedEvent += value;
             }
         }
 
-        public void onBannerAdLoadFailed(string description)
+        remove
         {
-            if (_onBannerAdLoadFailedEvent != null)
+            if (_onBannerAdLoadFailedEvent != null && _onBannerAdLoadFailedEvent.GetInvocationList().Contains(value))
             {
-                IronSourceError sse = getErrorFromErrorObject(description);
-                _onBannerAdLoadFailedEvent(sse);
+                _onBannerAdLoadFailedEvent -= value;
             }
+        }
+    }
 
+    public void onBannerAdLoadFailed(string description)
+    {
+        if (_onBannerAdLoadFailedEvent != null)
+        {
+            IronSourceError sse = getErrorFromErrorObject(description);
+            _onBannerAdLoadFailedEvent(sse);
         }
 
-        private static event Action _onBannerAdClickedEvent;
+    }
 
-        public static event Action onBannerAdClickedEvent
+    private static event Action _onBannerAdClickedEvent;
+
+    public static event Action onBannerAdClickedEvent
+    {
+        add
         {
-            add
+            if (_onBannerAdClickedEvent == null || !_onBannerAdClickedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdClickedEvent == null || !_onBannerAdClickedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdClickedEvent += value;
-                }
+                _onBannerAdClickedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onBannerAdClickedEvent != null && _onBannerAdClickedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdClickedEvent != null || _onBannerAdClickedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdClickedEvent -= value;
-                }
+                _onBannerAdClickedEvent -= value;
             }
         }
+    }
 
-        public void onBannerAdClicked()
-        {
-            if (_onBannerAdClickedEvent != null)
-                _onBannerAdClickedEvent();
-        }
+    public void onBannerAdClicked()
+    {
+        if (_onBannerAdClickedEvent != null)
+            _onBannerAdClickedEvent();
+    }
 
-        private static event Action _onBannerAdScreenPresentedEvent;
+    private static event Action _onBannerAdScreenPresentedEvent;
 
-        public static event Action onBannerAdScreenPresentedEvent
+    public static event Action onBannerAdScreenPresentedEvent
+    {
+        add
         {
-            add
+            if (_onBannerAdScreenPresentedEvent == null || !_onBannerAdScreenPresentedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdScreenPresentedEvent == null || !_onBannerAdScreenPresentedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdScreenPresentedEvent += value;
-                }
+                _onBannerAdScreenPresentedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onBannerAdScreenPresentedEvent != null && _onBannerAdScreenPresentedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdScreenPresentedEvent != null || _onBannerAdScreenPresentedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdScreenPresentedEvent -= value;
-                }
+                _onBannerAdScreenPresentedEvent -= value;
             }
         }
+    }
 
-        public void onBannerAdScreenPresented()
-        {
-            if (_onBannerAdScreenPresentedEvent != null)
-                _onBannerAdScreenPresentedEvent();
-        }
+    public void onBannerAdScreenPresented()
+    {
+        if (_onBannerAdScreenPresentedEvent != null)
+            _onBannerAdScreenPresentedEvent();
+    }
 
-        private static event Action _onBannerAdScreenDismissedEvent;
+    private static event Action _onBannerAdScreenDismissedEvent;
 
-        public static event Action onBannerAdScreenDismissedEvent
+    public static event Action onBannerAdScreenDismissedEvent
+    {
+        add
         {
-            add
+            if (_onBannerAdScreenDismissedEvent == null || !_onBannerAdScreenDismissedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdScreenDismissedEvent == null || !_onBannerAdScreenDismissedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdScreenDismissedEvent += value;
-                }
+                _onBannerAdScreenDismissedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onBannerAdScreenDismissedEvent != null && _onBannerAdScreenDismissedEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdScreenDismissedEvent != null || _onBannerAdScreenDismissedEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdScreenDismissedEvent -= value;
-                }
+                _onBannerAdScreenDismissedEvent -= value;
             }
         }
+    }
 
-        public void onBannerAdScreenDismissed()
-        {
-            if (_onBannerAdScreenDismissedEvent != null)
-                _onBannerAdScreenDismissedEvent();
-        }
+    public void onBannerAdScreenDismissed()
+    {
+        if (_onBannerAdScreenDismissedEvent != null)
+            _onBannerAdScreenDismissedEvent();
+    }
 
-        private static event Action _onBannerAdLeftApplicationEvent;
+    private static event Action _onBannerAdLeftApplicationEvent;
 
-        public static event Action onBannerAdLeftApplicationEvent
+    public static event Action onBannerAdLeftApplicationEvent
+    {
+        add
         {
-            add
+            if (_onBannerAdLeftApplicationEvent == null || !_onBannerAdLeftApplicationEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdLeftApplicationEvent == null || !_onBannerAdLeftApplicationEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdLeftApplicationEvent += value;
-                }
+                _onBannerAdLeftApplicationEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onBannerAdLeftApplicationEvent != null && _onBannerAdLeftApplicationEvent.GetInvocationList().Contains(value))
             {
-                if (_onBannerAdLeftApplicationEvent != null || _onBannerAdLeftApplicationEvent.GetInvocationList().Contains(value))
-                {
-                    _onBannerAdLeftApplicationEvent -= value;
-                }
+                _onBannerAdLeftApplicationEvent -= value;
             }
         }
+    }
 
-        public void onBannerAdLeftApplication()
-        {
-            if (_onBannerAdLeftApplicationEvent != null)
-                _onBannerAdLeftApplicationEvent();
-        }
+    public void onBannerAdLeftApplication()
+    {
+        if (_onBannerAdLeftApplicationEvent != null)
+            _onBannerAdLeftApplicationEvent();
+    }
 
-        private static event Action<IronSourceImpressionData> _onImpressionSuccessEvent;
+    private static event Action<IronSourceImpressionData> _onImpressionSuccessEvent;
 
-        [Obsolete("This method has been deprecated and won't be included in ironSource SDK versions 7.3.0 and above. Please use OnImpressionDataReady instead.")]
-        public static event Action<IronSourceImpressionData> onImpressionSuccessEvent
+    public static event Action<IronSourceImpressionData> onImpressionSuccessEvent
+    {
+        add
         {
-            add
+            if (_onImpressionSuccessEvent == null || !_onImpressionSuccessEvent.GetInvocationList().Contains(value))
             {
-                if (_onImpressionSuccessEvent == null || !_onImpressionSuccessEvent.GetInvocationList().Contains(value))
-                {
-                    _onImpressionSuccessEvent += value;
-                }
+                _onImpressionSuccessEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onImpressionSuccessEvent != null && _onImpressionSuccessEvent.GetInvocationList().Contains(value))
             {
-                if (_onImpressionSuccessEvent != null || _onImpressionSuccessEvent.GetInvocationList().Contains(value))
-                {
-                    _onImpressionSuccessEvent -= value;
-                }
+                _onImpressionSuccessEvent -= value;
             }
         }
+    }
 
-        public void onImpressionSuccess(string args)
-        {
-            IronSourceImpressionData impressionData = new IronSourceImpressionData(args);
+    public void onImpressionSuccess(string args)
+    {
+        IronSourceImpressionData impressionData = new IronSourceImpressionData(args);
 
 
-            if (_onImpressionSuccessEvent != null)
-            {
-                _onImpressionSuccessEvent(impressionData);
-            }
+        if (_onImpressionSuccessEvent != null)
+        {
+            _onImpressionSuccessEvent(impressionData);
         }
+    }
 
-        // ******************************* RewardedVideo Manual Load Events *******************************
+    // ******************************* RewardedVideo Manual Load Events *******************************
 
-        private static event Action<IronSourceError> _onRewardedVideoAdLoadFailedEvent;
+    private static event Action<IronSourceError> _onRewardedVideoAdLoadFailedEvent;
 
-        public static event Action<IronSourceError> onRewardedVideoAdLoadFailedEvent
+    public static event Action<IronSourceError> onRewardedVideoAdLoadFailedEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdLoadFailedEvent == null || !_onRewardedVideoAdLoadFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdLoadFailedEvent == null || !_onRewardedVideoAdLoadFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdLoadFailedEvent += value;
-                }
+                _onRewardedVideoAdLoadFailedEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdLoadFailedEvent != null && _onRewardedVideoAdLoadFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdLoadFailedEvent != null || _onRewardedVideoAdLoadFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdLoadFailedEvent -= value;
-                }
+                _onRewardedVideoAdLoadFailedEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdLoadFailed(string description)
+    public void onRewardedVideoAdLoadFailed(string description)
+    {
+        if (_onRewardedVideoAdLoadFailedEvent != null)
         {
-            if (_onRewardedVideoAdLoadFailedEvent != null)
-            {
-                IronSourceError sse = getErrorFromErrorObject(description);
-                _onRewardedVideoAdLoadFailedEvent(sse);
-            }
+            IronSourceError sse = getErrorFromErrorObject(description);
+            _onRewardedVideoAdLoadFailedEvent(sse);
         }
+    }
 
-        private static event Action _onRewardedVideoAdReadyEvent;
+    private static event Action _onRewardedVideoAdReadyEvent;
 
-        public static event Action onRewardedVideoAdReadyEvent
+    public static event Action onRewardedVideoAdReadyEvent
+    {
+        add
         {
-            add
+            if (_onRewardedVideoAdReadyEvent == null || !_onRewardedVideoAdReadyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdReadyEvent == null || !_onRewardedVideoAdReadyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdReadyEvent += value;
-                }
+                _onRewardedVideoAdReadyEvent += value;
             }
+        }
 
-            remove
+        remove
+        {
+            if (_onRewardedVideoAdReadyEvent != null && _onRewardedVideoAdReadyEvent.GetInvocationList().Contains(value))
             {
-                if (_onRewardedVideoAdReadyEvent != null || _onRewardedVideoAdReadyEvent.GetInvocationList().Contains(value))
-                {
-                    _onRewardedVideoAdReadyEvent -= value;
-                }
+                _onRewardedVideoAdReadyEvent -= value;
             }
         }
+    }
 
-        public void onRewardedVideoAdReady(string empty)
+    public void onRewardedVideoAdReady(string empty)
+    {
+        if (_onRewardedVideoAdReadyEvent != null)
         {
-            if (_onRewardedVideoAdReadyEvent != null)
-            {
-                _onRewardedVideoAdReadyEvent();
-            }
+            _onRewardedVideoAdReadyEvent();
         }
+    }
 
 #endif
 
@@ -2031,7 +2031,7 @@ namespace IS.IronSource.Scripts
 
             remove
             {
-                if (_onConsentViewDidFailToLoadWithErrorEvent != null || _onConsentViewDidFailToLoadWithErrorEvent.GetInvocationList().Contains(value))
+                if (_onConsentViewDidFailToLoadWithErrorEvent != null && _onConsentViewDidFailToLoadWithErrorEvent.GetInvocationList().Contains(value))
                 {
                     _onConsentViewDidFailToLoadWithErrorEvent -= value;
                 }
@@ -2063,7 +2063,7 @@ namespace IS.IronSource.Scripts
 
             remove
             {
-                if (_onConsentViewDidFailToShowWithErrorEvent != null || _onConsentViewDidFailToShowWithErrorEvent.GetInvocationList().Contains(value))
+                if (_onConsentViewDidFailToShowWithErrorEvent != null && _onConsentViewDidFailToShowWithErrorEvent.GetInvocationList().Contains(value))
                 {
                     _onConsentViewDidFailToShowWithErrorEvent -= value;
                 }
@@ -2095,7 +2095,7 @@ namespace IS.IronSource.Scripts
 
             remove
             {
-                if (_onConsentViewDidAcceptEvent != null || _onConsentViewDidAcceptEvent.GetInvocationList().Contains(value))
+                if (_onConsentViewDidAcceptEvent != null && _onConsentViewDidAcceptEvent.GetInvocationList().Contains(value))
                 {
                     _onConsentViewDidAcceptEvent -= value;
                 }
@@ -2124,7 +2124,7 @@ namespace IS.IronSource.Scripts
 
             remove
             {
-                if (_onConsentViewDidDismissEvent != null || _onConsentViewDidDismissEvent.GetInvocationList().Contains(value))
+                if (_onConsentViewDidDismissEvent != null && _onConsentViewDidDismissEvent.GetInvocationList().Contains(value))
                 {
                     _onConsentViewDidDismissEvent -= value;
                 }
@@ -2153,7 +2153,7 @@ namespace IS.IronSource.Scripts
 
             remove
             {
-                if (_onConsentViewDidLoadSuccessEvent != null || _onConsentViewDidLoadSuccessEvent.GetInvocationList().Contains(value))
+                if (_onConsentViewDidLoadSuccessEvent != null && _onConsentViewDidLoadSuccessEvent.GetInvocationList().Contains(value))
                 {
                     _onConsentViewDidLoadSuccessEvent -= value;
                 }
@@ -2182,7 +2182,7 @@ namespace IS.IronSource.Scripts
 
             remove
             {
-                if (_onConsentViewDidShowSuccessEvent != null || _onConsentViewDidShowSuccessEvent.GetInvocationList().Contains(value))
+                if (_onConsentViewDidShowSuccessEvent != null && _onConsentViewDidShowSuccessEvent.GetInvocationList().Contains(value))
                 {
                     _onConsentViewDidShowSuccessEvent -= value;
                 }

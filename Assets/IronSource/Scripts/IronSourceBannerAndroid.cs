@@ -2,77 +2,80 @@
 using System;
 using UnityEngine;
 
-public class IronSourceBannerAndroid : AndroidJavaProxy, IUnityBanner
+namespace IS.IronSource.Scripts
 {
-
-    public event Action OnBannerAdLoaded = delegate { };
-    public event Action OnBannerAdLeftApplication = delegate { };
-    public event Action OnBannerAdScreenDismissed = delegate { };
-    public event Action OnBannerAdScreenPresented = delegate { };
-    public event Action OnBannerAdClicked = delegate { };
-    public event Action<IronSourceError> OnBannerAdLoadFailed = delegate { };
-
-    //implements UnityInterstitialListener java interface and implement banner callbacks
-    public IronSourceBannerAndroid() : base(IronSourceConstants.bannerBridgeListenerClass)
+    public class IronSourceBannerAndroid : AndroidJavaProxy, IUnityBanner
     {
-        try
+
+        public event Action OnBannerAdLoaded = delegate { };
+        public event Action OnBannerAdLeftApplication = delegate { };
+        public event Action OnBannerAdScreenDismissed = delegate { };
+        public event Action OnBannerAdScreenPresented = delegate { };
+        public event Action OnBannerAdClicked = delegate { };
+        public event Action<IronSourceError> OnBannerAdLoadFailed = delegate { };
+
+        //implements UnityInterstitialListener java interface and implement banner callbacks
+        public IronSourceBannerAndroid() : base(IronSourceConstants.bannerBridgeListenerClass)
         {
-            using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
+            try
             {
-                var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
-                bridgeInstance.Call("setUnityBannerListener", this);
+                using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
+                {
+                    var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
+                    bridgeInstance.Call("setUnityBannerListener", this);
+                }
+
+            }
+            catch(Exception e)
+            {
+                Debug.LogError("setUnityBannerListener method doesn't exist, error: " + e.Message);
             }
 
         }
-        catch(Exception e)
-        {
-            Debug.LogError("setUnityBannerListener method doesn't exist, error: " + e.Message);
-        }
 
-    }
+        void onBannerAdLoaded()
+        {
+            if (OnBannerAdLoaded != null)
+            {
+                OnBannerAdLoaded();
+            }
 
-    void onBannerAdLoaded()
-    {
-        if (OnBannerAdLoaded != null)
-        {
-            OnBannerAdLoaded();
         }
-
-    }
-    void onBannerAdLoadFailed(String args)
-    {
-        if (OnBannerAdLoadFailed != null)
+        void onBannerAdLoadFailed(String args)
         {
-            IronSourceError error = IronSourceUtils.getErrorFromErrorObject(args);
-            OnBannerAdLoadFailed(error);
+            if (OnBannerAdLoadFailed != null)
+            {
+                IronSourceError error = IronSourceUtils.getErrorFromErrorObject(args);
+                OnBannerAdLoadFailed(error);
+            }
         }
-    }
-    void onBannerAdClicked()
-    {
-        if (OnBannerAdClicked != null)
+        void onBannerAdClicked()
         {
-            OnBannerAdClicked();
+            if (OnBannerAdClicked != null)
+            {
+                OnBannerAdClicked();
+            }
         }
-    }
-    void onBannerAdScreenPresented()
-    {
-        if (OnBannerAdScreenPresented != null)
+        void onBannerAdScreenPresented()
         {
-            OnBannerAdScreenPresented();
+            if (OnBannerAdScreenPresented != null)
+            {
+                OnBannerAdScreenPresented();
+            }
         }
-    }
-    void onBannerAdScreenDismissed()
-    {
-        if (OnBannerAdScreenDismissed != null)
+        void onBannerAdScreenDismissed()
         {
-            OnBannerAdScreenDismissed();
+            if (OnBannerAdScreenDismissed != null)
+            {
+                OnBannerAdScreenDismissed();
+            }
         }
-    }
-    void onBannerAdLeftApplication()
-    {
-        if (OnBannerAdLeftApplication != null)
+        void onBannerAdLeftApplication()
         {
-            OnBannerAdLeftApplication();
+            if (OnBannerAdLeftApplication != null)
+            {
+                OnBannerAdLeftApplication();
+            }
         }
     }
 }

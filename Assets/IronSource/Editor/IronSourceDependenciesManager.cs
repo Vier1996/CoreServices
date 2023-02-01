@@ -15,6 +15,7 @@ namespace IS.IronSource.Editor
     {
         private readonly SortedSet<ProviderInfo> providersSet = new SortedSet<ProviderInfo>(new ProviderInfoComparor());
         private ProviderInfo ironSourceProviderInfo;
+        private ProviderInfo unityAdsProviderInfo;
         private UnityWebRequest downloadWebClient;
         private string messageData;
         private IronSourceEditorCoroutines mEditorCoroutines;
@@ -31,6 +32,7 @@ namespace IS.IronSource.Editor
             public string providerName;
             public string currentUnityVersion;
             public string latestUnityVersion;
+            public string latestUnityAdsVersion;
             public string downloadURL;
             public string displayProviderName;
             public bool isNewProvider;
@@ -100,6 +102,17 @@ namespace IS.IronSource.Editor
                     {
                         latestUnityVersion = latestUnitySDKVersion;
                     }
+
+                    downloadURL = downloadURL.Replace(IronSourceDependenciesManagerConstants.UNITY_ADAPTER_MACRO, latestUnityVersion);
+                }
+
+                if (providerData.TryGetValue(IronSourceDependenciesManagerConstants.PROVIDER_UNITY_ADAPTER_VERSION, out obj))
+                {
+                    if ((providerName.ToLower() == IronSourceDependenciesManagerConstants.UNITYADS))
+                    {
+                        latestUnityAdsVersion = obj as string;
+                    }
+                
 
                     downloadURL = downloadURL.Replace(IronSourceDependenciesManagerConstants.UNITY_ADAPTER_MACRO, latestUnityVersion);
                 }
@@ -190,10 +203,13 @@ namespace IS.IronSource.Editor
                     object providersJson;
 
                     ironSourceProviderInfo = new ProviderInfo();
+                    unityAdsProviderInfo = new ProviderInfo();
                     ironSourceProviderInfo.currentUnityVersion = GetVersionFromXML(IronSourceDependenciesManagerConstants.IRONSOURCE_XML);
+                
                     SDKInfoDictionary.TryGetValue(IronSourceDependenciesManagerConstants.LATEST_SDK_VERSION, out providersJson);
                     latestUnitySDKVersion = providersJson.ToString();
                     ironSourceProviderInfo.latestUnityVersion = providersJson.ToString();
+                
 
                     requiredVersion = (ironSourceProviderInfo.currentUnityVersion == IronSourceDependenciesManagerConstants.NONE) ? ironSourceProviderInfo.latestUnityVersion : ironSourceProviderInfo.currentUnityVersion;
 
@@ -222,9 +238,36 @@ namespace IS.IronSource.Editor
                                         ironSourceProviderInfo.currentStatues = info.currentStatues;
 
                                     }
+                               
                                     else
                                     {
-                                        providersSet.Add(info);
+                                        if (item.Key.ToLower().Contains(IronSourceDependenciesManagerConstants.UNITYADS)) {
+                                            if (item.Key.ToLower().Contains(IronSourceDependenciesManagerConstants.UNITYADS))
+                                            {
+
+                                                if (File.Exists(IronSourceDependenciesManagerConstants.IRONSOURCE_DOWNLOAD_DIR + IronSourceDependenciesManagerConstants.UNITYADS_XML))
+                                                {
+                                                    unityAdsProviderInfo.currentUnityVersion = GetVersionFromXML(IronSourceDependenciesManagerConstants.UNITYADS_XML);
+                                                    unityAdsProviderInfo.latestUnityVersion = info.latestUnityAdsVersion;
+                                                }
+                                                else {
+                                                    unityAdsProviderInfo.currentUnityVersion = "none";
+                                                }
+
+
+                                                unityAdsProviderInfo.latestUnityVersion = info.latestUnityAdsVersion;
+                                                unityAdsProviderInfo.displayProviderName = info.displayProviderName;
+                                                unityAdsProviderInfo.downloadURL = info.downloadURL;
+                                                unityAdsProviderInfo.providerName = info.providerName;
+                                                unityAdsProviderInfo.sdkVersionDic = info.sdkVersionDic;
+                                                unityAdsProviderInfo.fileName = info.fileName;
+                                                unityAdsProviderInfo.currentStatues = info.currentStatues;
+
+                                            }
+                                        } else {
+                                            providersSet.Add(info);
+                                        }
+                                    
                                     }
                                 }
                             }
@@ -387,6 +430,11 @@ namespace IS.IronSource.Editor
                 GUILayout.Space(5);
                 GUILayout.BeginHorizontal();
                 DrawProviderItem(ironSourceProviderInfo);
+                GUILayout.Space(5);
+                GUILayout.EndHorizontal();
+                GUILayout.Space(5);
+                GUILayout.BeginHorizontal();
+                DrawProviderItem(unityAdsProviderInfo);
                 GUILayout.Space(5);
                 GUILayout.EndHorizontal();
                 GUILayout.Space(5);

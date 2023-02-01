@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace IS.IronSource.Scripts
@@ -10,16 +9,17 @@ namespace IS.IronSource.Scripts
     {
 
 #if UNITY_ANDROID
-    public static event Action<IronSourceAdInfo> onAdLoadedEvent;
-    public static event Action<IronSourceAdInfo> onAdLeftApplicationEvent;
-    public static event Action<IronSourceAdInfo> onAdScreenDismissedEvent;
-    public static event Action<IronSourceAdInfo> onAdScreenPresentedEvent;
-    public static event Action<IronSourceAdInfo> onAdClickedEvent;
-    public static event Action<IronSourceError> onAdLoadFailedEvent;
+#pragma warning disable CS0067
+        public static event Action<IronSourceAdInfo> onAdLoadedEvent;
+        public static event Action<IronSourceAdInfo> onAdLeftApplicationEvent;
+        public static event Action<IronSourceAdInfo> onAdScreenDismissedEvent;
+        public static event Action<IronSourceAdInfo> onAdScreenPresentedEvent;
+        public static event Action<IronSourceAdInfo> onAdClickedEvent;
+        public static event Action<IronSourceError> onAdLoadFailedEvent;
 #endif
 
 #if UNITY_ANDROID
-    private IUnityLevelPlayBanner LevelPlaybannerAndroid;
+        private IUnityLevelPlayBanner LevelPlaybannerAndroid;
 #endif
 
         void Awake()
@@ -110,195 +110,195 @@ namespace IS.IronSource.Scripts
 
 #if !UNITY_ANDROID
 
-        // ******************************* Banner Events *******************************    
-        private static event Action<IronSourceAdInfo> _onAdLoadedEvent;
+    // ******************************* Banner Events *******************************    
+    private static event Action<IronSourceAdInfo> _onAdLoadedEvent;
 
-        public static event Action<IronSourceAdInfo> onAdLoadedEvent
+    public static event Action<IronSourceAdInfo> onAdLoadedEvent
+    {
+        add
         {
-            add
+            if (_onAdLoadedEvent
+         == null || !_onAdLoadedEvent
+        .GetInvocationList().Contains(value))
             {
-                if (_onAdLoadedEvent
-                    == null || !_onAdLoadedEvent
-                        .GetInvocationList().Contains(value))
-                {
-                    _onAdLoadedEvent
-                        += value;
-                }
-            }
-
-            remove
-            {
-                if (_onAdLoadedEvent
-                    != null || _onAdLoadedEvent
-                        .GetInvocationList().Contains(value))
-                {
-                    _onAdLoadedEvent
-                        -= value;
-                }
+                _onAdLoadedEvent
+         += value;
             }
         }
 
-        public void onAdLoaded(string args)
+        remove
         {
-            if (_onAdLoadedEvent != null) {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
-                _onAdLoadedEvent(adInfo);
+            if (_onAdLoadedEvent
+         != null || _onAdLoadedEvent
+        .GetInvocationList().Contains(value))
+            {
+                _onAdLoadedEvent
+         -= value;
             }
+        }
+    }
+
+    public void onAdLoaded(string args)
+    {
+        if (_onAdLoadedEvent != null) {
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
+            _onAdLoadedEvent(adInfo);
+        }
         
-        }
+    }
 
-        private static event Action<IronSourceError> _onAdLoadFailedEvent;
+    private static event Action<IronSourceError> _onAdLoadFailedEvent;
 
-        public static event Action<IronSourceError> onAdLoadFailedEvent
+    public static event Action<IronSourceError> onAdLoadFailedEvent
+    {
+        add
         {
-            add
+            if (_onAdLoadFailedEvent == null || !_onAdLoadFailedEvent.GetInvocationList().Contains(value))
             {
-                if (_onAdLoadFailedEvent == null || !_onAdLoadFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdLoadFailedEvent += value;
-                }
-            }
-
-            remove
-            {
-                if (_onAdLoadFailedEvent != null || _onAdLoadFailedEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdLoadFailedEvent -= value;
-                }
+                _onAdLoadFailedEvent += value;
             }
         }
 
-        public void onAdLoadFailed(string description)
+        remove
         {
-            if (_onAdLoadFailedEvent != null)
+            if (_onAdLoadFailedEvent != null && _onAdLoadFailedEvent.GetInvocationList().Contains(value))
             {
-                IronSourceError sse = getErrorFromErrorObject(description);
-                _onAdLoadFailedEvent(sse);
+                _onAdLoadFailedEvent -= value;
             }
-
         }
+    }
 
-        private static event Action<IronSourceAdInfo> _onAdClickedEvent;
-
-        public static event Action<IronSourceAdInfo> onAdClickedEvent
+    public void onAdLoadFailed(string description)
+    {
+        if (_onAdLoadFailedEvent != null)
         {
-            add
-            {
-                if (_onAdClickedEvent == null || !_onAdClickedEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdClickedEvent += value;
-                }
-            }
-
-            remove
-            {
-                if (_onAdClickedEvent != null || _onAdClickedEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdClickedEvent -= value;
-                }
-            }
+            IronSourceError sse = getErrorFromErrorObject(description);
+            _onAdLoadFailedEvent(sse);
         }
 
-        public void onAdClicked(string args)
+    }
+
+    private static event Action<IronSourceAdInfo> _onAdClickedEvent;
+
+    public static event Action<IronSourceAdInfo> onAdClickedEvent
+    {
+        add
         {
-            if (_onAdClickedEvent != null)
+            if (_onAdClickedEvent == null || !_onAdClickedEvent.GetInvocationList().Contains(value))
             {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
-                _onAdClickedEvent(adInfo);
+                _onAdClickedEvent += value;
             }
-
         }
 
-        private static event Action<IronSourceAdInfo> _onAdScreenPresentedEvent;
-
-        public static event Action<IronSourceAdInfo> onAdScreenPresentedEvent
+        remove
         {
-            add
+            if (_onAdClickedEvent != null && _onAdClickedEvent.GetInvocationList().Contains(value))
             {
-                if (_onAdScreenPresentedEvent == null || !_onAdScreenPresentedEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdScreenPresentedEvent += value;
-                }
-            }
-
-            remove
-            {
-                if (_onAdScreenPresentedEvent != null || _onAdScreenPresentedEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdScreenPresentedEvent -= value;
-                }
+                _onAdClickedEvent -= value;
             }
         }
+    }
 
-        public void onAdScreenPresented(string args)
+    public void onAdClicked(string args)
+    {
+        if (_onAdClickedEvent != null)
         {
-            if (_onAdScreenPresentedEvent != null)
-            {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
-                _onAdScreenPresentedEvent(adInfo);
-            }
-
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
+            _onAdClickedEvent(adInfo);
         }
 
-        private static event Action<IronSourceAdInfo> _onAdScreenDismissedEvent;
+    }
 
-        public static event Action<IronSourceAdInfo> onAdScreenDismissedEvent
+    private static event Action<IronSourceAdInfo> _onAdScreenPresentedEvent;
+
+    public static event Action<IronSourceAdInfo> onAdScreenPresentedEvent
+    {
+        add
         {
-            add
+            if (_onAdScreenPresentedEvent == null || !_onAdScreenPresentedEvent.GetInvocationList().Contains(value))
             {
-                if (_onAdScreenDismissedEvent == null || !_onAdScreenDismissedEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdScreenDismissedEvent += value;
-                }
-            }
-
-            remove
-            {
-                if (_onAdScreenDismissedEvent != null || _onAdScreenDismissedEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdScreenDismissedEvent -= value;
-                }
+                _onAdScreenPresentedEvent += value;
             }
         }
 
-        public void onAdScreenDismissed(string args)
+        remove
         {
-            if (_onAdScreenDismissedEvent != null)
+            if (_onAdScreenPresentedEvent != null && _onAdScreenPresentedEvent.GetInvocationList().Contains(value))
             {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
-                _onAdScreenDismissedEvent(adInfo);
+                _onAdScreenPresentedEvent -= value;
             }
         }
+    }
 
-        private static event Action<IronSourceAdInfo> _onAdLeftApplicationEvent;
-
-        public static event Action<IronSourceAdInfo> onAdLeftApplicationEvent
+    public void onAdScreenPresented(string args)
+    {
+        if (_onAdScreenPresentedEvent != null)
         {
-            add
-            {
-                if (_onAdLeftApplicationEvent == null || !_onAdLeftApplicationEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdLeftApplicationEvent += value;
-                }
-            }
-
-            remove
-            {
-                if (_onAdLeftApplicationEvent != null || _onAdLeftApplicationEvent.GetInvocationList().Contains(value))
-                {
-                    _onAdLeftApplicationEvent -= value;
-                }
-            }
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
+            _onAdScreenPresentedEvent(adInfo);
         }
 
-        public void onAdLeftApplication(string args)
+    }
+
+    private static event Action<IronSourceAdInfo> _onAdScreenDismissedEvent;
+
+    public static event Action<IronSourceAdInfo> onAdScreenDismissedEvent
+    {
+        add
         {
-            if (_onAdLeftApplicationEvent != null)
+            if (_onAdScreenDismissedEvent == null || !_onAdScreenDismissedEvent.GetInvocationList().Contains(value))
             {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
-                _onAdLeftApplicationEvent(adInfo);
+                _onAdScreenDismissedEvent += value;
             }
         }
+
+        remove
+        {
+            if (_onAdScreenDismissedEvent != null && _onAdScreenDismissedEvent.GetInvocationList().Contains(value))
+            {
+                _onAdScreenDismissedEvent -= value;
+            }
+        }
+    }
+
+    public void onAdScreenDismissed(string args)
+    {
+        if (_onAdScreenDismissedEvent != null)
+        {
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
+            _onAdScreenDismissedEvent(adInfo);
+        }
+    }
+
+    private static event Action<IronSourceAdInfo> _onAdLeftApplicationEvent;
+
+    public static event Action<IronSourceAdInfo> onAdLeftApplicationEvent
+    {
+        add
+        {
+            if (_onAdLeftApplicationEvent == null || !_onAdLeftApplicationEvent.GetInvocationList().Contains(value))
+            {
+                _onAdLeftApplicationEvent += value;
+            }
+        }
+
+        remove
+        {
+            if (_onAdLeftApplicationEvent != null && _onAdLeftApplicationEvent.GetInvocationList().Contains(value))
+            {
+                _onAdLeftApplicationEvent -= value;
+            }
+        }
+    }
+
+    public void onAdLeftApplication(string args)
+    {
+        if (_onAdLeftApplicationEvent != null)
+        {
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(args);
+            _onAdLeftApplicationEvent(adInfo);
+        }
+    }
 #endif
 
         // ******************************* Helper methods *******************************   

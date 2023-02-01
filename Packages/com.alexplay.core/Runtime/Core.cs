@@ -25,8 +25,10 @@ using ACS.Data.DataService.Service;
 #if COM_ALEXPLAY_NET_AUDIO
 using ACS.Audio;
 #endif
-using System;
+#if COM_ALEXPLAY_NET_GDPR
 using ACS.GDPR.Service;
+#endif
+using System;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;

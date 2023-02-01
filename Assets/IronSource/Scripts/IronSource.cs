@@ -8,7 +8,7 @@ namespace IS.IronSource.Scripts
 	{
 		private IronSourceIAgent _platformAgent;
 		private static IronSource _instance;
-		public static string UNITY_PLUGIN_VERSION = "7.2.5.1-r";
+		public static string UNITY_PLUGIN_VERSION = "7.2.7-r";
 		private static bool isUnsupportedPlatform;
 
 		private IronSource()

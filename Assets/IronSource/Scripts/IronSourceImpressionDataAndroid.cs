@@ -2,47 +2,50 @@
 using System;
 using UnityEngine;
 
-public class IronSourceImpressionDataAndroid : AndroidJavaProxy, IUnityImpressionData
+namespace IS.IronSource.Scripts
 {
-    public event Action<IronSourceImpressionData> OnImpressionSuccess = delegate { };
-    public event Action<IronSourceImpressionData> OnImpressionDataReady = delegate { };
-
-    //implements UnityImpressionDataListener java interface
-    public IronSourceImpressionDataAndroid() : base(IronSourceConstants.impressionDataBridgeListenerClass)
+    public class IronSourceImpressionDataAndroid : AndroidJavaProxy, IUnityImpressionData
     {
-        try
+        public event Action<IronSourceImpressionData> OnImpressionSuccess = delegate { };
+        public event Action<IronSourceImpressionData> OnImpressionDataReady = delegate { };
+
+        //implements UnityImpressionDataListener java interface
+        public IronSourceImpressionDataAndroid() : base(IronSourceConstants.impressionDataBridgeListenerClass)
         {
-            using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
+            try
             {
-                var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>(IronSourceConstants.GET_INSTANCE_KEY);
-                bridgeInstance.Call("setUnityImpressionDataListener", this);
+                using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
+                {
+                    var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>(IronSourceConstants.GET_INSTANCE_KEY);
+                    bridgeInstance.Call("setUnityImpressionDataListener", this);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("setUnityImpressionDataListener method doesn't exist, error: " + e.Message);
+            }
+
+        }
+
+        public void onImpressionSuccess(string data)
+        {
+            if (OnImpressionSuccess != null)
+            {
+                IronSourceImpressionData impressionData = new IronSourceImpressionData(data);
+                OnImpressionSuccess(impressionData);
             }
         }
-        catch (Exception e)
+
+        public void onImpressionDataReady(string data)
         {
-            Debug.LogError("setUnityImpressionDataListener method doesn't exist, error: " + e.Message);
+            if (OnImpressionDataReady != null)
+            {
+                IronSourceImpressionData impressionData = new IronSourceImpressionData(data);
+                OnImpressionDataReady(impressionData);
+            }
         }
 
     }
-
-    public void onImpressionSuccess(string data)
-    {
-        if (OnImpressionSuccess != null)
-        {
-            IronSourceImpressionData impressionData = new IronSourceImpressionData(data);
-            OnImpressionSuccess(impressionData);
-        }
-    }
-
-    public void onImpressionDataReady(string data)
-    {
-        if (OnImpressionDataReady != null)
-        {
-            IronSourceImpressionData impressionData = new IronSourceImpressionData(data);
-            OnImpressionDataReady(impressionData);
-        }
-    }
-
 }
 
 #endif

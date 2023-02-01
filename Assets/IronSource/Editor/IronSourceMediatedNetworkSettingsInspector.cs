@@ -8,6 +8,7 @@ namespace IS.IronSource.Editor
     public class IronSourceMediatedNetworkSettingsInspector : UnityEditor.Editor
     {
         private static IronSourceMediatedNetworkSettings ironSourceMediatedNetworkSettings;
+
         public static IronSourceMediatedNetworkSettings IronSourceMediatedNetworkSettings
         {
             get
@@ -23,7 +24,6 @@ namespace IS.IronSource.Editor
                         ironSourceMediatedNetworkSettings = asset;
                     }
                 }
-
                 return ironSourceMediatedNetworkSettings;
             }
         }

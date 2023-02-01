@@ -1,44 +1,46 @@
-﻿namespace IS.IronSource.Scripts
+﻿using UnityEngine;
+
+namespace IS.IronSource.Scripts
 {
     public class IronSourceInitilizer
     {
 #if UNITY_IOS || UNITY_ANDROID
-    [RuntimeInitializeOnLoadMethod]
-    static void Initilize()
-    {
-        var developerSettings = Resources.Load<IronSourceMediationSettings>(IronSourceConstants.IRONSOURCE_MEDIATION_SETTING_NAME);
-        if (developerSettings != null)
+        [RuntimeInitializeOnLoadMethod]
+        static void Initilize()
         {
+            var developerSettings = Resources.Load<IronSourceMediationSettings>(IronSourceConstants.IRONSOURCE_MEDIATION_SETTING_NAME);
+            if (developerSettings != null)
+            {
 #if UNITY_ANDROID
-            string appKey = developerSettings.AndroidAppKey;
+                string appKey = developerSettings.AndroidAppKey;
 #elif UNITY_IOS
         string appKey = developerSettings.IOSAppKey;
 #endif
-            if (developerSettings.EnableIronsourceSDKInitAPI == true)
-            {
-                if (appKey.Equals(string.Empty))
+                if (developerSettings.EnableIronsourceSDKInitAPI == true)
                 {
-                    Debug.LogWarning("IronSourceInitilizer Cannot init without AppKey");
+                    if (appKey.Equals(string.Empty))
+                    {
+                        Debug.LogWarning("IronSourceInitilizer Cannot init without AppKey");
+                    }
+                    else
+                    {
+                        IronSource.Agent.init(appKey);
+                        IronSource.UNITY_PLUGIN_VERSION = "7.2.1-ri";
+                    }
+
                 }
-                else
+
+                if (developerSettings.EnableAdapterDebug)
                 {
-                    IronS.Agent.init(appKey);
-                    IronS.UNITY_PLUGIN_VERSION = "7.2.1-ri";
+                    IronSource.Agent.setAdaptersDebug(true);
                 }
 
-            }
-
-            if (developerSettings.EnableAdapterDebug)
-            {
-                IronS.Agent.setAdaptersDebug(true);
-            }
-
-            if (developerSettings.EnableIntegrationHelper)
-            {
-                IronS.Agent.validateIntegration();
+                if (developerSettings.EnableIntegrationHelper)
+                {
+                    IronSource.Agent.validateIntegration();
+                }
             }
         }
-    }
 #endif
 
     }
