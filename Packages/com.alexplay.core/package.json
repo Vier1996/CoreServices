@@ -1,10 +1,10 @@
 {
   "name": "com.alexplay.core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "displayName": "ACS Core",
-  
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
-  }
+  },
+  "description": "\u0411\u0430\u0437\u043e\u0432\u044b\u0439 \u043f\u0430\u043a\u0435\u0442 \u043a\u043e\u0440\u0430."
 }
