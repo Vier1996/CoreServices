@@ -59,7 +59,11 @@ namespace ACS.GDPR
         
         private void Animate()
         {
-            // _viewCanvasGroup.DOFade(1f, 0.2f);
+            DOTween.To(() => _viewCanvasGroup.alpha, alpha =>
+            {
+                _viewCanvasGroup.alpha = alpha;
+            }, 1f, 0.25f);
+
             _viewCanvasGroup.transform.DOScale(1.1f, 0.1f).OnComplete(() => 
                 _viewCanvasGroup.transform.DOScale(1f, 0.1f));
         }

@@ -11,7 +11,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         [SerializeField] private RectTransform _dialogRect;
         [SerializeField] private AlexplayCoreKitConfig _config;
         private Core _core;
-        
+
         private void Awake()
         {
             if (Instance != null)

@@ -1,12 +1,29 @@
 using System;
 using System.Linq;
+using ACS.Core.Internal.AlexplayCoreBootstrap;
 using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ACS.Core.Utilities
 {
     internal static class EnsureServiceInspectorDefine 
     {
         private static readonly string[] DEFINES = new string[] { "COM_ALEXPLAY_NET_CORE" };
+
+        [InitializeOnLoadMethod]
+        private static void CloseCurrentCoreInstances()
+        {
+            CoreBootstrap[] cores = Object.FindObjectsOfType<CoreBootstrap>();
+
+            for (int i = 0; i < cores.Length; i++)
+            {
+                cores[i].hideFlags = HideFlags.NotEditable;
+
+                for (int j = 0; j < cores[i].transform.childCount; j++)
+                    cores[i].transform.GetChild(j).hideFlags = HideFlags.NotEditable;
+            }
+        }
 
         [InitializeOnLoadMethod]
         private static void EnsureScriptingDefineSymbol()

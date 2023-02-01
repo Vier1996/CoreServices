@@ -20,28 +20,29 @@ MonoBehaviour:
       CryptoPartC: 2
       CryptoPartD: 2
   _signalBusSettings:
-    _isEnabled: 0
+    _isEnabled: 1
   _dialogsSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     DialogSortingOrder: 0
+    DefaultResources: Dialogs/
   _objectPoolSettings:
-    _isEnabled: 0
-    AddressablePool: 0
-    StandardPool: 0
+    _isEnabled: 1
+    AddressablePool: 1
+    StandardPool: 1
   _advertisementSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     AndroidIdentifier: 
     IosIdentifier: 
     InterstitialsTimeout: 0
     FreeInterstitialsAtStart: 0
     RewardedTimeout: 0
   _gdprSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     _globalVersionIndex: 0
     _globalMajorIndex: 0
     _globalMinorIndex: 1
   _audioSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     Mixer: {fileID: 0}
     SourcesLimit2D: 0
     SourcesLimit3D: 0
@@ -49,11 +50,11 @@ MonoBehaviour:
     ScenesThemes: []
     MixerVolumeParameters: []
   _purchaseSettings:
-    _isEnabled: 0
+    _isEnabled: 1
   _analyticsSettings:
-    _isEnabled: 0
-    TrackInAmplitudeService: 0
+    _isEnabled: 1
+    TrackInAmplitudeService: 1
     AmplitudeAnalyticsConfig:
       ServerURL: 
       ApiKey: 
-    TrackInFirebaseService: 0
+    TrackInFirebaseService: 1

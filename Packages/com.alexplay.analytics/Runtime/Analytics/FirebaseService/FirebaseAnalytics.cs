@@ -11,17 +11,19 @@ namespace ACS.Analytics.Analytics.FirebaseService
         private const string _analytcsTrackedEventfKey = "AmplitudeAnalytics:TrackedEvent - ";
         
         private FirebaseApp firebase;
+        
+        private bool _initialized = false;
 
         public FirebaseAnalytics() => InitializeAnalytics();
 
-        public void InitializeAnalytics()
+        private void InitializeAnalytics()
         {
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
             {
                 var dependencyStatus = task.Result;
                 if (dependencyStatus == DependencyStatus.Available)
                 {
-                    
+                    _initialized = true;
                 }
                 else
                 {
@@ -30,10 +32,19 @@ namespace ACS.Analytics.Analytics.FirebaseService
             });
         }
 
-        public void TrackEvent(string eventType) => global::Firebase.Analytics.FirebaseAnalytics.LogEvent(eventType);
+        public void TrackEvent(string eventType)
+        {
+            if(!_initialized)
+                return;
+            
+            Firebase.Analytics.FirebaseAnalytics.LogEvent(eventType);
+        }
 
         public void TrackOnlyOnceEvent(string eventType)
         {
+            if(!_initialized)
+                return;
+            
             (bool, string) isTrackedTuple = IsTrackedEvent(eventType);
             
             if(isTrackedTuple.Item1)
@@ -47,6 +58,9 @@ namespace ACS.Analytics.Analytics.FirebaseService
 
         public void TrackEvent(string eventType, Dictionary<string, object> eventParams)
         {
+            if(!_initialized)
+                return;
+            
             if (eventParams == null)
             {
                 TrackEvent(eventType);
@@ -54,11 +68,14 @@ namespace ACS.Analytics.Analytics.FirebaseService
             }
 
             Parameter[] analyticsParams = BuildParams(eventParams);
-            global::Firebase.Analytics.FirebaseAnalytics.LogEvent(eventType, analyticsParams);
+            Firebase.Analytics.FirebaseAnalytics.LogEvent(eventType, analyticsParams);
         }
 
         public void TrackOnlyOnceEvent(string eventType, Dictionary<string, object> eventParams)
         {
+            if(!_initialized)
+                return;
+            
             (bool, string) isTrackedTuple = IsTrackedEvent(eventType);
             
             if(isTrackedTuple.Item1)
