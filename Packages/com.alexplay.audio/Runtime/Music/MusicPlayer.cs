@@ -19,6 +19,7 @@ namespace ACS.Audio.Music
       private AudioSource _currentlyPlayingSource;
       private Scene _currentScene;
       private CancellationTokenSource _playerCancellation;
+      private AudioData _forcedTrack;
 
 
       public MusicPlayer(AudioService audioService, AudioServiceConfig config)
@@ -31,14 +32,21 @@ namespace ACS.Audio.Music
          SceneManager.sceneLoaded += OnSceneLoaded;
       }
 
+      public void DisableForcedTrack() => 
+         ForcePlayTrack(null);
+      
+      public void ForcePlayTrack(AudioData track)
+      {
+         _forcedTrack = track;
+         ForceChangeTrack();
+      }
+      
       private async UniTaskVoid StartPlayLoop(CancellationToken cancellation)
       {
          while (cancellation.IsCancellationRequested == false)
          {
             if (TryGetNextTrack(out var data) == false)
             {
-               // _currentlyPlayingSource.DOKill();
-               // _currentlyPlayingSource.DOFade(0f, _config.MusicTransitionDuration);
                _currentlyPlayingSource.volume = 0;
                return;
             }
@@ -65,14 +73,10 @@ namespace ACS.Audio.Music
          _agent.StopAllCoroutines();
 
          _agent.StartCoroutine(FadeAudioSource(playingSource, 0, _config.MusicTransitionDuration, playingSource.Stop));
-         // playingSource.DOKill();
-         // playingSource.DOFade(0, _config.MusicTransitionDuration).OnComplete(playingSource.Stop);
          track.ConfigureSource(freeSource);
          
          freeSource.Play();
          _agent.StartCoroutine(FadeAudioSource(freeSource, 1, _config.MusicTransitionDuration));
-         // freeSource.DOKill();
-         // freeSource.DOFade(1, _config.MusicTransitionDuration);
          _currentlyPlayingSource = freeSource;
       }
 
@@ -94,6 +98,12 @@ namespace ACS.Audio.Music
       private bool TryGetNextTrack(out AudioData track)
       {
          track = null;
+         if (_forcedTrack != null)
+         {
+            track = _forcedTrack;
+            return true;
+         }
+         
          var themes = _config.ScenesThemes.FirstOrDefault(d => d.SceneName.Equals(_currentScene.name));
          if (themes.Themes == null || themes.Themes.Length == 0) return false;
          track = themes.Themes[Random.Range(0, themes.Themes.Length)];
@@ -103,6 +113,7 @@ namespace ACS.Audio.Music
       private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
       {
          _currentScene = arg0;
+         _forcedTrack = null;
          ForceChangeTrack();
       }
    }

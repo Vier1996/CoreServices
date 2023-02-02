@@ -12,6 +12,7 @@ namespace ACS.Audio
         public AudioPlayer Player => _player;
         public AudioPlayer3D Player3D => _player3d;
         public Transform Transform => _agent.transform;
+        public MusicPlayer MusicPlayer => _musicPlayer;
         
         private readonly AudioMixer _audioMixer;
         private readonly AudioServiceConfig _config;
