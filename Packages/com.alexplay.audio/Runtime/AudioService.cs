@@ -48,7 +48,7 @@ namespace ACS.Audio
         private void InstantiatePlayers()
         {
             _player = new AudioPlayer(this, _config.SourcesLimit2D);
-            _player3d = new AudioPlayer3D(this, _config.SourcesLimit3D);
+            _player3d = new AudioPlayer3D(this, _config);
             _musicPlayer = new MusicPlayer(this, _config);
         }
 

@@ -13,6 +13,7 @@ namespace ACS.Audio.StaticData
         public float MusicTransitionDuration;
         public SceneThemes[] ScenesThemes;
         public string[] MixerVolumeParameters;
+        public int PlaybackPrioritiesAmount;
 
         [Serializable]
         public struct SceneThemes
