@@ -221,6 +221,15 @@ namespace ACS.Core
             }
 #endif
             
+#if COM_ALEXPLAY_NET_AUDIO
+
+            if (coreConfig._audioSettings.IsEnabled)
+            {
+                _dataService.PrepareService();
+                _diContainer.Bind<AudioService>().FromInstance(_audioService);
+            }
+#endif
+            
 #if COM_ALEXPLAY_NET_SIGNAL_BUS
             if (coreConfig._signalBusSettings.IsEnabled)
             {
