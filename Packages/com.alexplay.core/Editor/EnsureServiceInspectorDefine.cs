@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ACS.Core.Utilities
+namespace ACS.CoreEditor.Editor
 {
     internal static class EnsureServiceInspectorDefine 
     {
