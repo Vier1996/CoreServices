@@ -21,7 +21,7 @@ namespace ACS.Analytics
         {
             foreach (IAnalyticsAgent agent in _agents)
             {
-                agent.TrackEvent(eventName);
+                agent.SendEvent(eventName);
             }
         }
 
@@ -29,7 +29,7 @@ namespace ACS.Analytics
         {
             foreach (IAnalyticsAgent agent in _agents)
             {
-                agent.TrackEvent(eventName, @params);
+                agent.SendEvent(eventName, @params);
             }
         }
 
@@ -37,7 +37,7 @@ namespace ACS.Analytics
         {
             foreach (IAnalyticsAgent agent in _agents)
             {
-                agent.TrackEventOnce(eventName);
+                agent.SendEventOnce(eventName);
             }
         }
 
@@ -45,9 +45,10 @@ namespace ACS.Analytics
         {
             foreach (IAnalyticsAgent agent in _agents)
             {
-                agent.TrackEventOnce(eventName, @params);
+                agent.SendEventOnce(eventName, @params);
             }
         }
+        
         private void InitializeAgents(AnalyticsServiceConfig config)
         {
             _agents = new List<IAnalyticsAgent>(config.Agents.Length);
@@ -62,11 +63,14 @@ namespace ACS.Analytics
         {
             Assembly assembly = Assembly.Load(info.AssemblyName);
             type = assembly.GetType(info.TypeName);
+            if (type == null) throw new ArgumentException(
+                    $"Type '{info.TypeName}' was not found in the assembly '{info.AssemblyName}'.");
+            
             if (type.IsClass && type.GetInterfaces().Contains(typeof(IAnalyticsAgent)))
                 return true;
 
             throw new ArgumentException(
-                $"Type '{info.TypeName}' from '{info.AssemblyName}' assembly  is not implement '{typeof(IAnalyticsAgent)} interface.'");
+                $"Type '{info.TypeName}' from '{info.AssemblyName}' assembly  is not implement '{typeof(IAnalyticsAgent)} interface.");
         }
     }
 }

@@ -54,4 +54,6 @@ MonoBehaviour:
     _isEnabled: 1
   _analyticsSettings:
     _isEnabled: 1
-    Agents: []
+    Agents:
+    - TypeName: ACS.Analytics.Agents.FirebaseAnalyticsAgent
+      AssemblyName: ACS.Analytics

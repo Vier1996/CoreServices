@@ -4,9 +4,9 @@ namespace ACS.Analytics
 {
     public interface IAnalyticsAgent
     {
-        public void TrackEvent(string eventName);
-        public void TrackEvent(string eventName, Dictionary<string, object> @params);
-        public void TrackEventOnce(string eventName);
-        public void TrackEventOnce(string eventName, Dictionary<string, object> @params);
+        public void SendEvent(string eventName);
+        public void SendEvent(string eventName, Dictionary<string, object> @params);
+        public void SendEventOnce(string eventName);
+        public void SendEventOnce(string eventName, Dictionary<string, object> @params);
     }
 }

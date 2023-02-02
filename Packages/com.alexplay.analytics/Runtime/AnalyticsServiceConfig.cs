@@ -8,7 +8,8 @@ namespace ACS.Analytics
     public class AnalyticsServiceConfig : ServiceConfigBase
     {
         [ShowIf("@IsEnabled == true")]
-        public AgentInfo[] Agents;
+        public AgentInfo[] Agents = 
+            {new AgentInfo{TypeName = "ACS.Analytics.Agents.FirebaseAnalyticsAgent", AssemblyName = "ACS.Analytics"}};
         
         [Serializable]
         public class AgentInfo
