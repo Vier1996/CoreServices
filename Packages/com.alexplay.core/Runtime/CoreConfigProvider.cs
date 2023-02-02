@@ -15,6 +15,7 @@ namespace ACS.Core
             return foundConfig;
         }
 
+#if UNITY_EDITOR
         private static CoreConfig CreateConfig()
         {
             var newConfig = ScriptableObject.CreateInstance<CoreConfig>();
@@ -34,5 +35,6 @@ namespace ACS.Core
             if (AssetDatabase.IsValidFolder(ACSConst.ConfigsPath) == false)
                 AssetDatabase.CreateFolder($"{ACSConst.AssetsFolderName}/{ACSConst.ResourcesFolderName}", ACSConst.ConfigsFolderName);
         }
+#endif
     }
 }
