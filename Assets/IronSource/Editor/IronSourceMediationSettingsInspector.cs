@@ -2,7 +2,7 @@
 using IS.IronSource.Scripts;
 using UnityEditor;
 
-namespace IS.IronSource.Editor
+namespace ISEditor.IronSource.Editor
 {
     [CustomEditor(typeof(IronSourceMediationSettings))]
     public class IronSourceMediationSettingsInspector : UnityEditor.Editor

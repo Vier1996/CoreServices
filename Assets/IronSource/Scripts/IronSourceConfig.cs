@@ -41,13 +41,13 @@ namespace IS.IronSource.Scripts
 	
 	public void setRewardedVideoCustomParams (Dictionary<string,string> rewardedVideoCustomParams)
 	{ 
-		string json = IronSourceJSON.Json.Serialize (rewardedVideoCustomParams);
+		string json = IS.IronSource.Scripts.Json.Serialize (rewardedVideoCustomParams);
 		_androidBridge.Call ("setRewardedVideoCustomParams", json);
 	}
 	
 	public void setOfferwallCustomParams (Dictionary<string,string> offerwallCustomParams)
 	{
-		string json = IronSourceJSON.Json.Serialize (offerwallCustomParams);
+		string json = IS.IronSource.Scripts.Json.Serialize (offerwallCustomParams);
 		_androidBridge.Call ("setOfferwallCustomParams", json);
 	}
 

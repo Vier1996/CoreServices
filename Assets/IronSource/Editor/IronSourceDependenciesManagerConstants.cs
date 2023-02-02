@@ -1,4 +1,4 @@
-﻿namespace IS.IronSource.Editor
+﻿namespace ISEditor.IronSource.Editor
 {
     public static class IronSourceDependenciesManagerConstants
     {

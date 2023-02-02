@@ -7,15 +7,15 @@ using System.Xml.Linq;
 using IS.IronSource.Scripts;
 using UnityEditor;
 using UnityEditor.Build;
+#if UNITY_2018_1_OR_NEWER
 using UnityEditor.Build.Reporting;
-using UnityEngine;
-#if UNITY_2018_1_OR_NEWER
 #endif
+using UnityEngine;
 
 
-#if UNITY_2018_1_OR_NEWER
-namespace IS.IronSource.Editor
+namespace ISEditor.IronSource.Editor
 {
+#if UNITY_2018_1_OR_NEWER
     public class IronSourceManifestProcessor : IPreprocessBuildWithReport
 #else
 public class IronSourceManifestProcessor : IPreprocessBuild
@@ -199,5 +199,5 @@ public class IronSourceManifestProcessor : IPreprocessBuild
         }
     }
 }
-
 #endif
+

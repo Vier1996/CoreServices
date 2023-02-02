@@ -13,6 +13,8 @@ IosBuild
 /Assets/Plugins/
 /Assets/IronSource/
 /Assets/TextMesh Pro/
+/Assets/Firebase
+/Assets/Editor Default Resources/Firebase
 /AndroidBuild/
 /[Bb]uilds/
 sysinfo.txt

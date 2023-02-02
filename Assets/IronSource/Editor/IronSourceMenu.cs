@@ -3,7 +3,7 @@ using IS.IronSource.Scripts;
 using UnityEditor;
 using UnityEngine;
 
-namespace IS.IronSource.Editor
+namespace ISEditor.IronSource.Editor
 {
     public class IronSourceMenu : UnityEditor.Editor
     {

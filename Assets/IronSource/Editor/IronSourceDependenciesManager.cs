@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace IS.IronSource.Editor
+namespace ISEditor.IronSource.Editor
 {
     public class IronSourceDependenciesManager : EditorWindow
     {
