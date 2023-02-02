@@ -49,12 +49,9 @@ MonoBehaviour:
     MusicTransitionDuration: 0
     ScenesThemes: []
     MixerVolumeParameters: []
+    PlaybackPrioritiesAmount: 0
   _purchaseSettings:
     _isEnabled: 1
   _analyticsSettings:
     _isEnabled: 1
-    TrackInAmplitudeService: 1
-    AmplitudeAnalyticsConfig:
-      ServerURL: 
-      ApiKey: 
-    TrackInFirebaseService: 1
+    Agents: []

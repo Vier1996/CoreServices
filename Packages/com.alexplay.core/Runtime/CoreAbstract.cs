@@ -1,12 +1,11 @@
-﻿
-#if COM_ALEXPLAY_NET_ADS
+﻿#if COM_ALEXPLAY_NET_ADS
 using ACS.Ads;
 #endif
 #if COM_ALEXPLAY_NET_GDPR
 using ACS.GDPR.Service;
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-using ACS.Analytics.Analytics.Service;
+using ACS.Analytics;
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
 using ACS.Dialog.Dialogs;

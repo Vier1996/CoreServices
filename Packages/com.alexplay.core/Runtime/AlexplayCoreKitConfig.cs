@@ -26,7 +26,7 @@ using ACS.Data.DataService.Config;
 using ACS.Audio.StaticData;
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-using ACS.Analytics.Analytics.Config;
+using ACS.Analytics;
 #endif
 
 namespace ACS.Core
@@ -60,7 +60,7 @@ namespace ACS.Core
         public PurchaseServiceConfig _purchaseSettings = new PurchaseServiceConfig();
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-        public AnalyticsServicesConfig _analyticsSettings = new AnalyticsServicesConfig();
+        public AnalyticsServiceConfig _analyticsSettings = new AnalyticsServiceConfig();
 #endif
 
         private void OnValidate()

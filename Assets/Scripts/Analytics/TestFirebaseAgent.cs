@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
-using ACS.Analytics.Analytics.Service;
+using ACS.Analytics;
 using Firebase;
 using Firebase.Analytics;
 using UnityEngine;
 
-namespace ACS.Analytics.Analytics.FirebaseService
+namespace Analytics
 {
-    public class FirebaseAnalytics : IAnalyticsService
+    public class TestFirebaseAgent : IAnalyticsAgent
     {
         private const string _analytcsTrackedEventfKey = "AmplitudeAnalytics:TrackedEvent - ";
-        
+         
         private FirebaseApp firebase;
-        
-        private bool _initialized = false;
+         
+        private bool _initialized;
 
-        public FirebaseAnalytics() => InitializeAnalytics();
+        public TestFirebaseAgent() => InitializeAnalytics();
 
         private void InitializeAnalytics()
         {
@@ -32,57 +32,57 @@ namespace ACS.Analytics.Analytics.FirebaseService
             });
         }
 
-        public void TrackEvent(string eventType)
+        public void TrackEvent(string eventName)
         {
             if(!_initialized)
                 return;
-            
-            Firebase.Analytics.FirebaseAnalytics.LogEvent(eventType);
+             
+            FirebaseAnalytics.LogEvent(eventName);
         }
 
-        public void TrackOnlyOnceEvent(string eventType)
+        public void TrackEventOnce(string eventName)
         {
             if(!_initialized)
                 return;
-            
-            (bool, string) isTrackedTuple = IsTrackedEvent(eventType);
-            
+             
+            (bool, string) isTrackedTuple = IsTrackedEvent(eventName);
+             
             if(isTrackedTuple.Item1)
                 return;
 
-            TrackEvent(eventType);
-            
+            TrackEvent(eventName);
+             
             PlayerPrefs.SetInt(isTrackedTuple.Item2, 1);
             PlayerPrefs.Save();
         }
 
-        public void TrackEvent(string eventType, Dictionary<string, object> eventParams)
+        public void TrackEvent(string eventName, Dictionary<string, object> eventParams)
         {
             if(!_initialized)
                 return;
-            
+             
             if (eventParams == null)
             {
-                TrackEvent(eventType);
+                TrackEvent(eventName);
                 return;
             }
 
             Parameter[] analyticsParams = BuildParams(eventParams);
-            Firebase.Analytics.FirebaseAnalytics.LogEvent(eventType, analyticsParams);
+            FirebaseAnalytics.LogEvent(eventName, analyticsParams);
         }
 
-        public void TrackOnlyOnceEvent(string eventType, Dictionary<string, object> eventParams)
+        public void TrackEventOnce(string eventName, Dictionary<string, object> eventParams)
         {
             if(!_initialized)
                 return;
-            
-            (bool, string) isTrackedTuple = IsTrackedEvent(eventType);
-            
+             
+            (bool, string) isTrackedTuple = IsTrackedEvent(eventName);
+             
             if(isTrackedTuple.Item1)
                 return;
-            
-            TrackEvent(eventType, eventParams);
-            
+             
+            TrackEvent(eventName, eventParams);
+             
             PlayerPrefs.SetInt(isTrackedTuple.Item2, 1);
             PlayerPrefs.Save();
         }

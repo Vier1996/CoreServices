@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using UnityEditor;
 
-namespace ACS.Analytics.Utilities
+namespace Editor
 {
     internal static class EnsureServiceInspectorDefine 
     {

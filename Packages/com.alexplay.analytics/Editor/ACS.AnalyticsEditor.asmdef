@@ -1,9 +1,12 @@
 {
-    "name": "ACS.Analytics",
-    "rootNamespace": "ACS.Analytics",
+    "name": "ACS.AnalyticsEditor",
+    "rootNamespace": "",
     "references": [
-        "ServicesConfigDefenition"],
-    "includePlatforms": [],
+        "GUID:3078264faea74a147819b7f64d7def1c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

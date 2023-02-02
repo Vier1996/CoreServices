@@ -5,7 +5,7 @@ using ACS.Ads.com.alexplay.advertisement.Runtime;
 #if COM_ALEXPLAY_NET_GDPR
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-using ACS.Analytics.Analytics.Service;
+using ACS.Analytics;
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
 using ACS.Dialog.Dialogs;
@@ -143,7 +143,7 @@ namespace ACS.Core
         }
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-        public IAnalyticsService AnalyticsService
+        public AnalyticsService AnalyticsService
         {
             get
             {
@@ -276,8 +276,7 @@ namespace ACS.Core
 #if COM_ALEXPLAY_NET_ANALYTICS
             if (coreConfig._analyticsSettings.IsEnabled)
             {
-                _analyticsService.PrepareService();
-                _diContainer.Bind<IAnalyticsService>().FromInstance(_analyticsService);
+                _diContainer.BindInstance(_analyticsService).AsSingle();
             }
 #endif
             OnServicesPrepared();
