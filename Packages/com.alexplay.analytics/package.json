@@ -1,5 +1,9 @@
 {
   "name": "com.alexplay.analytics",
   "version": "0.0.1",
-  "displayName": "ACS Analytics"
+  "displayName": "ACS Analytics",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  }
 }

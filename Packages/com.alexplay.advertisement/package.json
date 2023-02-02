@@ -1,5 +1,9 @@
 {
   "name": "com.alexplay.advertisement",
   "version": "0.0.2",
-  "displayName": "ACS Ads"
+  "displayName": "ACS Ads",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  }
 }

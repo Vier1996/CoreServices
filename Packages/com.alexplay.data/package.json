@@ -1,5 +1,9 @@
 {
   "name": "com.alexplay.data",
   "version": "0.0.1",
-  "displayName": "ACS Data"
+  "displayName": "ACS Data",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  }
 }

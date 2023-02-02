@@ -1,5 +1,9 @@
 {
   "name": "com.alexplay.iap",
   "version": "0.0.1",
-  "displayName": "ACS Purchase"
+  "displayName": "ACS Purchase",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  }
 }

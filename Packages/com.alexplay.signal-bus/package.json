@@ -1,5 +1,9 @@
 {
   "name": "com.alexplay.signal_bus",
   "version": "0.0.1",
-  "displayName": "ACS Signal Bus"
+  "displayName": "ACS Signal Bus",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  }
 }

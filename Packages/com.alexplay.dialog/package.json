@@ -1,5 +1,9 @@
 {
   "name": "com.alexplay.dialog",
   "version": "0.0.1",
-  "displayName": "ACS Dialog"
+  "displayName": "ACS Dialog",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  }
 }

@@ -1,5 +1,9 @@
 {
   "name": "com.alexplay.object-pool",
   "version": "0.0.1",
-  "displayName": "ACS Object Pool"
+  "displayName": "ACS Object Pool",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  }
 }

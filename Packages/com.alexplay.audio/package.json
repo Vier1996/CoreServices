@@ -2,5 +2,9 @@
   "name": "com.alexplay.audio",
   "version": "0.0.2",
   "displayName": "ACS Audio",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  },
   "description": ""
 }

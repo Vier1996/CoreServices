@@ -1,5 +1,9 @@
 {
   "name": "com.alexplay.gdpr",
   "version": "0.0.1",
-  "displayName": "ACS GDPR"
+  "displayName": "ACS GDPR",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  }
 }
