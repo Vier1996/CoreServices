@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Constants;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Audio;
 using Random = UnityEngine.Random;
@@ -17,7 +18,10 @@ namespace ACS.Audio.StaticData
         #region Properties
 
         public AudioClip AudioClip => GetClip();
+        public int VolumePriority => _volumePriority;
         public AudioMixerGroup Output => _output;
+        public bool LimitPlaybacksCount => _limitPlaybacksCount;
+        public int MaxParallelPlaybacksCount => _maxParallelPlaybacksCount;
         public bool Mute => _mute;
         public bool BypassEffects => _bypassEffects;
         public bool BypassListenerEffects => _bypassListenerEffects;
@@ -39,7 +43,10 @@ namespace ACS.Audio.StaticData
         
         #region Serialize fields
         [SerializeField] private ClipWrapper[] _audioClips;
+        [SerializeField] private int _volumePriority;
         [SerializeField] private AudioMixerGroup _output;
+        [SerializeField] private bool _limitPlaybacksCount;
+        [SerializeField, ShowIf("@_limitPlaybacksCount")] private int _maxParallelPlaybacksCount;
         [SerializeField] private bool _mute;
         [SerializeField] private bool _bypassEffects;
         [SerializeField] private bool _bypassListenerEffects;
@@ -80,7 +87,7 @@ namespace ACS.Audio.StaticData
             source.minDistance = MinDistance;
             source.maxDistance = MaxDistance;
         }
-    
+        
         private AudioClip GetClip()
         {
             float probabilitySum = _audioClips.Sum(c => c.Probability);
@@ -113,7 +120,9 @@ namespace ACS.Audio.StaticData
         [Serializable]
         private struct ClipWrapper
         {
+            [HorizontalGroup, LabelWidth(70)]
             public AudioClip AudioClip;
+            [HorizontalGroup(120), LabelWidth(70)]
             public float Probability;
         }
     }

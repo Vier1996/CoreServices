@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ACS.Audio.StaticData;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,22 +11,27 @@ namespace ACS.Audio.Player3D
         private readonly List<Player3DAgent> _agents;
         private readonly List<Player3DAgent> _freeAgents;
         private readonly Transform _parent;
+        private readonly VolumePrioritizer _prioritizer;
         public int AgentsAmount => _agents.Count;
         public int FreeAgentsAmount => _freeAgents.Count;
         
-        public AudioPlayer3D(AudioService audioService, int sourcesLimit)
+        public AudioPlayer3D(AudioService audioService, AudioServiceConfig config)
         {
-            _agents = new List<Player3DAgent>(sourcesLimit + 1);
+            _agents = new List<Player3DAgent>(config.SourcesLimit3D + 1);
             _freeAgents = new List<Player3DAgent>(_agents.Capacity);
             _parent = new GameObject("Audio Player 3D").transform;
             _parent.SetParent(audioService.Transform);
-            CreateAgents(sourcesLimit);
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            _prioritizer = new VolumePrioritizer(_agents, config);
+            CreateAgents(config.SourcesLimit3D);
+            SceneManager.sceneLoaded += OnSceneChanged;
         }
 
         public void Play(AudioData data, Transform client, AudioService.Priority priority = AudioService.Priority.Default)
         {
-            if (TryGetFreeAgent(priority, out var agent)) 
+            if (data.LimitPlaybacksCount 
+                && _agents.Count(a => a.AudioData == data && a.IsPlaying) >= data.MaxParallelPlaybacksCount)
+                return;
+            if (TryGetFreeAgent(priority, out var agent))
                 agent.Play(data, client);
         }
 
@@ -34,7 +40,7 @@ namespace ACS.Audio.Player3D
             if (audioData is null) return false;
             foreach (var agent in _agents)
             {
-                if (agent.CurrentAudioData == audioData && agent.IsPlaying) return true;
+                if (agent.AudioData == audioData && agent.IsPlaying) return true;
             }
             return false;
         }
@@ -46,12 +52,17 @@ namespace ACS.Audio.Player3D
             _freeAgents.Add(agent);
         }
 
-        public bool TryGetAgent(out IPlayer3DAgent agent, AudioService.Priority priority = AudioService.Priority.Default) => 
-            TryGetFreeAgent(priority, out agent);
-
-        private void OnSceneLoaded(Scene arg0, LoadSceneMode loadSceneMode)
+        public bool TryGetAgent(out IPlayer3DAgent agent, AudioService.Priority priority = AudioService.Priority.Default)
         {
-            foreach (Player3DAgent source in _agents) source.Return();
+            return TryGetFreeAgent(priority, out agent);
+        }
+
+        private void OnSceneChanged(Scene arg0, LoadSceneMode loadSceneMode)
+        {
+            foreach (Player3DAgent source in _agents)
+            {
+                source.Return();
+            }
         }
 
         private void CreateAgents(int sourcesLimit)
@@ -81,6 +92,8 @@ namespace ACS.Audio.Player3D
             agent.Initialize(this);
             _agents.Add(agent);
             _freeAgents.Add(agent);
+            if (_prioritizer != null)
+                _prioritizer.OnNewAgentInstantiated(agent);
         }
     }
 }

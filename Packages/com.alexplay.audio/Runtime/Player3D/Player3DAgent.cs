@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using ACS.Audio.StaticData;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace ACS.Audio.Player3D
@@ -8,6 +9,9 @@ namespace ACS.Audio.Player3D
     [RequireComponent(typeof(AudioSource))]
     public class Player3DAgent : MonoBehaviour, IPlayer3DAgent
     {
+        public event Action<Player3DAgent> PlaybackStarted;
+        public event Action<Player3DAgent> PlaybackStopped;
+        
         public float Pitch
         {
             get => _audioSource.pitch;
@@ -15,19 +19,26 @@ namespace ACS.Audio.Player3D
         }
         public float Volume
         {
-            get => _audioSource.volume;
-            set => _audioSource.volume = value;
+            get => _userVolumeMultiplier;
+            set
+            {
+                _userVolumeMultiplier = value;
+                RecalculateVolume();
+            }
         }
-        public AudioData CurrentAudioData => _data;
+
+        public AudioData AudioData => _data;
         public bool IsPlaying => _audioSource.isPlaying;
-        [SerializeField] private float _busyDuration;
-        [SerializeField] private Transform _currentClient;
+        [ShowInInspector] private float _busyDuration;
+        [ShowInInspector] private Transform _currentClient;
         private AudioSource _audioSource;
         private AudioPlayer3D _host;
         private Transform _transform;
         private Coroutine _synchronizeCoroutine;
-        private bool _isBusy;
         private AudioData _data;
+        private bool _isBusy;
+        private float _priorityVolumeMultiplier = 1;
+        private float _userVolumeMultiplier = 1;
 
         public void Initialize(AudioPlayer3D host) => 
             _host = host;
@@ -45,6 +56,7 @@ namespace ACS.Audio.Player3D
                 StopCoroutine(_synchronizeCoroutine);
             _synchronizeCoroutine = StartCoroutine(SyncPosition(returnAfterPlay, synchronizePosition, synchronizeRate));
             _audioSource.Play();
+            PlaybackStarted?.Invoke(this);
             SubscribeOnValidate();
         }
 
@@ -54,6 +66,7 @@ namespace ACS.Audio.Player3D
             if (_audioSource != null) _audioSource.Stop();
             StopAllCoroutines();
             _synchronizeCoroutine = null;
+            PlaybackStopped?.Invoke(this);
         }
 
         public void Return()
@@ -63,11 +76,31 @@ namespace ACS.Audio.Player3D
             _busyDuration = 0;
             _currentClient = null;
             _host.ReturnPlayer(this);
+            _userVolumeMultiplier = 1;
         }
 
-        public void Configure() => 
+        public void Configure()
+        {
             _data.ConfigureSource(_audioSource);
+            RecalculateVolume();
+        }
 
+        public override string ToString()
+        {
+            return base.ToString() + _data.VolumePriority;
+        }
+
+        public void SetVolumeMultiplier(float multiplier)
+        {
+            _priorityVolumeMultiplier = multiplier;
+            RecalculateVolume();
+        }
+
+        private void RecalculateVolume()
+        {
+            _audioSource.volume = _data.Volume * _priorityVolumeMultiplier * _userVolumeMultiplier;
+        }
+        
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
