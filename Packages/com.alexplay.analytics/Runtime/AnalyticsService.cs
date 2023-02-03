@@ -51,27 +51,17 @@ namespace ACS.Analytics
         
         private void InitializeAgents(AnalyticsServiceConfig config)
         {
-            _agents = new List<IAnalyticsAgent>(config.Agents.Length);
-            foreach (AnalyticsServiceConfig.AgentInfo agentInfo in config.Agents)
+            _agents = new List<IAnalyticsAgent>(config.ActiveAgents.Count);
+
+            foreach (AgentInfo agentInfo in config.ActiveAgents)
             {
-                if (TryGetType(agentInfo, out Type type))
-                    _agents.Add((IAnalyticsAgent) Activator.CreateInstance(type));
+                Type agentType = agentInfo.GetType();
+                IAnalyticsAgent analyticsAgent = (IAnalyticsAgent) Activator.CreateInstance(agentType);
+
+                analyticsAgent.CanTrack = agentInfo.CanTrackEvents;
+                
+                _agents.Add(analyticsAgent);
             }
-        }
-
-        private bool TryGetType(AnalyticsServiceConfig.AgentInfo info, out Type type)
-        {
-            Assembly assembly = Assembly.Load(info.AssemblyName);
-            type = assembly.GetType(info.TypeName);
-            
-            if (type == null) throw new ArgumentException(
-                    $"Type '{info.TypeName}' was not found in the assembly '{info.AssemblyName}'.");
-            
-            if (type.IsClass && type.GetInterfaces().Contains(typeof(IAnalyticsAgent)))
-                return true;
-
-            throw new ArgumentException(
-                $"Type '{info.TypeName}' from '{info.AssemblyName}' assembly  is not implement '{typeof(IAnalyticsAgent)} interface.");
         }
     }
 }

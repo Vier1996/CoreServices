@@ -53,9 +53,5 @@ MonoBehaviour:
   _purchaseSettings:
     _isEnabled: 1
   _analyticsSettings:
-    _isEnabled: 1
-    Agents:
-    - TypeName: ACS.Analytics.Agents.FirebaseAnalyticsAgent
-      AssemblyName: ACS.Analytics
-    - TypeName: AmplitudeAnalyticsAgent
-      AssemblyName: Assembly-CSharp
+    _isEnabled: 0
+    ActiveAgents: []

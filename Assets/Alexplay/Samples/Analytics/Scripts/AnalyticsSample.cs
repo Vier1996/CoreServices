@@ -25,12 +25,7 @@ namespace Alexplay.Samples.Analytics.Scripts
 
         private void Start()
         {
-            IAnalyticsAgent agent = new AmplitudeAnalyticsAgent();
-
-            var t = agent.GetType().Name;
-            
             _analyticsService = Core.Instance.AnalyticsService;
-            _analyticsService.RegisterAgent(agent);
             
             _trackSampleEvent.onClick.AddListener(() =>
             {

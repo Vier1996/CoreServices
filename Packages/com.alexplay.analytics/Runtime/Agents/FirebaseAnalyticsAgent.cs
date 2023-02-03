@@ -5,16 +5,20 @@ using UnityEngine;
 
 namespace ACS.Analytics.Agents
 {
+    [AnalyticsAgentAttribute]
     public class FirebaseAnalyticsAgent : IAnalyticsAgent
     {
+        public bool CanTrack { get; set; }
+        
         private const string _keyPrefix = "FirebaseAnalytics:TrackedEvent:";
         
-        private bool _isInitialized;
+        private bool _isInitialized = false;
 
         public FirebaseAnalyticsAgent() => InitializeAnalytics();
 
         private void InitializeAnalytics()
         {
+#if !UNITY_EDITOR     
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
             {
                 var dependencyStatus = task.Result;
@@ -27,6 +31,7 @@ namespace ACS.Analytics.Agents
                     Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
                 }
             });
+#endif
         }
 
         public void SendEvent(string eventName)

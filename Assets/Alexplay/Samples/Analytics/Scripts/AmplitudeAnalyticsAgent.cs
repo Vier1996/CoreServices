@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace Alexplay.Samples.Analytics.Scripts
 {
+    [AnalyticsAgentAttribute]
     public class AmplitudeAnalyticsAgent : IAnalyticsAgent
     {
+        public bool CanTrack { get; set; }
+        
         private const string _analytcsTrackedEventfKey = "AmplitudeAnalytics:TrackedEvent - ";
         
         private Amplitude _amplitude;
@@ -21,7 +24,7 @@ namespace Alexplay.Samples.Analytics.Scripts
             _amplitude.init("");
         }
 
-        
+
         public void SendEvent(string eventName) => _amplitude.logEvent(eventName);
 
         public void SendEvent(string eventName, Dictionary<string, object> eventParams)

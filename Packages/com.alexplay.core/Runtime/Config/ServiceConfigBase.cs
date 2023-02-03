@@ -7,6 +7,7 @@ namespace Config
     [Serializable]
     public abstract class ServiceConfigBase
     {
+        public event Action Enabled;
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -17,8 +18,12 @@ namespace Config
         [Button(ButtonSizes.Medium)]
         [ShowIf("@_isEnabled == false")]
         [GUIColor(0, 1, 0)]
-        public void Enable() => 
+        public void Enable()
+        {
             _isEnabled = true;
+            
+            Enabled?.Invoke();
+        }
 
         [ShowIf("@_isEnabled == true")]
         [Button(ButtonSizes.Medium)]
