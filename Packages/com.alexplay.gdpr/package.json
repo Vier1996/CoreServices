@@ -1,9 +1,16 @@
 {
   "name": "com.alexplay.gdpr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "ACS GDPR",
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample GDPR",
+      "description": "This is sample for using GDPR",
+      "path": "Samples~/Sample GDPR"
+    }
+  ]
 }

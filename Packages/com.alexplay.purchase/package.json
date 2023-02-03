@@ -1,9 +1,16 @@
 {
   "name": "com.alexplay.iap",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "displayName": "ACS Purchase",
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample Purchase",
+      "description": "This is sample for using purchasing",
+      "path": "Samples~/Sample Purchase"
+    }
+  ]
 }

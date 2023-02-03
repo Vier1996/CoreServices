@@ -1,10 +1,16 @@
 {
   "name": "com.alexplay.audio",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "displayName": "ACS Audio",
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
   },
-  "description": ""
+  "samples": [
+    {
+      "displayName": "Sample Audio",
+      "description": "This is sample for using audio",
+      "path": "Samples~/Sample Audio"
+    }
+  ]
 }

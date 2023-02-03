@@ -42,7 +42,7 @@ MonoBehaviour:
     _globalMajorIndex: 0
     _globalMinorIndex: 1
   _audioSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     Mixer: {fileID: 0}
     SourcesLimit2D: 0
     SourcesLimit3D: 0
@@ -57,3 +57,5 @@ MonoBehaviour:
     Agents:
     - TypeName: ACS.Analytics.Agents.FirebaseAnalyticsAgent
       AssemblyName: ACS.Analytics
+    - TypeName: AmplitudeAnalyticsAgent
+      AssemblyName: Assembly-CSharp

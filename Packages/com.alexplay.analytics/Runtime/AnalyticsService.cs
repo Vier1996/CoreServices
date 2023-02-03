@@ -63,6 +63,7 @@ namespace ACS.Analytics
         {
             Assembly assembly = Assembly.Load(info.AssemblyName);
             type = assembly.GetType(info.TypeName);
+            
             if (type == null) throw new ArgumentException(
                     $"Type '{info.TypeName}' was not found in the assembly '{info.AssemblyName}'.");
             

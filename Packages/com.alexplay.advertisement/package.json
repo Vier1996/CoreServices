@@ -1,9 +1,16 @@
 {
   "name": "com.alexplay.advertisement",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "displayName": "ACS Ads",
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample Advertisement",
+      "description": "This is sample for using advertisement",
+      "path": "Samples~/Sample Advertisement"
+    }
+  ]
 }

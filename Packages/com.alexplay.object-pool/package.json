@@ -1,9 +1,16 @@
 {
   "name": "com.alexplay.object-pool",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "ACS Object Pool",
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample Object Pool",
+      "description": "This is sample for using IObjectPool",
+      "path": "Samples~/Sample Object Pool"
+    }
+  ]
 }

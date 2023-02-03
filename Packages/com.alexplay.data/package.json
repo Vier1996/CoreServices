@@ -1,9 +1,16 @@
 {
   "name": "com.alexplay.data",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "ACS Data",
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample Data",
+      "description": "This is sample for using IDataService",
+      "path": "Samples~/Sample Data"
+    }
+  ]
 }

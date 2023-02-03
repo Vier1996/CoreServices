@@ -1,9 +1,16 @@
 {
   "name": "com.alexplay.dialog",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "ACS Dialog",
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample Dialog",
+      "description": "This is sample for using dialogs",
+      "path": "Samples~/Sample Dialog"
+    }
+  ]
 }

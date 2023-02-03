@@ -5,5 +5,12 @@
   "author": {
     "name": "Alexplay",
     "email": "https://alexplay.net"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample Signal Bus",
+      "description": "This is sample for using ISignalBus",
+      "path": "Samples~/Sample Signal Bus"
+    }
+  ]
 }
