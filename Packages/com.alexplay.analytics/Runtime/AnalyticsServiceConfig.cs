@@ -50,9 +50,10 @@ namespace ACS.Analytics
     {
         [ReadOnly] public string TypeName;
         [ReadOnly] public string AssemblyName;
+     
+        public bool CanTrackEvents = true;
 
         private Type _agentType;
-        public bool CanTrackEvents = true;
 
         public AgentInfo(Type type)
         {
