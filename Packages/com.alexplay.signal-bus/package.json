@@ -1,7 +1,7 @@
 {
   "name": "com.alexplay.signal_bus",
   "displayName": "ACS Signal Bus",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "unity": "2020.3",
   "description": "\u0422\u0443\u0442 \u0431\u0443\u0434\u0435\u0442 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 ISignalBus",
   "author": {
