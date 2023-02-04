@@ -10,34 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49669b8b7c1a9604584fafe2b9bc7572, type: 3}
-  m_Name: AlexplayCoreKitConfig
+  m_Name: ACS Config
   m_EditorClassIdentifier: 
   _dataSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     CryptoKey:
-      CryptoPartA: 7
-      CryptoPartB: 5
-      CryptoPartC: 2
-      CryptoPartD: 2
+      CryptoPartA: 0
+      CryptoPartB: 0
+      CryptoPartC: 0
+      CryptoPartD: 0
   _signalBusSettings:
-    _isEnabled: 1
+    _isEnabled: 0
   _dialogsSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     DialogSortingOrder: 0
     DefaultResources: Dialogs/
   _objectPoolSettings:
-    _isEnabled: 1
-    AddressablePool: 1
-    StandardPool: 1
+    _isEnabled: 0
+    AddressablePool: 0
+    StandardPool: 0
   _advertisementSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     AndroidIdentifier: 
     IosIdentifier: 
     InterstitialsTimeout: 0
     FreeInterstitialsAtStart: 0
     RewardedTimeout: 0
   _gdprSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     _globalVersionIndex: 0
     _globalMajorIndex: 0
     _globalMinorIndex: 1
@@ -51,7 +51,7 @@ MonoBehaviour:
     MixerVolumeParameters: []
     PlaybackPrioritiesAmount: 0
   _purchaseSettings:
-    _isEnabled: 1
+    _isEnabled: 0
   _analyticsSettings:
     _isEnabled: 0
     ActiveAgents: []

@@ -1,3 +1,4 @@
+using System;
 using ACS.Core;
 using ACS.Core.Internal.AlexplayCoreBootstrap;
 using Sirenix.OdinInspector.Editor;
@@ -8,6 +9,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace ACS.CoreEditor.Editor
 {
@@ -27,10 +29,13 @@ namespace ACS.CoreEditor.Editor
         [MenuItem(kMenuItemPath + "/Configuration")]
         private static void OpenWindow()
         {
-            var window = GetWindow<AlexplayEditor>();
+            if ((_coreConfig = EnsureServiceInspectorDefine.GetConfig()) == null)
+                throw new ArgumentException("Seems like you haven't any configuration file, " +
+                                            "please restart or recompile UnityEditor");
+            
+            AlexplayEditor window = GetWindow<AlexplayEditor>();
             window.titleContent = new GUIContent("Alexplay Core Configuration");
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 600);
-            _coreConfig = Resources.Load<AlexplayCoreKitConfig>("Config/AlexplayCoreKitConfig");
         }
         
         [MenuItem("GameObject/Alexplay/Core", false, 10)]
