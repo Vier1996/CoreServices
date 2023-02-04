@@ -17,8 +17,13 @@ namespace ACS.CoreEditor.Editor
         private static readonly string ResourcesFolder = "Assets/Resources";
         private static readonly string AbsoluteResourcesFolder = Application.dataPath + ResourcesFolder.Replace("Assets", "");
         private static readonly string SourcePath = ResourcesFolder + "/" + AssetSignature;
-
-        public static AlexplayCoreKitConfig GetConfig() => AssetDatabase.LoadAssetAtPath<AlexplayCoreKitConfig>(SourcePath);
+        
+        public static AlexplayCoreKitConfig GetConfig()
+        {
+#if UNITY_EDITOR
+            return AssetDatabase.LoadAssetAtPath<AlexplayCoreKitConfig>(SourcePath);
+#endif
+        }
 
         [InitializeOnLoadMethod]
         private static void CloseCurrentCoreInstances()
