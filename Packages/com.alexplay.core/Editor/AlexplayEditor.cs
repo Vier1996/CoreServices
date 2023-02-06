@@ -103,7 +103,6 @@ namespace ACS.CoreEditor.Editor
                 { "Analytics Service", _coreConfig._analyticsSettings, EditorIcons.Clouds},
 #endif
             };
-
             return tree;
         }
 
