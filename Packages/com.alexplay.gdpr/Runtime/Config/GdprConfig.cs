@@ -14,6 +14,7 @@ namespace ACS.GDPR.Config
         [ShowIf("@IsEnabled == true")]
         public int _globalMinorIndex = 1;
         
+        protected override string PackageName => "com.alexplay.gdpr";
         public string GetVersion() => $"GDPR:{_globalVersionIndex}.{_globalMajorIndex}.{_globalMinorIndex}";
     }
 }

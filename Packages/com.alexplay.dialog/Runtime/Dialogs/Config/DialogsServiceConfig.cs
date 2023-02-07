@@ -15,9 +15,13 @@ namespace ACS.Dialog.Dialogs.Config
 
         [ShowIf("@IsEnabled == true")] 
         public string DefaultResources = "Dialogs/";
+
+        protected override string PackageName => "com.alexplay.dialog";
+        
         public string GetLayerName() => LayerName;
 
         public void OnValidate() => TryCreateLayer();
+
 
         private void TryCreateLayer()
         {

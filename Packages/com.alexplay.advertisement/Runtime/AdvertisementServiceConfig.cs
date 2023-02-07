@@ -19,5 +19,7 @@ namespace ACS.Ads
         public float FreeInterstitialsAtStart;
         [ShowIf("@IsEnabled == true"), Tooltip("In seconds")] 
         public float RewardedTimeout;
+
+        protected override string PackageName => "com.alexplay.advertisement";
     }
 }

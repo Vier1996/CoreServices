@@ -11,5 +11,7 @@ namespace ACS.ObjectPool.ObjectPool.Config
         public bool AddressablePool = false;
         [ShowIf("@IsEnabled == true")]
         public bool StandardPool = false;
+
+        protected override string PackageName => "com.alexplay.object-pool";
     }
 }

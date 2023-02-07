@@ -23,6 +23,8 @@ namespace ACS.Audio.StaticData
         [ShowIf("@IsEnabled == true")]
         public int PlaybackPrioritiesAmount;
 
+        protected override string PackageName => "com.alexplay.audio";
+
         [Serializable]
         public struct SceneThemes
         {

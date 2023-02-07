@@ -10,6 +10,8 @@ namespace ACS.Data.DataService.Config
     {
         [ShowIf("@IsEnabled == true")]
         public CryptoKey CryptoKey = new CryptoKey();
+
+        protected override string PackageName => "com.alexplay.data";
     }
 
     [Serializable]

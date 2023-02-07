@@ -14,7 +14,9 @@ namespace ACS.Analytics
         
         [ShowIf("@IsEnabled == true")]
         public List<AgentInfo> ActiveAgents = new List<AgentInfo>();
-        
+
+        protected override string PackageName => "com.alexplay.analytics";
+
         [ShowIf("@_isEnabled == true")]
         [GUIColor(0.5f, 1, 1)]
         [PropertyOrder(-1)]
@@ -33,7 +35,7 @@ namespace ACS.Analytics
                     ActiveAgents.Add(new AgentInfo(agents[i]));
             }
         }
-        
+
         private void GetAgentsByAssembly(string assemblyName, ref List<Type> agents)
         {
             foreach(Type type in Assembly.Load(assemblyName).GetTypes())

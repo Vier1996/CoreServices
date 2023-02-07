@@ -8,6 +8,8 @@ namespace ACS.IAP.InAppPurchase.Config
     [Serializable]
     public class PurchaseServiceConfig : ServiceConfigBase
     {
+        protected override string PackageName => "com.alexplay.iap";
+
         public List<global::ACS.IAP.InAppPurchase.Purchase.InAppPurchase> GetActualPurchases()
         {
             List<global::ACS.IAP.InAppPurchase.Purchase.InAppPurchase> purchases = new List<global::ACS.IAP.InAppPurchase.Purchase.InAppPurchase>();

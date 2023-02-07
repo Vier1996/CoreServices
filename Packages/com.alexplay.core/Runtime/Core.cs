@@ -29,7 +29,6 @@ using ACS.Audio;
 using ACS.GDPR.Service;
 #endif
 using System;
-using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
@@ -167,7 +166,6 @@ namespace ACS.Core
                 IntentService = parentMonoBehavior.AddComponent<IntentService.IntentService>();
                 
                 Application.targetFrameRate = 60;
-                DOTween.SetTweensCapacity(500, 125);
                 
 #if COM_ALEXPLAY_NET_DATA
                 if(coreConfig._dataSettings.IsEnabled)
