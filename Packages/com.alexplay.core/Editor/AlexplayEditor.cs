@@ -111,7 +111,8 @@ namespace ACS.CoreEditor.Editor
 
         protected void OnValidate()
         {
-            EditorUtility.SetDirty(_coreConfig);
+            if(_coreConfig != null)
+                EditorUtility.SetDirty(_coreConfig);
         }
 
         protected override void OnDestroy()
