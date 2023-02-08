@@ -12,7 +12,7 @@
     {
       "displayName": "Sample Signal Bus",
       "description": "This is sample for using ISignalBus",
-      "path": "Samples/SignalBusSample"
+      "path": "Samples~/SignalBusSample"
     }
   ]
 }
