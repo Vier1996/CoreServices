@@ -31,7 +31,6 @@ using ACS.Analytics;
 
 namespace ACS.Core
 {
-    [CreateAssetMenu(fileName = "AlexplayCoreKitConfig", menuName = "Core/AlexplayCoreKitConfig")]
     [Serializable]
     public class AlexplayCoreKitConfig : ScriptableObject
     {

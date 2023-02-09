@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace ACS.GDPR.Config
 {
-    [CreateAssetMenu(fileName = "GdprTranslationConfig", menuName = "GDPR/Translation/Config")]
     [Serializable]
     public class GdprTranslationConfig : ScriptableObject
     {
