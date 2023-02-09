@@ -11,5 +11,6 @@ namespace ACS.IAP.InAppPurchase.Service
 
         public void SendPurchaseRequest(string purchaseID);
         public void SendRestorePurchasesRequest();
+        public string GetPurchasePrice(string id);
     }
 }

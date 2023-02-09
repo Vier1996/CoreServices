@@ -56,7 +56,22 @@ namespace ACS.IAP.InAppPurchase.Service
                     break;
             }
         }
-        
+
+        public string GetPurchasePrice(string sku)
+        {
+            string localizedPrice = "";
+            if (IAPPurchaseUtils.IsCurrentStoreSupportedByValidator())
+            {
+#if !UNITY_EDITOR
+                localizedPrice = _storeController.products.WithID(sku).metadata.localizedPrice.ToString();
+#endif
+            }
+            else
+                localizedPrice = _inAppPurchaseServiceStarter.GetProduct(sku).GetDefaultPrice() + "$";
+            
+            return localizedPrice;
+        }
+
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
             _storeController = controller;
