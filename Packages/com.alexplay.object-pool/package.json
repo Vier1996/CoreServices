@@ -10,7 +10,7 @@
     {
       "displayName": "Sample Object Pool",
       "description": "This is sample for using IObjectPool",
-      "path": "Samples~/Sample Object Pool"
+      "path": "Samples~/SampleObjectPool"
     }
   ]
 }
