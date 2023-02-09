@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8582244f4c19491cbf7922946cc4e6d0, type: 3}
+  m_Name: SampleRandomData
+  m_EditorClassIdentifier: 
+  _audioClips:
+  - AudioClip: {fileID: 8300000, guid: 90cb01feb30ecb04fa5187ed6ca15e76, type: 3}
+    Probability: 1
+  - AudioClip: {fileID: 8300000, guid: e178180336e1a2b4bb510fcbb2c18bfa, type: 3}
+    Probability: 0.5
+  - AudioClip: {fileID: 8300000, guid: 3fd2120853505cc40a6291b22e871e13, type: 3}
+    Probability: 2
+  _output: {fileID: 1467209383221323006, guid: 54baf2643f0d0b2488eed5a6718f3ad1, type: 2}
+  _mute: 0
+  _bypassEffects: 0
+  _bypassListenerEffects: 0
+  _bypassReverbZones: 0
+  _loop: 0
+  _priority: 128
+  _volume: 1
+  _pitchMin: 1
+  _pitchMax: 1
+  _stereoPan: 0
+  _spatialBlend: 0
+  _reverbZoneMix: 1
+  _dopplerLevel: 1
+  _spread: 0
+  _rolloffMode: 0
+  _minDistance: 1
+  _maxDistance: 500
