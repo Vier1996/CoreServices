@@ -2,12 +2,17 @@ using System;
 using Config;
 using Sirenix.OdinInspector;
 using UnityEditor;
+using UnityEngine;
 
 namespace ACS.Dialog.Dialogs.Config
 {
     [Serializable]
     public class DialogsServiceConfig : ServiceConfigBase
     {
+        [ReadOnly]
+        [HideInInspector] 
+        public string PackageURL = "https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.dialog";
+        
         private const string LayerName = "Dialog";
         
         [ShowIf("@IsEnabled == true")]
@@ -36,5 +41,7 @@ namespace ACS.Dialog.Dialogs.Config
             serializedObject.ApplyModifiedProperties();
             #endif
         }
+        
+        [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
     }
 }

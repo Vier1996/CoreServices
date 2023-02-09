@@ -1,5 +1,6 @@
 using System;
 using Sirenix.OdinInspector;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace Config
@@ -7,7 +8,6 @@ namespace Config
     [Serializable]
     public abstract class ServiceConfigBase
     {
-        public event Action Enabled;
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -18,17 +18,13 @@ namespace Config
         [Button(ButtonSizes.Medium)]
         [ShowIf("@_isEnabled == false")]
         [GUIColor(0, 1, 0)]
-        public void Enable()
-        {
-            _isEnabled = true;
-            
-            Enabled?.Invoke();
-        }
+        public void Enable() => _isEnabled = true;
 
         [ShowIf("@_isEnabled == true")]
         [Button(ButtonSizes.Medium)]
         [GUIColor(1, 0, 0)]
-        public void Disable() => 
-            _isEnabled = false;
+        public void Disable() => _isEnabled = false;
+        
+        protected void UpdatePackage(string packageURL) => Client.Add(packageURL);
     }
 }

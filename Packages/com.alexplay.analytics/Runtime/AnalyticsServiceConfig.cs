@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Reflection;
 using Config;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace ACS.Analytics
 {
     [Serializable]
     public class AnalyticsServiceConfig : ServiceConfigBase
     {
+        [ReadOnly]
+        [HideInInspector] 
+        public string PackageURL = "https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.analytics";
+        
         private const string _analyticsAssemblyName = "ACS.Analytics";
         private const string _sharpAssemblyName = "Assembly-CSharp";
         
@@ -43,6 +48,8 @@ namespace ACS.Analytics
                     agents.Add(type);
             }
         }
+        
+        [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
     }
     
     [Serializable]

@@ -8,6 +8,10 @@ namespace ACS.Ads
     [Serializable]
     public class AdvertisementServiceConfig : ServiceConfigBase
     {
+        [ReadOnly]
+        [HideInInspector] 
+        public string PackageURL = "https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.advertisement";
+
         [ShowIf("@IsEnabled == true")]
         public string AndroidIdentifier;
         [ShowIf("@IsEnabled == true")]
@@ -19,5 +23,7 @@ namespace ACS.Ads
         public float FreeInterstitialsAtStart;
         [ShowIf("@IsEnabled == true"), Tooltip("In seconds")] 
         public float RewardedTimeout;
+        
+        [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
     }
 }

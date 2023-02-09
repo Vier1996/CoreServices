@@ -9,6 +9,8 @@ namespace ACS.ObjectPool.ObjectPool.Addressable
     {
         public UniTask<GameObject> Get(AssetReference reference);
         public UniTask<T> Get<T>(ComponentReference<T> reference);
+        public UniTask<T> CreateInstance<T>(ComponentReference<T> reference);
+
         public void Return(string id, GameObject objectInstance);
         public void Return<T>(ComponentReference<T> reference, T obj) where T : Component;
         public void ReturnAll<T>(ComponentReference<T> reference);

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dataSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
     CryptoKey:
       CryptoPartA: 0
       CryptoPartB: 0
@@ -21,16 +22,20 @@ MonoBehaviour:
       CryptoPartD: 0
   _signalBusSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
   _dialogsSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
     DialogSortingOrder: 0
     DefaultResources: Dialogs/
   _objectPoolSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.object-pool
     AddressablePool: 0
     StandardPool: 0
   _advertisementSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
     AndroidIdentifier: 
     IosIdentifier: 
     InterstitialsTimeout: 0
@@ -38,11 +43,13 @@ MonoBehaviour:
     RewardedTimeout: 0
   _gdprSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.gdpr
     _globalVersionIndex: 0
     _globalMajorIndex: 0
     _globalMinorIndex: 1
   _audioSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.audio
     Mixer: {fileID: 0}
     SourcesLimit2D: 0
     SourcesLimit3D: 0
@@ -52,6 +59,8 @@ MonoBehaviour:
     PlaybackPrioritiesAmount: 0
   _purchaseSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
   _analyticsSettings:
     _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
     ActiveAgents: []

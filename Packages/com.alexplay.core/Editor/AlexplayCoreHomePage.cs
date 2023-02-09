@@ -1,4 +1,6 @@
+using Constants;
 using Sirenix.OdinInspector;
+using UnityEditor.PackageManager;
 
 namespace ACS.CoreEditor.Editor
 {
@@ -7,7 +9,9 @@ namespace ACS.CoreEditor.Editor
         [Title("Alexplay Core", "Made by 'Bochek potik' & team", TitleAlignment = TitleAlignments.Centered)]
         
         [Button(ButtonSizes.Large)]
-        public void OpenFcknAwesomeDocs() => 
-            AlexplayEditor.OpenDocumentation();
+        public void OpenFcknAwesomeDocs() => AlexplayEditor.OpenDocumentation();
+        
+        [Button] 
+        private void UpdatePackage() => Client.Add(ACSConst.CorePackageURL);
     }
 }

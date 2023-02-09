@@ -48,6 +48,9 @@ namespace ACS.ObjectPool.ObjectPool.Addressable
             GameObject gObject = await Get((AssetReference) reference);
             return gObject.GetComponent<T>();
         }
+        
+        public async UniTask<T> CreateInstance<T>(ComponentReference<T> reference) => 
+            (await CreateNewInstance(reference)).GetComponent<T>();
 
         public void Return(string id, GameObject objectInstance)
         {
@@ -125,6 +128,8 @@ namespace ACS.ObjectPool.ObjectPool.Addressable
             Pool[reference.AssetGUID].Add(element);
             return element;
         }
+
+        private async UniTask<GameObject> CreateNewInstance(AssetReference reference) => await _assets.Get(reference) as GameObject;
 
         public void Remove(AssetReference reference)
         {
