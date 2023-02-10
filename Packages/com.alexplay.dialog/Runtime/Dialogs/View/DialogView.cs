@@ -7,6 +7,7 @@ namespace ACS.Dialog.Dialogs.View
 {
     public class DialogView : Dialog, IReceiveArgs<DialogArgs>
     {
+        [SerializeField] private bool _ignoreAnimation = false;
         [SerializeField] private Button _closeButton;
         
         private void Awake()
@@ -36,11 +37,16 @@ namespace ACS.Dialog.Dialogs.View
             {
                 gameObject.SetActive(_visible = true);
                 
-                DOTween.To(() => _canvasGroup.alpha, alpha =>
+                if(_ignoreAnimation)
+                    _canvasGroup.alpha = 1f;
+                else
                 {
-                    _canvasGroup.alpha = alpha;
-                }, 1f, 0.3f);
-                
+                    DOTween.To(() => _canvasGroup.alpha, alpha =>
+                    {
+                        _canvasGroup.alpha = alpha;
+                    }, 1f, 0.3f);
+                }
+
                 NotifyListeners();
             }   
         }
