@@ -1,4 +1,6 @@
-﻿namespace Constants
+﻿using UnityEngine;
+
+namespace Constants
 {
     public static class ACSConst
     {
@@ -8,6 +10,11 @@
         public const string ConfigsFolderName = "Alexplay";
         public const string ConfigsPath = AssetsFolderName + "/" + ResourcesFolderName + "/" + ConfigsFolderName;
         public const string AssetMenuRootName = "ACS Configs";
+        
+        public static readonly string AssetSignature = "ACS Config.asset";
+        public static readonly string ResourcesFolder = "Assets/Resources";
+        public static readonly string AbsoluteResourcesFolder = Application.dataPath + ResourcesFolder.Replace("Assets", "");
+        public static readonly string SourcePath = ResourcesFolder + "/" + AssetSignature;
         
         public const string CorePackageAssetPath = "Packages/com.alexplay.core";
         public const string CorePackageURL = "https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.core";

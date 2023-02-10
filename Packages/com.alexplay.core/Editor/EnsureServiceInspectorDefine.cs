@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using ACS.Core;
 using ACS.Core.Internal.AlexplayCoreBootstrap;
+using Constants;
 using UnityEditor;
 using UnityEngine;
 using Zenject.ReflectionBaking.Mono.Cecil;
@@ -12,16 +13,11 @@ namespace ACS.CoreEditor.Editor
     internal static class EnsureServiceInspectorDefine
     {
         private static readonly string[] DEFINES = new string[] {"COM_ALEXPLAY_NET_CORE"};
-        
-        private static readonly string AssetSignature = "ACS Config.asset";
-        private static readonly string ResourcesFolder = "Assets/Resources";
-        private static readonly string AbsoluteResourcesFolder = Application.dataPath + ResourcesFolder.Replace("Assets", "");
-        private static readonly string SourcePath = ResourcesFolder + "/" + AssetSignature;
-        
+
         public static AlexplayCoreKitConfig GetConfig()
         {
 #if UNITY_EDITOR
-            return AssetDatabase.LoadAssetAtPath<AlexplayCoreKitConfig>(SourcePath);
+            return AssetDatabase.LoadAssetAtPath<AlexplayCoreKitConfig>(ACSConst.SourcePath);
 #endif
         }
 
@@ -84,10 +80,10 @@ namespace ACS.CoreEditor.Editor
             {
                 AlexplayCoreKitConfig asset = ScriptableObject.CreateInstance<AlexplayCoreKitConfig>();
 
-                if (!System.IO.Directory.Exists(AbsoluteResourcesFolder))
-                    System.IO.Directory.CreateDirectory(AbsoluteResourcesFolder);
+                if (!System.IO.Directory.Exists(ACSConst.AbsoluteResourcesFolder))
+                    System.IO.Directory.CreateDirectory(ACSConst.AbsoluteResourcesFolder);
                 
-                AssetDatabase.CreateAsset(asset, SourcePath);
+                AssetDatabase.CreateAsset(asset, ACSConst.SourcePath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }

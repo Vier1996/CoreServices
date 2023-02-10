@@ -1,3 +1,6 @@
+using System;
+using Constants;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +12,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         private static CoreBootstrap Instance;
 
         [SerializeField] private RectTransform _dialogRect;
-        [SerializeField] private AlexplayCoreKitConfig _config;
+        
         private Core _core;
 
         private void Awake()
@@ -32,7 +35,20 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         {
             ProjectContext.PreInstall -= OnProjectContextPreInstall;
 
-            _core = new Core(_config, _dialogRect, gameObject);
+            AlexplayCoreKitConfig config = null;
+            
+            if ((config = GetConfig()) == null)
+                throw new ArgumentException("Seems like you haven't any configuration file, " +
+                                            "please restart or recompile UnityEditor");
+            
+            _core = new Core(config, _dialogRect, gameObject);
+        }
+        
+        public static AlexplayCoreKitConfig GetConfig()
+        {
+#if UNITY_EDITOR
+            return AssetDatabase.LoadAssetAtPath<AlexplayCoreKitConfig>(ACSConst.SourcePath);
+#endif
         }
     }
 }
