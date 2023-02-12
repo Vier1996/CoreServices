@@ -9,14 +9,9 @@ namespace ACS.Data.DataService.Loader
 {
     public class DataLoader
     {
-        private readonly BinaryFormatter _binaryFormatter;
         private readonly DataTool _dataTool;
 
-        public DataLoader(DataTool tool)
-        {
-            _binaryFormatter = new BinaryFormatter();
-            _dataTool = tool;
-        }
+        public DataLoader(DataTool tool) => _dataTool = tool;
 
         public TModel LoadProgressJson<TModel>(Type modelType) where TModel : new()
         {
@@ -25,10 +20,7 @@ namespace ACS.Data.DataService.Loader
 
             if (File.Exists(path))
             {
-                FileStream stream = File.Open(path, FileMode.Open);
-                string cryptData = (string) _binaryFormatter.Deserialize(stream);
-                stream.Close();
-
+                string cryptData = File.ReadAllText(path);
                 string data = _dataTool.Security.Decrypt(cryptData);
 
                 try

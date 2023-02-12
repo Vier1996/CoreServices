@@ -13,15 +13,11 @@ MonoBehaviour:
   m_Name: ACS Config
   m_EditorClassIdentifier: 
   _dataSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
-    CryptoKey:
-      CryptoPartA: 0
-      CryptoPartB: 0
-      CryptoPartC: 0
-      CryptoPartD: 0
+    IgnoreCrypting: 0
   _signalBusSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
   _dialogsSettings:
     _isEnabled: 0

@@ -5,26 +5,26 @@ namespace ACS.Data.DataService.Security
 {
     public class DataSecurity
     {
-        private CryptoKey _key;
+        private int _cryptoSalt = 33;
+        private bool _ignoreCrypt;
         
-        public DataSecurity(CryptoKey key)
-        {
-            _key = key;
-        }
-        
+        public DataSecurity(bool ignoreCrypt = false) => _ignoreCrypt = ignoreCrypt;
+
         public string Encrypt(string data) => Encoding.UTF8.GetString(RosAlgorithm(Encoding.UTF8.GetBytes(data)));
 
         public string Decrypt(string data) => Encoding.UTF8.GetString(RosAlgorithm(Encoding.UTF8.GetBytes(data)));
 
         private byte[] RosAlgorithm(byte[] bytes)
         {
-            for (int i = 0; i < bytes.Length; i++) 
-                bytes[i] = (byte) (Crypt(bytes[i]));
+            if (!_ignoreCrypt)
+            {
+                for (int i = 0; i < bytes.Length; i++)
+                    bytes[i] = (byte) (Crypt(bytes[i]));
+            }
 
             return bytes;
         }
 
-        private int Crypt(int input) => 
-            input ^ _key.CryptoPartA ^ _key.CryptoPartB ^ _key.CryptoPartC ^ _key.CryptoPartD;
+        private int Crypt(int input) => input ^ _cryptoSalt;
     }
 }

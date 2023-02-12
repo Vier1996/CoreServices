@@ -27,7 +27,15 @@ namespace ACS.Data.DataService.Tool
             ModelDirectoriesPath = Application.persistentDataPath + _modelDirectoriesPath;
             _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(_sharpAssemblyName));
 
-            Security = new DataSecurity(dataServiceConfig.CryptoKey);
+            bool ignoreCrypt = false;
+
+#if UNITY_EDITOR
+            ignoreCrypt = dataServiceConfig.IgnoreCrypt;
+#else
+            ignoreCrypt = false;
+#endif
+            
+            Security = new DataSecurity(ignoreCrypt);
         }
         
         public List<Type> GetTypes<TAttribute, TType>() => GetTypesWithAttribute<TAttribute, TType>(_sharpAssembly);
