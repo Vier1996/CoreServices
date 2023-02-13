@@ -36,6 +36,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.alexplay.fbrc": {
+      "version": "file:com.alexplay.fbrc",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.alexplay.gdpr": {
       "version": "file:com.alexplay.gdpr",
       "depth": 0,
