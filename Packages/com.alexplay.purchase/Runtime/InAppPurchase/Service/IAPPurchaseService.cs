@@ -2,6 +2,7 @@
 using ACS.IAP.InAppPurchase.Config;
 using ACS.IAP.InAppPurchase.Purchases;
 using ACS.IAP.InAppPurchase.Starter;
+using ACS.IAP.InAppPurchase.Tangles;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Security;
@@ -14,12 +15,15 @@ namespace ACS.IAP.InAppPurchase.Service
         public event Action<string, PurchaseFailureReason> FailedPurchase;
         public event Action<bool> Restore;
 
-        private IStoreController _storeController;
-        private IExtensionProvider _extensionProvider;
-        private PurchaseServiceConfig _serviceConfig;
         private InAppPurchaseServiceStarter _inAppPurchaseServiceStarter;
+        private CrossPlatformValidator _validator;
+        private PurchaseServiceConfig _serviceConfig;
+        private IExtensionProvider _extensionProvider;
+        private IStoreController _storeController;
         
-        private readonly CrossPlatformValidator _validator;
+        private ACSGooglePlayTangle _googlePlayTangle;
+        private ACSAppleTangle _appleTangle;
+        
         private bool _restoring = false;
         
         public IAPPurchaseService(PurchaseServiceConfig serviceConfig)
@@ -27,6 +31,9 @@ namespace ACS.IAP.InAppPurchase.Service
             _validator = null;
             _serviceConfig = serviceConfig;
             _inAppPurchaseServiceStarter = null;
+
+            _googlePlayTangle = new ACSGooglePlayTangle(serviceConfig.GooglePlayPublicKey);
+            _appleTangle = new ACSAppleTangle();
         }
         
         public void PrepareService()
@@ -124,7 +131,7 @@ namespace ACS.IAP.InAppPurchase.Service
             if (IAPPurchaseUtils.IsCurrentStoreSupportedByValidator())
             {
 #if !UNITY_EDITOR
-                _validator = new CrossPlatformValidator(GooglePlayTangle.Data(), AppleTangle.Data(), Application.identifier);
+                _validator = new CrossPlatformValidator(_googlePlayTangle.Data(), _appleTangle.Data(), Application.identifier);
 #endif
             }
             else

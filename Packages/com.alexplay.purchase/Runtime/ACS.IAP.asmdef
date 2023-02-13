@@ -3,10 +3,11 @@
     "rootNamespace": "ACS.IAP",
     "references": [
         "ServicesConfigDefenition",
+        "UnityEditor.Purchasing",
         "UnityEngine.Purchasing",
+        "UnityEngine.Purchasing.Stores",
         "UnityEngine.Purchasing.Security",
         "UnityEngine.Purchasing.SecurityStub",
-        "UnityEngine.Purchasing.Stores",
         "UnityEngine.Purchasing.SecurityCore"
     ],
     "includePlatforms": [],

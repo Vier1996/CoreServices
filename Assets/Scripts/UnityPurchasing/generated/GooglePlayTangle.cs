@@ -1,11 +1,11 @@
-// WARNING: Do not modify! Generated file.
+using UnityEngine.Purchasing.Security;
 
-namespace UnityEngine.Purchasing.Security {
+namespace UnityPurchasing.generated {
     public class GooglePlayTangle
     {
         private static byte[] data = System.Convert.FromBase64String("");
         private static int[] order = new int[] { 0 };
-        private static int key = 12;
+        private static int key = 237;
 
         public static readonly bool IsPopulated = false;
 

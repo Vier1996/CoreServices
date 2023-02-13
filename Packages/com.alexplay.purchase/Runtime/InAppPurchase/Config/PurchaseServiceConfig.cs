@@ -10,6 +10,8 @@ namespace ACS.IAP.InAppPurchase.Config
     [Serializable]
     public class PurchaseServiceConfig : ServiceConfigBase
     {
+        public string GooglePlayPublicKey;
+        
         [ReadOnly]
         [HideInInspector] 
         public string PackageURL = "https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.purchase";
