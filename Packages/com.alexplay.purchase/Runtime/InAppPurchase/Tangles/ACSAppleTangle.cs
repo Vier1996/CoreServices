@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor.Purchasing;
+#endif
 using UnityEngine;
 using UnityEngine.Purchasing.Security;
 
