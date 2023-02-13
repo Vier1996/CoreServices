@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: ACS Config
   m_EditorClassIdentifier: 
   _dataSettings:
-    _isEnabled: 1
-    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
-    IgnoreCrypting: 0
+    _isEnabled: 0
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.data
+    IgnoreCrypt: 0
   _signalBusSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
   _dialogsSettings:
     _isEnabled: 0
-    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.dialog
     DialogSortingOrder: 0
     DefaultResources: Dialogs/
   _objectPoolSettings:
@@ -31,7 +31,7 @@ MonoBehaviour:
     StandardPool: 0
   _advertisementSettings:
     _isEnabled: 0
-    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.advertisement
     AndroidIdentifier: 
     IosIdentifier: 
     InterstitialsTimeout: 0
@@ -55,8 +55,9 @@ MonoBehaviour:
     PlaybackPrioritiesAmount: 0
   _purchaseSettings:
     _isEnabled: 0
-    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
+    GooglePlayPublicKey: 
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.purchase
   _analyticsSettings:
     _isEnabled: 0
-    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
+    PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.analytics
     ActiveAgents: []

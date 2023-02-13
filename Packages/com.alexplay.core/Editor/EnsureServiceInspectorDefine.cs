@@ -64,30 +64,45 @@ namespace ACS.CoreEditor.Editor
                 }
             }
 
-            if (changed)
-            {
+            if (changed) 
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(currentTarget, definesString);
-            }
         }
 
         [InitializeOnLoadMethod]
         private static void ValidateConfig()
         {
 #if UNITY_EDITOR
-            bool containsConfig = GetConfig() != null;
+            AlexplayCoreKitConfig config = GetConfig();
 
-            if (!containsConfig)
+            if (config == null)
             {
-                AlexplayCoreKitConfig asset = ScriptableObject.CreateInstance<AlexplayCoreKitConfig>();
+                config = ScriptableObject.CreateInstance<AlexplayCoreKitConfig>();
 
                 if (!System.IO.Directory.Exists(ACSConst.AbsoluteResourcesFolder))
                     System.IO.Directory.CreateDirectory(ACSConst.AbsoluteResourcesFolder);
                 
-                AssetDatabase.CreateAsset(asset, ACSConst.SourcePath);
+                AssetDatabase.CreateAsset(config, ACSConst.SourcePath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
+            
+            ResolveConfig(config);
 #endif
+        }
+
+        private static void ResolveConfig(AlexplayCoreKitConfig asset)
+        {
+            CoreBootstrap corePrefab = Object.FindObjectOfType<CoreBootstrap>();
+            
+            if (corePrefab != null && corePrefab.Configured == false)
+            {
+                corePrefab.hideFlags = HideFlags.None;
+                
+                corePrefab.ResolveConfig(asset);
+                PrefabUtility.ApplyPrefabInstance(corePrefab.gameObject, InteractionMode.AutomatedAction);
+                
+                corePrefab.hideFlags = HideFlags.NotEditable;
+            }
         }
     }
 }

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogRect: {fileID: 4109113493036477060}
-  _config: {fileID: 11400000, guid: 86bd3fc0850906345ab2ae79e309c7b7, type: 2}
+  _config: {fileID: 11400000, guid: 5582fa85514dcbf46ad9322c77419833, type: 2}
 --- !u!1 &5353347082980513851
 GameObject:
   m_ObjectHideFlags: 0
