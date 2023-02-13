@@ -20,6 +20,8 @@ namespace ACS.IAP.InAppPurchase.Config
         public List<global::ACS.IAP.InAppPurchase.Purchase.InAppPurchase> GetActualPurchases()
         {
             List<global::ACS.IAP.InAppPurchase.Purchase.InAppPurchase> purchases = new List<global::ACS.IAP.InAppPurchase.Purchase.InAppPurchase>();
+
+#if UNITY_EDITOR
             string[] guids = AssetDatabase.FindAssets("t:InAppPurchase");
 
             foreach (string guid in guids)
@@ -29,6 +31,7 @@ namespace ACS.IAP.InAppPurchase.Config
                 
                 purchases.Add(purchaseInstance);
             }
+#endif
 
             return purchases;
         }
