@@ -1,7 +1,4 @@
 using System;
-#if UNITY_EDITOR
-using UnityEditor.Purchasing;
-#endif
 using UnityEngine;
 using UnityEngine.Purchasing.Security;
 
@@ -9,6 +6,8 @@ namespace ACS.IAP.InAppPurchase.Tangles
 {
     public class ACSGooglePlayTangle
     {
+        private TangleObfuscator _tangleObfuscator;
+
         private byte[] data;
         private int[] order;
         private int key;
@@ -19,9 +18,12 @@ namespace ACS.IAP.InAppPurchase.Tangles
         {
             try
             {
+                _tangleObfuscator = new TangleObfuscator();
+                
                 byte[] bytes = Convert.FromBase64String(googlePlayPublicKey);
+                
                 order = new int[bytes.Length / 20 + 1];
-                data = TangleObfuscator.Obfuscate(bytes, order, out int rawKey);
+                data = _tangleObfuscator.Obfuscate(bytes, order, out int rawKey);
                 key = rawKey;
                 _prepared = data.Length != 0;
             }
