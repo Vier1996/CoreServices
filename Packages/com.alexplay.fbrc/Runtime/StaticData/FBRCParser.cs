@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ACS.FBRC.StaticData
 {
-    public class FBRCParser
+    internal class FBRCParser
     {
         public static List<FBRemoteConfigValue> Parse(string path)
         {
@@ -12,9 +12,6 @@ namespace ACS.FBRC.StaticData
                 throw new ArgumentException("Path is empty");
             string json = System.IO.File.ReadAllText(path);
             var parsedFile = JsonConvert.DeserializeObject<ConfigFile>(json);
-            
-            // if (parsedFile.version.versionNumber == "")
-            //     throw new ArgumentException("Parsing failed");
 
             List<FBRemoteConfigValue> parameters = new List<FBRemoteConfigValue>();
 

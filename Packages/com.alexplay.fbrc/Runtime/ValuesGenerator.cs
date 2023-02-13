@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ACS.FBRC
 {
-    public static class ValuesGenerator
+    internal static class ValuesGenerator
     {
         private static readonly StringBuilder s_resultSource = new StringBuilder();
         private static FBRCStaticData s_staticData;
