@@ -85,24 +85,7 @@ namespace ACS.CoreEditor.Editor
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
-            
-            ResolveConfig(config);
 #endif
-        }
-
-        private static void ResolveConfig(AlexplayCoreKitConfig asset)
-        {
-            CoreBootstrap corePrefab = Object.FindObjectOfType<CoreBootstrap>();
-            
-            if (corePrefab != null && corePrefab.Configured == false)
-            {
-                corePrefab.hideFlags = HideFlags.None;
-                
-                corePrefab.ResolveConfig(asset);
-                PrefabUtility.ApplyPrefabInstance(corePrefab.gameObject, InteractionMode.AutomatedAction);
-                
-                corePrefab.hideFlags = HideFlags.NotEditable;
-            }
         }
     }
 }
