@@ -1,6 +1,8 @@
 using System;
 using Sirenix.OdinInspector;
+#if UNITY_EDITOR
 using UnityEditor.PackageManager;
+#endif
 using UnityEngine;
 
 namespace Config
@@ -25,6 +27,11 @@ namespace Config
         [GUIColor(1, 0, 0)]
         public void Disable() => _isEnabled = false;
         
-        protected void UpdatePackage(string packageURL) => Client.Add(packageURL);
+        protected void UpdatePackage(string packageURL)
+        {
+#if UNITY_EDITOR
+            Client.Add(packageURL);
+#endif
+        }
     }
 }
