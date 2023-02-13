@@ -34,7 +34,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         {
             ProjectContext.PreInstall -= OnProjectContextPreInstall;
 
-            _config = Resources.Load<AlexplayCoreKitConfig>(ACSConst.AssetMenuRootName);
+            _config = Resources.Load<AlexplayCoreKitConfig>(ACSConst.ConfigName);
             _core = new Core(_config, _dialogRect, gameObject);
         }
     }

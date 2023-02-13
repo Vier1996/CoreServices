@@ -11,6 +11,7 @@ namespace Constants
         public const string ConfigsFolderName = "Alexplay";
         public const string ConfigsPath = AssetsFolderName + "/" + ResourcesFolderName + "/" + ConfigsFolderName;
         public const string AssetMenuRootName = "ACS Configs";
+        public const string ConfigName = "ACS Config";
         
         public static readonly string AssetSignature = "ACS Config.asset";
         public static readonly string ResourcesFolder = "Assets/Resources";
