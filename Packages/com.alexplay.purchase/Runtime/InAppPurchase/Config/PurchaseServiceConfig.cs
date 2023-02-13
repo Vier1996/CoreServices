@@ -10,6 +10,7 @@ namespace ACS.IAP.InAppPurchase.Config
     [Serializable]
     public class PurchaseServiceConfig : ServiceConfigBase
     {
+        [ShowIf("@IsEnabled == true")]
         public string GooglePlayPublicKey;
         
         [ReadOnly]
