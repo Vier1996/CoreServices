@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogRect: {fileID: 4109113493036477060}
-  _config: {fileID: 11400000, guid: 5582fa85514dcbf46ad9322c77419833, type: 2}
 --- !u!1 &5353347082980513851
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,6 +57,7 @@ GameObject:
   - component: {fileID: 8297243622029105602}
   - component: {fileID: 2082776378637871878}
   - component: {fileID: 1002999940588495575}
+  - component: {fileID: 6767160841007929203}
   m_Layer: 5
   m_Name: DialogConvas
   m_TagString: Untagged
@@ -145,3 +145,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!114 &6767160841007929203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353347082980513851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09fe3c54b15f898468e16df81e3aab7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
