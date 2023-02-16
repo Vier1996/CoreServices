@@ -6,7 +6,6 @@ using ACS.GDPR.Service;
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
 using ACS.Analytics;
-using ACS.FBRC;
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
 using ACS.Dialog.Dialogs;
@@ -25,6 +24,9 @@ using ACS.Data.DataService.Service;
 #endif
 #if COM_ALEXPLAY_NET_AUDIO
 using ACS.Audio;
+#endif
+#if COM_ALEXPLAY_NET_FBRC
+using ACS.FBRC;
 #endif
 
 namespace ACS.Core
