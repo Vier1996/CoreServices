@@ -6,6 +6,7 @@ using ACS.GDPR.Service;
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
 using ACS.Analytics;
+using ACS.FBRC;
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
 using ACS.Dialog.Dialogs;
@@ -56,6 +57,9 @@ namespace ACS.Core
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
         protected AnalyticsService _analyticsService = null;
+#endif
+#if COM_ALEXPLAY_NET_FBRC
+        protected FBRCService _fbrcService = null;
 #endif
     }
 }

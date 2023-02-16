@@ -51,6 +51,9 @@ namespace ACS.CoreEditor.Editor
 #if COM_ALEXPLAY_NET_ANALYTICS
             { "Analytics Service", ACSConst.AnalyticsPackageAssetPath },
 #endif
+#if COM_ALEXPLAY_NET_FBRC
+            {"FBRC", ACSConst.FBRCPackageAssetPath}
+#endif
         };
         
         #region Constants
@@ -137,6 +140,9 @@ namespace ACS.CoreEditor.Editor
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
                 { "Analytics Service", _coreConfig._analyticsSettings, EditorIcons.Clouds},
+#endif
+#if COM_ALEXPLAY_NET_FBRC
+                { "FBRC", _coreConfig._fbrcSettings, EditorIcons.SettingsCog},
 #endif
             };
             

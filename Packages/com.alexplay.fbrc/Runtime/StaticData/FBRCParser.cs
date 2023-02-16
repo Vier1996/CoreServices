@@ -4,14 +4,17 @@ using Newtonsoft.Json;
 
 namespace ACS.FBRC.StaticData
 {
-    internal class FBRCParser
+    public class FBRCParser
     {
-        public static List<FBRemoteConfigValue> Parse(string path)
+        internal static List<FBRemoteConfigValue> Parse(string path)
         {
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentException("Path is empty");
             string json = System.IO.File.ReadAllText(path);
             var parsedFile = JsonConvert.DeserializeObject<ConfigFile>(json);
+            
+            // if (parsedFile.version.versionNumber == "")
+            //     throw new ArgumentException("Parsing failed");
 
             List<FBRemoteConfigValue> parameters = new List<FBRemoteConfigValue>();
 

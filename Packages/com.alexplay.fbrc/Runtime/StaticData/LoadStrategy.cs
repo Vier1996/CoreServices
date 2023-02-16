@@ -2,7 +2,7 @@
 {
     public enum LoadStrategy
     {
-        ActivateThenLoadAsync = 0,
-        LoadThenActivateAsync = 1,
+        LoadThenActivate = 0,
+        ActivateThenLoad = 1,
     }
 }

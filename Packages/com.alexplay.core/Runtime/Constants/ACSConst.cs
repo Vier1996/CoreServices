@@ -30,5 +30,6 @@ namespace Constants
         public const string SignalBusPackageAssetPath = "Packages/com.alexplay.signal_bus";
         public const string PurchasePackageAssetPath = "Packages/com.alexplay.iap";
         public const string AnalyticsPackageAssetPath = "Packages/com.alexplay.analytics";
+        public const string FBRCPackageAssetPath = "Packages/com.alexplay.fbrc";
     }
 }

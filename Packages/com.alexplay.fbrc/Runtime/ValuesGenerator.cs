@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Linq;
 using System.Text;
 using ACS.FBRC.StaticData;
@@ -9,11 +10,11 @@ namespace ACS.FBRC
     internal static class ValuesGenerator
     {
         private static readonly StringBuilder s_resultSource = new StringBuilder();
-        private static FBRCStaticData s_staticData;
+        private static FBRCConfig s_config;
 
-        public static void Generate(FBRCStaticData data)
+        public static void Generate(FBRCConfig data)
         {
-            s_staticData = data;
+            s_config = data;
             s_resultSource.Clear();
             string path = $"{Application.dataPath}{data.GeneratedFilePath}/FBRCValues.cs";
             AppendHeader();
@@ -22,7 +23,7 @@ namespace ACS.FBRC
             System.IO.File.WriteAllText(path, s_resultSource.ToString());
         }
 
-        private static void InsertProperties(FBRCStaticData data)
+        private static void InsertProperties(FBRCConfig data)
         {
             foreach (FBRemoteConfigValue value in data.Values)
             {
@@ -72,7 +73,7 @@ namespace ACS.FBRC
 
         private static string GetName(string name)
         {
-            if (s_staticData.SnakeToPascal == false) return name;
+            if (s_config.SnakeToPascal == false) return name;
 
             var words = name.Split(new[] { "_",}, StringSplitOptions.RemoveEmptyEntries);
             words = words
@@ -91,3 +92,4 @@ namespace ACS.FBRC
             s_resultSource.Append("}");
     }
 }
+#endif

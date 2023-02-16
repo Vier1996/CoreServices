@@ -61,3 +61,11 @@ MonoBehaviour:
     _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.analytics
     ActiveAgents: []
+  _fbrcSettings:
+    _isEnabled: 1
+    SnakeToPascal: 0
+    LoadingStrategy: 0
+    CacheExpirationInSeconds: 0
+    IsLoggingEnabled: 0
+    Values: []
+    GeneratedFilePath: 

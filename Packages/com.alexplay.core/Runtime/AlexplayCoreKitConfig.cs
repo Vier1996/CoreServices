@@ -1,4 +1,5 @@
 using System;
+using ACS.FBRC.StaticData;
 using UnityEngine;
 
 #if COM_ALEXPLAY_NET_ADS
@@ -60,6 +61,9 @@ namespace ACS.Core
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
         public AnalyticsServiceConfig _analyticsSettings = new AnalyticsServiceConfig();
+#endif
+#if COM_ALEXPLAY_NET_FBRC
+        public FBRCConfig _fbrcSettings = new FBRCConfig();
 #endif
 
         private void OnValidate()

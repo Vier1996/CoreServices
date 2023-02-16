@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using ACS.FBRC.StaticData;
 using Cysharp.Threading.Tasks;
 using Firebase.RemoteConfig;
@@ -11,27 +10,36 @@ namespace ACS.FBRC
     public class FBRCService
     {
         private readonly FirebaseRemoteConfig _remoteConfig = FirebaseRemoteConfig.DefaultInstance;
-        private readonly FBRCStaticData _staticData;
+        private readonly FBRCConfig _config;
+        private bool _isDefaultsInitialized;
+        private bool _isFetchedDataActivated;
 
-        public FBRCService(FBRCStaticData staticData)
+
+        public FBRCService(FBRCConfig config)
         {
-            _staticData = staticData;
-            SetDefaults();
-            ExecuteLoadStrategy();
+            _config = config;
+            InitializeAsync().Forget();
         }
 
-        public Task EnsureInitializedAsync() => 
-            _remoteConfig.EnsureInitializedAsync();
+        public UniTask EnsureInitialized() => UniTask.WhenAll(EnsureFBRCInitializedAsync(), EnsureDefaultsInitialized());
+        
+        public UniTask EnsureFetchedDataActivated() => UniTask.WaitUntil(() => _isFetchedDataActivated);
 
-        private async void ExecuteLoadStrategy()
+        private UniTask EnsureDefaultsInitialized() => UniTask.WaitUntil(() => _isDefaultsInitialized);
+        
+        private async UniTask EnsureFBRCInitializedAsync() => 
+            await _remoteConfig.EnsureInitializedAsync();
+
+        private async UniTaskVoid InitializeAsync()
         {
-            switch (_staticData.LoadStrategy)
+            await SetDefaults();
+            switch (_config.LoadingStrategy)
             {
-                case LoadStrategy.ActivateThenLoadAsync:
-                    await ActivateAsync();
-                    await FetchAsync();
-                    break;
-                case LoadStrategy.LoadThenActivateAsync:
+                case LoadStrategy.ActivateThenLoad:
+                // await ActivateAsync();
+                // await FetchAsync();
+                // break;
+                case LoadStrategy.LoadThenActivate:
                     await FetchAsync();
                     await ActivateAsync();
                     break;
@@ -40,32 +48,43 @@ namespace ACS.FBRC
             }
         }
 
-        private async UniTask<bool> FetchAsync()
+        private async UniTask FetchAsync()
         {
-            var fetchAsync = _remoteConfig.FetchAsync(TimeSpan.Zero);
+            Log("Fetching started");
+            var fetchAsync = _remoteConfig.FetchAsync(TimeSpan.FromSeconds(_config.CacheExpirationInSeconds));
             await fetchAsync;
 
-            if (_remoteConfig.Info.LastFetchStatus == LastFetchStatus.Success) return true;
-            Debug.LogError($"Fetching data was unsuccessful\n{nameof(_remoteConfig.Info.LastFetchStatus)}: {_remoteConfig.Info.LastFetchStatus}");
-            return false;
+            if (_remoteConfig.Info.LastFetchStatus == LastFetchStatus.Success)
+            {
+                Log($"Fetching successfully completed. {_remoteConfig.Info.FetchTime}");
+                return;
+            }
+            LogError($"Fetching data was unsuccessful\n{nameof(_remoteConfig.Info.LastFetchStatus)}: {_remoteConfig.Info.LastFetchStatus}");
         }
 
         private async UniTask ActivateAsync()
         {
             var activateAsync = _remoteConfig.ActivateAsync();
             await activateAsync;
-            Debug.Log($"Remote data loaded and ready for use. Last fetch time {_remoteConfig.Info.FetchTime}.");
+            _isFetchedDataActivated = true;
+            Log(activateAsync.Result
+                ? $"Remote data loaded and ready for use. Last fetch time {_remoteConfig.Info.FetchTime}."
+                : $"Hashed data loaded and ready for use. Last fetch time {_remoteConfig.Info.FetchTime}.");
         }
 
-        private void SetDefaults()
+        private async UniTask SetDefaults()
         {
+            Log("Setup defaults started");
             var def = new Dictionary<string, object>();
 
-            foreach (FBRemoteConfigValue value in _staticData.Values) 
+            foreach (FBRemoteConfigValue value in _config.Values) 
                 def.Add(value.Name, GetValue(value));
 
-            _remoteConfig.SetDefaultsAsync(def);
+            await _remoteConfig.SetDefaultsAsync(def);
 
+            _isDefaultsInitialized = true;
+            Log("Setup defaults completed");
+            
             object GetValue(FBRemoteConfigValue value)
             {
                 switch (value.Type)
@@ -78,6 +97,16 @@ namespace ACS.FBRC
                     default: throw new ArgumentOutOfRangeException();
                 }
             }
+        }
+        
+        private void Log(string message)
+        {
+            if (_config.IsLoggingEnabled) Debug.Log($"[FBRC] {message}");
+        }
+        
+        private void LogError(string message)
+        {
+            if (_config.IsLoggingEnabled) Debug.LogError($"[FBRC] {message}");
         }
     }
 }
