@@ -1,6 +1,6 @@
 ﻿{
   "name": "com.alexplay.fbrc",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "displayName": "ACS Firebase Remote Config",
   "author": {
     "name": "Alexplay",

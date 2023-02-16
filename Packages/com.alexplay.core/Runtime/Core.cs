@@ -160,7 +160,7 @@ namespace ACS.Core
         {
             get
             {
-                if (_analyticsService == null)
+                if (_fbrcService == null)
                     throw new NullReferenceException($"Before using {typeof(FBRCService)} you must -turn (ON) it in config");
 
                 return _fbrcService;
@@ -220,7 +220,7 @@ namespace ACS.Core
                 if (coreConfig._analyticsSettings.IsEnabled)
                     _analyticsService = new AnalyticsService(coreConfig._analyticsSettings);
 #endif
-#if COM_ALEXPLAY_NET_ANALYTICS
+#if COM_ALEXPLAY_NET_FBRC
                 if (coreConfig._fbrcSettings.IsEnabled)
                     _fbrcService = new FBRCService(coreConfig._fbrcSettings);
 #endif
@@ -298,7 +298,7 @@ namespace ACS.Core
             }
 #endif
 #if COM_ALEXPLAY_NET_FBRC
-            if (coreConfig._analyticsSettings.IsEnabled)
+            if (coreConfig._fbrcSettings.IsEnabled)
             {
                 _diContainer.BindInstance(_fbrcService).AsSingle();
             }
