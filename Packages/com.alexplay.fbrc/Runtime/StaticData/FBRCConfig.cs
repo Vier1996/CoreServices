@@ -11,11 +11,9 @@ namespace ACS.FBRC.StaticData
     {
         private const string PackageURL = "https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.fbrc";
 
-        [Title("Firebase Remote Config", TitleAlignment = TitleAlignments.Centered)]
-        [Tooltip("Converts  generating property`s name from snake case to pascal"), ShowIf("@IsEnabled")]
-        public bool SnakeToPascal;
         [HideInInspector]
         public LoadStrategy LoadingStrategy;
+        [Title("Firebase Remote Config", TitleAlignment = TitleAlignments.Centered)]
         [ShowIf("@IsEnabled")]
         public float CacheExpirationInSeconds;
         [ShowIf("@IsEnabled")]
@@ -25,13 +23,18 @@ namespace ACS.FBRC.StaticData
         public List<FBRemoteConfigValue> Values;
 
         #if UNITY_EDITOR
-        [ShowIf("@IsEnabled")]
-        public string GeneratedFilePath = "";
+
 
         [ShowIf("@IsEnabled")]
         [FilePath(AbsolutePath = true), ShowInInspector, FoldoutGroup("Tools")] 
         private string _jsonPath;
 
+        [ShowIf("@IsEnabled"), FoldoutGroup("Tools")]
+        public string GeneratedFilePath = "";
+        
+        [Tooltip("Converts  generating property`s name from snake case to pascal"), ShowIf("@IsEnabled"), FoldoutGroup("Tools")]
+        public bool SnakeToPascal;
+        
         [ShowIf("@IsEnabled"), Button, FoldoutGroup("Tools")]
         private void ParseJson() => 
             Values = FBRCParser.Parse(_jsonPath);

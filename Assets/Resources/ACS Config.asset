@@ -63,19 +63,18 @@ MonoBehaviour:
     ActiveAgents: []
   _fbrcSettings:
     _isEnabled: 1
-    SnakeToPascal: 0
     LoadingStrategy: 0
     CacheExpirationInSeconds: 0
     IsLoggingEnabled: 0
     Values:
-    - Name: test_string_parameter
-      Type: 3
-      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440
-        \u0441\u0442\u0440\u043E\u043A\u043E\u0432\u043E\u0433\u043E \u0442\u0438\u043F\u0430"
+    - Name: test_boolean_parameter
+      Type: 0
+      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u0431\u0443\u043B\u0438\u043D\u043E\u0432\u044B\u0439
+        \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440"
       BoolValue: 0
       LongValue: 0
       DoubleValue: 0
-      StringValue: Hello world! Again 5
+      StringValue: 
       JsonValue: 
     - Name: test_json_parameter
       Type: 4
@@ -86,15 +85,6 @@ MonoBehaviour:
       DoubleValue: 0
       StringValue: 
       JsonValue: '{"someComplexObject":{"stringProp":"string","intProp":2,"boolProp":true}}'
-    - Name: test_boolean_parameter
-      Type: 0
-      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u0431\u0443\u043B\u0438\u043D\u043E\u0432\u044B\u0439
-        \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440"
-      BoolValue: 1
-      LongValue: 0
-      DoubleValue: 0
-      StringValue: 
-      JsonValue: 
     - Name: test_float_parameter
       Type: 2
       Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u0432\u0435\u0449\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439
@@ -103,6 +93,15 @@ MonoBehaviour:
       LongValue: 0
       DoubleValue: 9.75
       StringValue: 
+      JsonValue: 
+    - Name: test_string_parameter
+      Type: 3
+      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440
+        \u0441\u0442\u0440\u043E\u043A\u043E\u0432\u043E\u0433\u043E \u0442\u0438\u043F\u0430"
+      BoolValue: 0
+      LongValue: 0
+      DoubleValue: 0
+      StringValue: Hello world! Again 6
       JsonValue: 
     - Name: test_int_parameter
       Type: 1
@@ -114,3 +113,4 @@ MonoBehaviour:
       StringValue: 
       JsonValue: 
     GeneratedFilePath: 
+    SnakeToPascal: 1

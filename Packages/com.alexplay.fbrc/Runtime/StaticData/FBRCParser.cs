@@ -12,9 +12,6 @@ namespace ACS.FBRC.StaticData
                 throw new ArgumentException("Path is empty");
             string json = System.IO.File.ReadAllText(path);
             var parsedFile = JsonConvert.DeserializeObject<ConfigFile>(json);
-            
-            // if (parsedFile.version.versionNumber == "")
-            //     throw new ArgumentException("Parsing failed");
 
             List<FBRemoteConfigValue> parameters = new List<FBRemoteConfigValue>();
 
@@ -29,6 +26,9 @@ namespace ACS.FBRC.StaticData
         private static FBRemoteConfigValue GetConfigValue(KeyValuePair<string, ConfigItem> item)
         {
             FBRemoteConfigValue result = new FBRemoteConfigValue {Name = item.Key, Description = item.Value.description};
+            if (item.Value.defaultValue.TryGetValue("useInAppDefault", out string useInAppDefault) &&
+                useInAppDefault == "true")
+                return result;
             switch (item.Value.valueType)
             {
                 case "BOOLEAN":
