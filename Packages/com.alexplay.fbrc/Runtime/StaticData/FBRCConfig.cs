@@ -9,6 +9,8 @@ namespace ACS.FBRC.StaticData
     [Serializable]
     public class FBRCConfig : ServiceConfigBase
     {
+        private const string PackageURL = "https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.fbrc";
+
         [Title("Firebase Remote Config", TitleAlignment = TitleAlignments.Centered)]
         [Tooltip("Converts  generating property`s name from snake case to pascal"), ShowIf("@IsEnabled")]
         public bool SnakeToPascal;
@@ -37,6 +39,8 @@ namespace ACS.FBRC.StaticData
         [ShowIf("@IsEnabled"), Button, FoldoutGroup("Tools")]
         private void Regenerate() => 
             ValuesGenerator.Generate(this);
+        
+        [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
 #endif
     }
 }

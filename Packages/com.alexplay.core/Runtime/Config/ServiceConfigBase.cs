@@ -22,6 +22,7 @@ namespace Config
         [GUIColor(0, 1, 0)]
         public void Enable() => _isEnabled = true;
 
+        [PropertySpace(SpaceBefore = 20)]
         [ShowIf("@_isEnabled == true")]
         [Button(ButtonSizes.Medium)]
         [GUIColor(1, 0, 0)]
