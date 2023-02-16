@@ -12,7 +12,7 @@ namespace ACS.FBRC.StaticData
         [Title("Firebase Remote Config", TitleAlignment = TitleAlignments.Centered)]
         [Tooltip("Converts  generating property`s name from snake case to pascal"), ShowIf("@IsEnabled")]
         public bool SnakeToPascal;
-        [ShowIf("@IsEnabled")]
+        [HideInInspector]
         public LoadStrategy LoadingStrategy;
         [ShowIf("@IsEnabled")]
         public float CacheExpirationInSeconds;
