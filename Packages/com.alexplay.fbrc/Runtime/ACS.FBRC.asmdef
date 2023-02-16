@@ -1,0 +1,17 @@
+{
+    "name": "ACS.FBRC",
+    "rootNamespace": "ACS.FBRC",
+    "references": [
+        "UniTask",
+        "ServicesConfigDefenition"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

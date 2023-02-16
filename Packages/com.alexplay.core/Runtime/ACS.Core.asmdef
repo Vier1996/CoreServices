@@ -15,7 +15,8 @@
         "ACS.GDPR",
         "ACS.Advertisement",
         "ACS.Audio",
-        "ACS.Analytics"
+        "ACS.Analytics",
+        "ACS.FBRC"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

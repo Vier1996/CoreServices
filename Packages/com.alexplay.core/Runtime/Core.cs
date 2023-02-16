@@ -29,6 +29,7 @@ using ACS.Audio;
 using ACS.GDPR.Service;
 #endif
 using System;
+using ACS.FBRC;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -154,10 +155,23 @@ namespace ACS.Core
             }
         }
 #endif
+#if COM_ALEXPLAY_NET_FBRC
+        public FBRCService FbrcService
+        {
+            get
+            {
+                if (_analyticsService == null)
+                    throw new NullReferenceException($"Before using {typeof(FBRCService)} you must -turn (ON) it in config");
+
+                return _fbrcService;
+            }
+        }
+#endif
+
         private IntentService.IntentService IntentService { get; }
         private DiContainer _diContainer;
         private bool _initialized = false;
-        
+
         public Core(AlexplayCoreKitConfig coreConfig, RectTransform dialogRect, GameObject parentMonoBehavior)
         {
             if (Instance == null)
@@ -205,6 +219,10 @@ namespace ACS.Core
 #if COM_ALEXPLAY_NET_ANALYTICS
                 if (coreConfig._analyticsSettings.IsEnabled)
                     _analyticsService = new AnalyticsService(coreConfig._analyticsSettings);
+#endif
+#if COM_ALEXPLAY_NET_ANALYTICS
+                if (coreConfig._fbrcSettings.IsEnabled)
+                    _fbrcService = new FBRCService(coreConfig._fbrcSettings);
 #endif
                 PrepareServices(coreConfig);
             }
@@ -277,6 +295,12 @@ namespace ACS.Core
             if (coreConfig._analyticsSettings.IsEnabled)
             {
                 _diContainer.BindInstance(_analyticsService).AsSingle();
+            }
+#endif
+#if COM_ALEXPLAY_NET_FBRC
+            if (coreConfig._analyticsSettings.IsEnabled)
+            {
+                _diContainer.BindInstance(_fbrcService).AsSingle();
             }
 #endif
             OnServicesPrepared();
