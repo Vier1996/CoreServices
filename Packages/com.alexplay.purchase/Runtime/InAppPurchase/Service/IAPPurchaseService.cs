@@ -38,7 +38,7 @@ namespace ACS.IAP.InAppPurchase.Service
         
         public void PrepareService()
         {
-            _inAppPurchaseServiceStarter = new InAppPurchaseServiceStarter(this, _serviceConfig.GetActualPurchases());
+            _inAppPurchaseServiceStarter = new InAppPurchaseServiceStarter(this, _serviceConfig.ActualInAppPurchases);
             InitializeValidator();
         }
 

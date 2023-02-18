@@ -2,6 +2,7 @@
     "name": "ACS.IAP",
     "rootNamespace": "ACS.IAP",
     "references": [
+        "Core.Constants",
         "ServicesConfigDefenition",
         "UnityEditor.Purchasing",
         "UnityEngine.Purchasing",

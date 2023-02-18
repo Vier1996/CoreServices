@@ -61,17 +61,13 @@ namespace ACS.CoreEditor.Editor
         private const string DocumentationURL =
             "https://docs.google.com/document/d/1PORrcDtGcskwvLADl1r7Vcs8eJlcicsKJyL8jW8-c-k/edit?usp=sharing";
 
-        private const string kMenuItemPath = "Alexplay/Services";
+        private const string kMenuItemPath = "Tools/Alexplay/";
 
         #endregion
 
         [MenuItem(kMenuItemPath + "/Configuration")]
         private static void OpenWindow()
         {
-            if ((_coreConfig = EnsureServiceInspectorDefine.GetConfig()) == null)
-                throw new ArgumentException("Seems like you haven't any configuration file, " +
-                                            "please restart or recompile UnityEditor");
-            
             AlexplayEditor window = GetWindow<AlexplayEditor>();
             window.titleContent = new GUIContent("Alexplay Core Configuration");
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 600);
@@ -111,40 +107,47 @@ namespace ACS.CoreEditor.Editor
 
         protected override OdinMenuTree BuildMenuTree()
         {
-            _menuTree = new OdinMenuTree
-            {
-                { "Core", new AlexplayCoreHomePage(), EditorIcons.House},
+            if ((_coreConfig = EnsureServiceInspectorDefine.GetConfig()) == null)
+                throw new ArgumentException("Seems like you haven't any configuration file, " +
+                                            "please restart or recompile UnityEditor");
+            
+            OdinMenuTree menuTree = new OdinMenuTree();
+            
+            menuTree.Add("Core", new AlexplayCoreHomePage(), EditorIcons.House);
+
 #if COM_ALEXPLAY_NET_ADS
-                { "Ads Service", _coreConfig._advertisementSettings, EditorIcons.Money},
+            menuTree.Add("Ads Service", _coreConfig._advertisementSettings, EditorIcons.Money);
 #endif
 #if COM_ALEXPLAY_NET_AUDIO
-                { "Audio Service", _coreConfig._audioSettings, EditorIcons.Sound},
+            menuTree.Add("Audio Service", _coreConfig._audioSettings, EditorIcons.Sound);
 #endif
 #if COM_ALEXPLAY_NET_DATA
-                { "Data Service", _coreConfig._dataSettings, EditorIcons.GridBlocks},
+            menuTree.Add("Data Service", _coreConfig._dataSettings, EditorIcons.GridBlocks);
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
-                { "Dialog Service", _coreConfig._dialogsSettings, EditorIcons.Podium},
+            menuTree.Add("Dialog Service", _coreConfig._dialogsSettings, EditorIcons.Podium);
 #endif
 #if COM_ALEXPLAY_NET_GDPR
-                { "Gdpr Service", _coreConfig._gdprSettings, EditorIcons.GridImageTextList},
+            menuTree.Add("Gdpr Service", _coreConfig._gdprSettings, EditorIcons.GridImageTextList);
 #endif
 #if COM_ALEXPLAY_NET_OBJECT_POOL
-                { "Object Pool Service", _coreConfig._objectPoolSettings, EditorIcons.Eject},
+            menuTree.Add("Object Pool Service", _coreConfig._objectPoolSettings, EditorIcons.Eject);
 #endif
 #if COM_ALEXPLAY_NET_SIGNAL_BUS
-                { "Signal Bus Service", _coreConfig._signalBusSettings, EditorIcons.WifiSignal},
+            menuTree.Add("Signal Bus Service", _coreConfig._signalBusSettings, EditorIcons.WifiSignal);
 #endif
 #if COM_ALEXPLAY_NET_PURCHASE
-                { "Purchase Service", _coreConfig._purchaseSettings, EditorIcons.GKey},
+            menuTree.Add("Purchase Service", _coreConfig._purchaseSettings, EditorIcons.GKey);
+            _coreConfig._purchaseSettings.Validate();
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-                { "Analytics Service", _coreConfig._analyticsSettings, EditorIcons.Clouds},
+            menuTree.Add("Analytics Service", _coreConfig._analyticsSettings, EditorIcons.Clouds);
 #endif
 #if COM_ALEXPLAY_NET_FBRC
-                { "FBRC", _coreConfig._fbrcSettings, EditorIcons.SettingsCog},
+            menuTree.Add("FBRC", _coreConfig._fbrcSettings, EditorIcons.SettingsCog);
 #endif
-            };
+            
+            _menuTree = menuTree;
             
             Events.registeredPackages += EventsOnRegisteredPackages;
 
@@ -176,13 +179,21 @@ namespace ACS.CoreEditor.Editor
         {
             if(_coreConfig != null)
                 EditorUtility.SetDirty(_coreConfig);
+            
+#if COM_ALEXPLAY_NET_PURCHASE
+            if(_coreConfig != null && _coreConfig._purchaseSettings != null)
+                _coreConfig._purchaseSettings.Validate();
+#endif
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
             Events.registeredPackages -= EventsOnRegisteredPackages;
-            EditorUtility.SetDirty(_coreConfig);
+            
+            if(_coreConfig != null)
+                EditorUtility.SetDirty(_coreConfig);
+            
             AssetDatabase.SaveAssets();
         }
 

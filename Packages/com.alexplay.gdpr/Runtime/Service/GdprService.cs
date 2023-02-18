@@ -33,6 +33,7 @@ namespace ACS.GDPR.Service
             _rememberChoose = remember;
             
             RectTransform rect = _dialogsParent.GetComponent<RectTransform>();
+            
             if (rect == null)
                 throw new Exception("GDPR parent can contains a RectTransform component, check it.");
             

@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using ACS.Core;
 using ACS.Data.DataService.Model;
+using ACS.Data.DataService.Service;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Tests.Data
@@ -13,7 +15,10 @@ namespace Tests.Data
     {
         private TestModel model;
         
-        private void Awake() => model = Core.Instance.DataService.Models.Resolve<TestModel>();
+        [Inject] private void InjectDependencies(IDataService dataService)
+        {
+            model = dataService.Models.Resolve<TestModel>();
+        }
 
         [Button] private void AddRandomData()
         {

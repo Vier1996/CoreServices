@@ -38,7 +38,8 @@ namespace ACS.Core
 {
     public class Core : CoreAbstract, IDisposable
     {
-        public event Action OnInitialized;
+        public static event Action PreInitialized;
+        public static event Action PostInitialized;
         
         public static Core Instance;
         
@@ -172,7 +173,7 @@ namespace ACS.Core
         private DiContainer _diContainer;
         private bool _initialized = false;
 
-        public Core(AlexplayCoreKitConfig coreConfig, RectTransform dialogRect, GameObject parentMonoBehavior)
+        public Core(AlexplayCoreKitConfig coreConfig, GameObject parentMonoBehavior, RectTransform rectForDialogs)
         {
             if (Instance == null)
             {
@@ -194,7 +195,7 @@ namespace ACS.Core
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
                 if(coreConfig._dialogsSettings.IsEnabled)
-                    _dialogService = new DialogService(_diContainer, coreConfig._dialogsSettings, dialogRect);
+                    _dialogService = new DialogService(_diContainer, coreConfig._dialogsSettings, rectForDialogs);
 #endif
 #if COM_ALEXPLAY_NET_OBJECT_POOL
                 if (coreConfig._objectPoolSettings.IsEnabled)
@@ -206,7 +207,7 @@ namespace ACS.Core
 #endif
 #if COM_ALEXPLAY_NET_GDPR
                 if (coreConfig._gdprSettings.IsEnabled)
-                    _gdprService = new GdprService(coreConfig._gdprSettings, dialogRect);
+                    _gdprService = new GdprService(coreConfig._gdprSettings, rectForDialogs);
 #endif
 #if COM_ALEXPLAY_NET_AUDIO
                 if (coreConfig._audioSettings.IsEnabled)
@@ -224,6 +225,9 @@ namespace ACS.Core
                 if (coreConfig._fbrcSettings.IsEnabled)
                     _fbrcService = new FBRCService(coreConfig._fbrcSettings);
 #endif
+                
+                PreInitialized?.Invoke();
+
                 PrepareServices(coreConfig);
             }
             else Dispose();
@@ -309,7 +313,8 @@ namespace ACS.Core
         private void OnServicesPrepared()
         {
             _initialized = true;
-            OnInitialized?.Invoke();
+            
+            PostInitialized?.Invoke();
         }
 
         public void Dispose()

@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace ACS.Audio.StaticData
 {
-    [CreateAssetMenu(menuName = ACSConst.AssetMenuRootName + "/Audio Service/AudioData")]
+    [CreateAssetMenu(menuName = ACSConst.ConfigsFolderName + "/Audio Service/AudioData")]
     public class AudioData : ScriptableObject
     {
         #if UNITY_EDITOR

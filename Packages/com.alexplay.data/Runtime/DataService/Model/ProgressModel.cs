@@ -18,11 +18,16 @@ namespace ACS.Data.DataService.Model
 
         protected void DemandSave()
         {
-            if (SaveAllowed())
-            {
-                _lastSaveTicks = DateTime.UtcNow.Ticks;
-                _saver.SaveProgressData();
-            }
+            if (SaveAllowed()) 
+                SaveData();
+        }
+
+        protected void DemandSaveImmediate() => SaveData();
+
+        private void SaveData()
+        {
+            _lastSaveTicks = DateTime.UtcNow.Ticks;
+            _saver.SaveProgressData();
         }
 
         private bool SaveAllowed() => DateTime.UtcNow.Ticks - _lastSaveTicks >= _savingDelay;

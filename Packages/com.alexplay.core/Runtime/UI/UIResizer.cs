@@ -9,10 +9,8 @@ namespace ACS.Core.UI
         private const float BaseCanvasHeight = 1280f;
         private const float BaseCanvasWidth = 720f;
         private const float BaseScreenRatio = 16 / 9f;
-
-        private void Awake() => SetupCanvas();
-
-        private void SetupCanvas()
+        
+        public void SetupCanvas()
         {
             GetComponent<CanvasScaler>().referenceResolution = new Vector2(
                 BaseCanvasWidth,

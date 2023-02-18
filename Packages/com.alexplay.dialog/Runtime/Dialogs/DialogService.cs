@@ -29,11 +29,11 @@ namespace ACS.Dialog.Dialogs
         private readonly DialogsServiceConfig _dialogsServiceConfig;
         private readonly RectTransform _dialogsParent;
         
-        public DialogService(DiContainer diContainer, DialogsServiceConfig dialogsServiceConfig, RectTransform dialogsParent)
+        public DialogService(DiContainer diContainer, DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
         {
             _diContainer = diContainer;
             _dialogsServiceConfig = dialogsServiceConfig;
-            _dialogsParent = dialogsParent;
+            _dialogsParent = rectForDialogs;
             _activeDialogs.CollectionChanged += OnDialogsCountChanged;
         }
         

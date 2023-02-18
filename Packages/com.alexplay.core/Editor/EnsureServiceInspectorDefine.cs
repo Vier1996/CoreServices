@@ -1,18 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ACS.Core;
 using ACS.Core.Internal.AlexplayCoreBootstrap;
 using Constants;
 using UnityEditor;
 using UnityEngine;
-using Zenject.ReflectionBaking.Mono.Cecil;
 using Object = UnityEngine.Object;
 
 namespace ACS.CoreEditor.Editor
 {
     internal static class EnsureServiceInspectorDefine
     {
-        private static readonly string[] DEFINES = new string[] {"COM_ALEXPLAY_NET_CORE"};
+        private static readonly string[] DEFINES = new string[] { "COM_ALEXPLAY_NET_CORE" };
 
         public static AlexplayCoreKitConfig GetConfig()
         {
@@ -86,6 +86,74 @@ namespace ACS.CoreEditor.Editor
                 AssetDatabase.Refresh();
             }
 #endif
+        }
+        
+        [InitializeOnLoadMethod]
+        private static void CheckServicesOnEnsuring()
+        {
+            List<string> servicesDefines = new List<string>();
+
+#if !COM_ALEXPLAY_NET_DATA
+            servicesDefines.Add("COM_ALEXPLAY_NET_DATA");
+#endif
+#if !COM_ALEXPLAY_NET_SIGNAL_BUS
+            servicesDefines.Add("COM_ALEXPLAY_NET_SIGNAL_BUS");
+#endif
+#if !COM_ALEXPLAY_NET_DIALOG
+            servicesDefines.Add("COM_ALEXPLAY_NET_DIALOG");
+#endif
+#if !COM_ALEXPLAY_NET_OBJECT_POOL
+            servicesDefines.Add("COM_ALEXPLAY_NET_OBJECT_POOL");
+#endif
+#if !COM_ALEXPLAY_NET_ADS
+            servicesDefines.Add("COM_ALEXPLAY_NET_ADS");
+#endif
+#if !COM_ALEXPLAY_NET_GDPR
+            servicesDefines.Add("COM_ALEXPLAY_NET_GDPR");
+#endif
+#if !COM_ALEXPLAY_NET_AUDIO
+            servicesDefines.Add("COM_ALEXPLAY_NET_AUDIO");
+#endif
+#if !COM_ALEXPLAY_NET_PURCHASE
+            servicesDefines.Add("COM_ALEXPLAY_NET_PURCHASE");
+#endif
+#if !COM_ALEXPLAY_NET_ANALYTICS
+            servicesDefines.Add("COM_ALEXPLAY_NET_ANALYTICS");
+#endif
+#if !COM_ALEXPLAY_NET_FBRC
+            servicesDefines.Add("COM_ALEXPLAY_NET_FBRC");
+#endif
+
+            var currentTarget = EditorUserBuildSettings.selectedBuildTargetGroup;
+
+            if (currentTarget == BuildTargetGroup.Unknown)
+            {
+                return;
+            }
+            
+            string definesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(currentTarget).Trim();
+            string clearDefines = "";
+            
+            List<string> defines = definesString.Split(';').ToList();
+
+            bool changed = false;
+
+            for (int i = 0; i < servicesDefines.Count; i++)
+            {
+                if (defines.Contains(servicesDefines[i]))
+                {
+                    defines.Remove(servicesDefines[i]);
+                    changed = true;
+                }
+            }
+
+            if (changed)
+            {   
+                for (int i = 0; i < defines.Count; i++) 
+                    clearDefines += defines[i] + ";";
+            
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(currentTarget, clearDefines);
+            }
         }
     }
 }

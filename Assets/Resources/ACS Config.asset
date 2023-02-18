@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: ACS Config
   m_EditorClassIdentifier: 
   _dataSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.data
     IgnoreCrypt: 0
   _signalBusSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
   _dialogsSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.dialog
     DialogSortingOrder: 0
     DefaultResources: Dialogs/
@@ -54,8 +54,16 @@ MonoBehaviour:
     MixerVolumeParameters: []
     PlaybackPrioritiesAmount: 0
   _purchaseSettings:
-    _isEnabled: 0
-    GooglePlayPublicKey: 
+    _isEnabled: 1
+    GooglePlayPublicKey: "\u0421\u044E\u0434\u0430 \u0432\u0441\u0442\u0430\u0432\u0438\u0442\u044C
+      \u043A\u043B\u044E\u0447 \u0441 GooglePlay \u043A\u043E\u043D\u0441\u043E\u043B\u0438"
+    ActualInAppPurchases:
+    - Identifier: Test_purchase_id_1
+      Purchase: {fileID: 11400000, guid: fde1e687d4c59954289c2379200b38c6, type: 2}
+      AvailableToExecuting: 1
+    - Identifier: Test_purchase_id_2
+      Purchase: {fileID: 11400000, guid: 54bf0033d57f9734eacf573bfd3cfb7e, type: 2}
+      AvailableToExecuting: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.purchase
   _analyticsSettings:
     _isEnabled: 0
