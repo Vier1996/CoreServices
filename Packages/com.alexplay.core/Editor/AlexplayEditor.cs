@@ -52,7 +52,7 @@ namespace ACS.CoreEditor.Editor
             { "Analytics Service", ACSConst.AnalyticsPackageAssetPath },
 #endif
 #if COM_ALEXPLAY_NET_FBRC
-            {"FBRC", ACSConst.FBRCPackageAssetPath}
+            {"Remote Config (Firebase)", ACSConst.FBRCPackageAssetPath}
 #endif
         };
         
@@ -144,7 +144,7 @@ namespace ACS.CoreEditor.Editor
             menuTree.Add("Analytics Service", _coreConfig._analyticsSettings, EditorIcons.Clouds);
 #endif
 #if COM_ALEXPLAY_NET_FBRC
-            menuTree.Add("FBRC", _coreConfig._fbrcSettings, EditorIcons.SettingsCog);
+            menuTree.Add("Remote Config (Firebase)", _coreConfig._fbrcSettings, EditorIcons.SettingsCog);
 #endif
             
             _menuTree = menuTree;
