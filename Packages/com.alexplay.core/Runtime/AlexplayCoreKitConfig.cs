@@ -1,5 +1,4 @@
 using System;
-using ACS.FBRC.StaticData;
 using UnityEngine;
 
 #if COM_ALEXPLAY_NET_ADS
@@ -28,6 +27,9 @@ using ACS.Audio.StaticData;
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
 using ACS.Analytics;
+#endif
+#if COM_ALEXPLAY_NET_FBRC
+using ACS.FBRC.StaticData;
 #endif
 
 namespace ACS.Core
