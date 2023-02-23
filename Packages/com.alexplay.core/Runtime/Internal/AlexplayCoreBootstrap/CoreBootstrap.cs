@@ -1,6 +1,9 @@
+using System;
+using System.Collections.Generic;
 using ACS.Core.UI;
 using Constants;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -11,6 +14,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
     {
         private static CoreBootstrap Instance;
 
+        private List<Canvas> _customCanvases = new List<Canvas>();
         private RectTransform _rectForDialogs;
         private AlexplayCoreKitConfig _config = null;
         private Core _core;
@@ -26,12 +30,14 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 Instance = this;
 
                 CreateDialogParent();
+                
                 ProjectContext.PreInstall += OnProjectContextPreInstall;
+                SceneManager.sceneLoaded += UpdateCanvasesCamera;
                 
                 DontDestroyOnLoad(this);
             }
         }
-        
+
         private void OnProjectContextPreInstall()
         {
             ProjectContext.PreInstall -= OnProjectContextPreInstall;
@@ -48,6 +54,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
             _rectForDialogs = dialogParentObject.AddComponent<RectTransform>();
             
             Canvas dialogCanvas = dialogParentObject.AddComponent<Canvas>();
+            dialogCanvas.worldCamera = Camera.main;
             dialogCanvas.renderMode = RenderMode.ScreenSpaceCamera;
             
             CanvasScaler dialogCanvasScaler = dialogParentObject.AddComponent<CanvasScaler>();
@@ -71,6 +78,20 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
 
             UIResizer dialogUIResizer = dialogParentObject.AddComponent<UIResizer>();
             dialogUIResizer.SetupCanvas();
+            
+            _customCanvases.Add(dialogCanvas);
+        }
+        
+        private void UpdateCanvasesCamera(Scene arg0, LoadSceneMode arg1)
+        {
+            for (int i = 0; i < _customCanvases.Count; i++) 
+                _customCanvases[i].worldCamera = Camera.main;
+        }
+
+        private void OnDestroy()
+        {
+            ProjectContext.PreInstall -= OnProjectContextPreInstall;
+            SceneManager.sceneLoaded -= UpdateCanvasesCamera;
         }
     }
 }
