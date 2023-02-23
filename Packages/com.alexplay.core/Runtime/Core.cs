@@ -1,3 +1,8 @@
+using System;
+using DG.Tweening;
+using UnityEngine;
+using Zenject;
+
 #if COM_ALEXPLAY_NET_ADS
 using ACS.Ads;
 using ACS.Ads.com.alexplay.advertisement.Runtime;
@@ -28,11 +33,9 @@ using ACS.Audio;
 #if COM_ALEXPLAY_NET_GDPR
 using ACS.GDPR.Service;
 #endif
-using System;
+#if COM_ALEXPLAY_NET_FBRC
 using ACS.FBRC;
-using DG.Tweening;
-using UnityEngine;
-using Zenject;
+#endif
 
 namespace ACS.Core
 {
