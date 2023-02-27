@@ -97,6 +97,23 @@ namespace ACS.ObjectPool.ObjectPool.Default
             }
         }
 
+        public void ReturnAll(string poolID)
+        {
+            if (Pool.ContainsKey(poolID) == false)
+                throw new Exception("Trying to return object with no appending in pool");
+
+            if (Pool[poolID].Count > 0)
+            {
+                for (int i = 0; i < Pool[poolID].Count; i++)
+                {
+                    if (Pool[poolID][i].activeSelf)
+                    {
+                        Return(poolID, Pool[poolID][i]);
+                    }
+                }
+            }
+        }
+
         public void Remove(string poolID)
         {
             if (Pool.ContainsKey(poolID) == true)
