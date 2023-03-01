@@ -46,6 +46,10 @@ namespace ACS.Data.DataService.Service
             for (int i = 0; i < modelTypes.Count; i++)
             {
                 Type modelType = modelTypes[i];
+                
+                if(modelType.ContainsGenericParameters && modelType.IsAbstract)
+                    continue;
+                
                 ProgressModel model = _dataLoader.LoadProgressJson<ProgressModel>(modelType);
                 
                 model.SetupModel(_dataTools);
