@@ -250,7 +250,6 @@ namespace ACS.Core
 
             if (coreConfig._audioSettings.IsEnabled)
             {
-                _dataService.PrepareService();
                 _diContainer.Bind<AudioService>().FromInstance(_audioService);
             }
 #endif
