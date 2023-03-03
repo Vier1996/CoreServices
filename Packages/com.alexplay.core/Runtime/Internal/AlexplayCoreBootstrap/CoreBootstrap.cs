@@ -49,6 +49,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         private void CreateDialogParent()
         {
             GameObject dialogParentObject = new GameObject("DialogCanvas");
+            
             dialogParentObject.transform.SetParent(transform);
 
             _rectForDialogs = dialogParentObject.AddComponent<RectTransform>();
