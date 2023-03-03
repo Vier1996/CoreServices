@@ -56,6 +56,8 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
             Canvas dialogCanvas = dialogParentObject.AddComponent<Canvas>();
             dialogCanvas.worldCamera = Camera.main;
             dialogCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+            dialogCanvas.sortingLayerName = "Dialog";
+            dialogCanvas.sortingOrder = 100;
             
             CanvasScaler dialogCanvasScaler = dialogParentObject.AddComponent<CanvasScaler>();
             dialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
