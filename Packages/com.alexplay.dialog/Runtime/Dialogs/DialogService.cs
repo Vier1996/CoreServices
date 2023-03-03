@@ -67,6 +67,10 @@ namespace ACS.Dialog.Dialogs
 
         private void ShowDialog(DialogView dialogView)
         {
+            Canvas tCanvas = _dialogsParent.GetComponent<Canvas>();
+            tCanvas.sortingLayerName = "Dialog";
+            tCanvas.sortingOrder = 200;
+
             dialogView
                 .AddShownHandler(OnDialogShown)
                 .AddHiddenHandler(OnDialogHidden);
