@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using ACS.Dialog.Dialogs.Arguments;
 using ACS.Dialog.Dialogs.Config;
 using ACS.Dialog.Dialogs.View;
@@ -12,6 +13,8 @@ namespace ACS.Dialog.Dialogs
 {
     public class DialogService : IDialogService, IDisposable
     {
+        public event Action<Type> DialogShown;
+        public event Action<Type> DialogHide;
         public event Action<int> OnCountChanged;
         
         public bool HasActiveDialog
@@ -50,6 +53,20 @@ namespace ACS.Dialog.Dialogs
         public async void CallDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs => 
             ShowDialog(await InstantiateDialog<TArgs>(dialogType, args));
 
+        public bool TryGetDialog<T>(out T dialog) where T : DialogView
+        {
+            DialogView dialogView = _activeDialogs.FirstOrDefault(dlg => dlg.GetType() == typeof(T));
+            
+            if (dialogView == default)
+            {
+                dialog = null;
+                return false;
+            }
+            
+            dialog = (T)dialogView;
+            return true;
+        }
+        
         private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs
         {
             ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + dialogType.Name);
@@ -79,9 +96,17 @@ namespace ACS.Dialog.Dialogs
             dialogView.Show();
         }
         
-        private void OnDialogShown(DialogView dialogView) => _activeDialogs.Add(dialogView);
+        private void OnDialogShown(DialogView dialogView)
+        {
+            _activeDialogs.Add(dialogView);
+            DialogShown?.Invoke(dialogView.GetType());
+        }
 
-        private void OnDialogHidden(DialogView dialogView) => _activeDialogs.Remove(dialogView);
+        private void OnDialogHidden(DialogView dialogView)
+        {
+            _activeDialogs.Remove(dialogView);
+            DialogHide?.Invoke(dialogView.GetType());
+        }
 
         private void OnDialogsCountChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
