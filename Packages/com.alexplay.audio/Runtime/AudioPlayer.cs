@@ -22,7 +22,7 @@ namespace ACS.Audio
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        public void PlaySound(AudioData data, AudioService.Priority priority = AudioService.Priority.Default)
+        public AudioSource PlaySound(AudioData data, AudioService.Priority priority = AudioService.Priority.Default)
         {
             AudioSource source = _audioSources.Find(s => s.isPlaying == false);
 
@@ -31,7 +31,7 @@ namespace ACS.Audio
                 switch (priority)
                 {
                     case AudioService.Priority.Default:
-                        return;
+                        return null;
                     case AudioService.Priority.High:
                         source = CreateSoundSource();
                         break;
@@ -42,6 +42,7 @@ namespace ACS.Audio
             
             data.ConfigureSource(source);
             source.Play();
+            return source;
         }
 
         private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
