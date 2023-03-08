@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using ACS.Core.UI;
 using Constants;
@@ -14,6 +13,8 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
     {
         private static CoreBootstrap Instance;
 
+        [SerializeField] private bool _loadFromInitialScene;
+        
         private List<Canvas> _customCanvases = new List<Canvas>();
         private RectTransform _rectForDialogs;
         private AlexplayCoreKitConfig _config = null;
@@ -32,6 +33,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 CreateDialogParent();
                 
                 ProjectContext.PreInstall += OnProjectContextPreInstall;
+                ProjectContext.PostInstall += OnProjectContextPostInstall;
                 SceneManager.sceneLoaded += UpdateCanvasesCamera;
                 
                 DontDestroyOnLoad(this);
@@ -44,6 +46,15 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
 
             _config = Resources.Load<AlexplayCoreKitConfig>(ACSConst.ConfigName);
             _core = new Core(_config, gameObject, _rectForDialogs);
+        }
+
+        private void OnProjectContextPostInstall()
+        {
+            if (_loadFromInitialScene)
+            {
+                if (SceneManager.GetActiveScene().buildIndex != 0)
+                    SceneManager.LoadScene(0);
+            }
         }
 
         private void CreateDialogParent()
