@@ -33,8 +33,8 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 CreateDialogParent();
                 
                 ProjectContext.PreInstall += OnProjectContextPreInstall;
-                ProjectContext.PostInstall += OnProjectContextPostInstall;
                 SceneManager.sceneLoaded += UpdateCanvasesCamera;
+                Core.PostInitialized += OnProjectContextPostInstall;
                 
                 DontDestroyOnLoad(this);
             }
@@ -106,6 +106,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         {
             ProjectContext.PreInstall -= OnProjectContextPreInstall;
             SceneManager.sceneLoaded -= UpdateCanvasesCamera;
+            Core.PostInitialized -= OnProjectContextPostInstall;
         }
     }
 }
