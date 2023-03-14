@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4113276933412757304, guid: a0e3d304f97ee5648ad60b9223f64add, type: 3}
+      propertyPath: _loadFromInitialScene
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4113276933412757305, guid: a0e3d304f97ee5648ad60b9223f64add, type: 3}
       propertyPath: m_Name
       value: Alexplay - [CORE]
