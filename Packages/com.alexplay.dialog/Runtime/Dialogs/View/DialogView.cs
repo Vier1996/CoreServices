@@ -29,6 +29,7 @@ namespace ACS.Dialog.Dialogs.View
             dialogRect.SetParent(parentTransform);
             dialogRect.position = Vector3.zero;
             dialogRect.localScale = Vector3.one;
+            dialogRect.rotation = new Quaternion(0, 0, 0, 0);
         }
         
         public virtual void Show()
