@@ -253,6 +253,10 @@ namespace ACS.Core
                 case TargetFrameRateType.CONSTANT:
                     Application.targetFrameRate = bootstrapOptions.TargetRate;
                     break;
+                
+                case TargetFrameRateType.UNLIMITED:
+                    Application.targetFrameRate = -1;
+                    break;
             }
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
