@@ -14,10 +14,15 @@ namespace ACS.Ads
         
         private readonly AdvertisementServiceConfig _config;
         private readonly IntentService.IntentService _intentService;
-        
+
+        private bool _canPlayRewarded = true;
+        private bool _canPlayInterstitial = true;
+
+        private AdvertisementOptions _options;
         private DateTime _lastAdPlayingTime;
         private Action _shownCallback;
         private Action _failedCallback;
+        
         private readonly TimeSpan _initDelay;
 
         public AdvertisementService(IntentService.IntentService intentService, AdvertisementServiceConfig config)
@@ -26,6 +31,7 @@ namespace ACS.Ads
             _initDelay = TimeSpan.FromSeconds(1);
             _lastAdPlayingTime = DateTime.UtcNow;
             _config = config;
+            _options = _config.Options;
         }
         
         public void PrepareService()
@@ -38,8 +44,16 @@ namespace ACS.Ads
             BindIronSourceEvents();
         }
 
+        public void ChangeOptions(AdvertisementOptions options) => _options = options;
+
+        public bool IsInterstitialReady() => IS.IronSource.Scripts.IronSource.Agent.isInterstitialReady();
+        public bool IsRewardedReady() => IS.IronSource.Scripts.IronSource.Agent.isRewardedVideoAvailable();
+        public void CanPlayInterstitial(bool canPlay) => _canPlayInterstitial = canPlay;
+        public void CanPlayRewarded(bool canPlay) => _canPlayRewarded = canPlay;
+
         public void PlayRewarded(Action shownCallback, Action failedCallback = null)
         {
+            if (!_canPlayRewarded) return;
 #if UNITY_EDITOR
             shownCallback?.Invoke();
 #else
@@ -54,14 +68,15 @@ namespace ACS.Ads
 
         public void PlayInterstitial(Action shownCallback = null, Action failedCallback = null)
         {
-            if (Time.realtimeSinceStartup < _config.FreeInterstitialsAtStart) return;
+            if (!_canPlayInterstitial) return;
+            if (Time.realtimeSinceStartup < _options.FreeInterstitialsAtStart) return;
             if (IronS.Agent.isInterstitialReady() == false)
             {
                 IS.IronSource.Scripts.IronSource.Agent.loadInterstitial();
                 return;
             }
 
-            if ((DateTime.UtcNow - _lastAdPlayingTime).TotalSeconds < _config.InterstitialsTimeout)
+            if ((DateTime.UtcNow - _lastAdPlayingTime).TotalSeconds < _options.InterstitialsTimeout)
             {
                 _shownCallback = shownCallback;
                 _failedCallback = failedCallback;

@@ -15,6 +15,9 @@ namespace ACS.Dialog.Dialogs.Config
         
         private const string LayerName = "Dialog";
         
+        [ShowIf("@IsEnabled == true")] 
+        public RenderMode RenderMode = RenderMode.ScreenSpaceCamera;
+        
         [ShowIf("@IsEnabled == true")]
         public int DialogSortingOrder;
 

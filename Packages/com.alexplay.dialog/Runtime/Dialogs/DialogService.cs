@@ -7,7 +7,9 @@ using ACS.Dialog.Dialogs.Config;
 using ACS.Dialog.Dialogs.View;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
+using Object = System.Object;
 
 namespace ACS.Dialog.Dialogs
 {
@@ -28,30 +30,31 @@ namespace ACS.Dialog.Dialogs
 
         private readonly ObservableCollection<DialogView> _activeDialogs = new ObservableCollection<DialogView>();
         
-        private readonly DiContainer _diContainer;
+        private readonly DiContainer _projectContextContainer;
+        private DiContainer _sceneContextContainer;
+        
         private readonly DialogsServiceConfig _dialogsServiceConfig;
         private readonly RectTransform _dialogsParent;
         
         public DialogService(DiContainer diContainer, DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
         {
-            _diContainer = diContainer;
+            _projectContextContainer = diContainer;
             _dialogsServiceConfig = dialogsServiceConfig;
             _dialogsParent = rectForDialogs;
             _activeDialogs.CollectionChanged += OnDialogsCountChanged;
-        }
-        
-        public void PrepareService()
-        {
-            Canvas dialogsCanvas = _dialogsParent.GetComponent<Canvas>();
-            dialogsCanvas.sortingLayerName = _dialogsServiceConfig.GetLayerName();
-            dialogsCanvas.sortingOrder = _dialogsServiceConfig.DialogSortingOrder;
+            SceneManager.activeSceneChanged += OnSceneChanged;
+
+            OnSceneChanged(default, default);
         }
 
-        public async void CallDialog(Type dialogType) => 
-            ShowDialog(await InstantiateDialog<DialogArgs>(dialogType, null));
+        public void PrepareService() { }
 
-        public async void CallDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs => 
-            ShowDialog(await InstantiateDialog<TArgs>(dialogType, args));
+        public async void CallDialog(Type dialogType, SourceContext context = SourceContext.PROJECT_CONTEXT) => 
+            ShowDialog(await InstantiateDialog<DialogArgs>(dialogType, null, context));
+
+        public async void CallDialog<TArgs>(Type dialogType, TArgs args, SourceContext context = SourceContext.PROJECT_CONTEXT) 
+            where TArgs : DialogArgs => 
+            ShowDialog(await InstantiateDialog<TArgs>(dialogType, args, context));
 
         public bool TryGetDialog<T>(out T dialog) where T : DialogView
         {
@@ -67,14 +70,25 @@ namespace ACS.Dialog.Dialogs
             return true;
         }
         
-        private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs
+        private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args, SourceContext context = SourceContext.PROJECT_CONTEXT) where TArgs : DialogArgs
         {
             ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + dialogType.Name);
             GameObject dialogPrefab = await resourceRequest as GameObject;
-            
-            if (dialogPrefab != null)
+
+            DiContainer container = null;
+
+            switch (context)
             {
-                DialogView instance = _diContainer.InstantiatePrefab(dialogPrefab).GetComponent<DialogView>();
+                case SourceContext.SCENE_CONTEXT: container = _sceneContextContainer; break;
+                case SourceContext.PROJECT_CONTEXT: container = _projectContextContainer; break;
+            }
+
+            if (dialogPrefab != null) 
+            {
+                if (container == null)
+                    container = _projectContextContainer;
+                
+                DialogView instance = container.InstantiatePrefab(dialogPrefab).GetComponent<DialogView>();
                 (instance as IReceiveArgs<TArgs>).SetArgs(args);
                 return instance;
             }
@@ -84,10 +98,6 @@ namespace ACS.Dialog.Dialogs
 
         private void ShowDialog(DialogView dialogView)
         {
-            Canvas tCanvas = _dialogsParent.GetComponent<Canvas>();
-            tCanvas.sortingLayerName = "Dialog";
-            tCanvas.sortingOrder = 200;
-
             dialogView
                 .AddShownHandler(OnDialogShown)
                 .AddHiddenHandler(OnDialogHidden);
@@ -118,10 +128,16 @@ namespace ACS.Dialog.Dialogs
                     break;
             }
         }
+        
+        private void OnSceneChanged(Scene arg0, Scene arg1) => 
+            _sceneContextContainer = UnityEngine.Object.FindObjectOfType<SceneContext>().Container;
 
         public void Dispose()
         {
             _activeDialogs.CollectionChanged -= OnDialogsCountChanged;
+            SceneManager.activeSceneChanged -= OnSceneChanged;
         }
     }
+    
+    public enum SourceContext { SCENE_CONTEXT, PROJECT_CONTEXT }
 }

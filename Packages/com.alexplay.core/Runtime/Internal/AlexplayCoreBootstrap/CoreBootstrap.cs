@@ -30,6 +30,8 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
             {
                 Instance = this;
 
+                _config = Resources.Load<AlexplayCoreKitConfig>(ACSConst.ConfigName);
+
                 CreateDialogParent();
                 
                 ProjectContext.PreInstall += OnProjectContextPreInstall;
@@ -43,9 +45,10 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         private void OnProjectContextPreInstall()
         {
             ProjectContext.PreInstall -= OnProjectContextPreInstall;
-
-            _config = Resources.Load<AlexplayCoreKitConfig>(ACSConst.ConfigName);
+            
             _core = new Core(_config, gameObject, _rectForDialogs);
+            
+            SetupDialogParent();
         }
 
         private void OnProjectContextPostInstall()
@@ -60,25 +63,43 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         private void CreateDialogParent()
         {
             GameObject dialogParentObject = new GameObject("DialogCanvas");
-            
             dialogParentObject.transform.SetParent(transform);
-
+            
             _rectForDialogs = dialogParentObject.AddComponent<RectTransform>();
+        }
+
+        private void SetupDialogParent()
+        {
+            Canvas dialogCanvas = _rectForDialogs.gameObject.AddComponent<Canvas>();
             
-            Canvas dialogCanvas = dialogParentObject.AddComponent<Canvas>();
-            dialogCanvas.worldCamera = Camera.main;
-            dialogCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-            dialogCanvas.sortingLayerName = "Dialog";
-            dialogCanvas.sortingOrder = 100;
-            
-            CanvasScaler dialogCanvasScaler = dialogParentObject.AddComponent<CanvasScaler>();
+            switch (_config._dialogsSettings.RenderMode)
+            {
+                case RenderMode.WorldSpace:
+                    dialogCanvas.renderMode = RenderMode.WorldSpace;
+                    dialogCanvas.worldCamera = Camera.main;
+                    dialogCanvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
+                    dialogCanvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
+                    break;
+                case RenderMode.ScreenSpaceCamera:
+                    dialogCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+                    dialogCanvas.worldCamera = Camera.main;
+                    dialogCanvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
+                    dialogCanvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
+                    break;
+                case RenderMode.ScreenSpaceOverlay:
+                    dialogCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                    dialogCanvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
+                    break;
+            }
+
+            CanvasScaler dialogCanvasScaler = _rectForDialogs.gameObject.AddComponent<CanvasScaler>();
             dialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             dialogCanvasScaler.referenceResolution = new Vector2(720, 1280);
             dialogCanvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
             dialogCanvasScaler.matchWidthOrHeight = 1f;
             dialogCanvasScaler.referencePixelsPerUnit = 100;
                 
-            GraphicRaycaster dialogGraphicRaycaster = dialogParentObject.AddComponent<GraphicRaycaster>();
+            GraphicRaycaster dialogGraphicRaycaster = _rectForDialogs.gameObject.AddComponent<GraphicRaycaster>();
             dialogGraphicRaycaster.ignoreReversedGraphics = true;
             dialogGraphicRaycaster.blockingObjects = GraphicRaycaster.BlockingObjects.None;
             dialogGraphicRaycaster.blockingMask = LayerMask.GetMask(new []
@@ -90,7 +111,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 "UI"
             });
 
-            UIResizer dialogUIResizer = dialogParentObject.AddComponent<UIResizer>();
+            UIResizer dialogUIResizer = _rectForDialogs.gameObject.AddComponent<UIResizer>();
             dialogUIResizer.SetupCanvas();
             
             _customCanvases.Add(dialogCanvas);

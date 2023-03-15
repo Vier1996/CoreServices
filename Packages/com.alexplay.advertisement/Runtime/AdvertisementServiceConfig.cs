@@ -17,12 +17,8 @@ namespace ACS.Ads
         [ShowIf("@IsEnabled == true")]
         public string IosIdentifier;
 
-        [ShowIf("@IsEnabled == true"), Tooltip("In seconds")]
-        public float InterstitialsTimeout;
-        [ShowIf("@IsEnabled == true"), Tooltip("In seconds")]
-        public float FreeInterstitialsAtStart;
-        [ShowIf("@IsEnabled == true"), Tooltip("In seconds")] 
-        public float RewardedTimeout;
+        [ShowIf("@IsEnabled == true")]
+        public AdvertisementOptions Options = new AdvertisementOptions();
         
         [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
     }
