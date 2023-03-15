@@ -37,6 +37,7 @@ namespace ACS.Core
     [Serializable]
     public class AlexplayCoreKitConfig : ScriptableObject
     {
+        public CoreBootstrapOptions _bootstrapOptions = new CoreBootstrapOptions();
 #if COM_ALEXPLAY_NET_DATA
         public DataServiceConfig _dataSettings = new DataServiceConfig();
 #endif

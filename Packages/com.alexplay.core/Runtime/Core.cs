@@ -184,8 +184,7 @@ namespace ACS.Core
                 _diContainer = ProjectContext.Instance.Container;
                 IntentService = parentMonoBehavior.AddComponent<IntentService.IntentService>();
                 
-                Application.targetFrameRate = 60;
-                DOTween.SetTweensCapacity(500, 125);
+                SetupOptions(coreConfig._bootstrapOptions);
                 
 #if COM_ALEXPLAY_NET_DATA
                 if(coreConfig._dataSettings.IsEnabled)
@@ -234,6 +233,32 @@ namespace ACS.Core
                 PrepareServices(coreConfig);
             }
             else Dispose();
+        }
+
+        private void SetupOptions(CoreBootstrapOptions bootstrapOptions)
+        {
+
+            switch (bootstrapOptions.FrameRateType)
+            {
+                case TargetFrameRateType.ADAPTIVE:
+#if UNITY_EDITOR
+                    Application.targetFrameRate = Screen.currentResolution.refreshRate;
+#else
+                    if (SystemInfo.systemMemorySize < 3000) Application.targetFrameRate = 30;
+                    else if (SystemInfo.systemMemorySize < 4000) Application.targetFrameRate = 45;
+                    else Application.targetFrameRate = Screen.currentResolution.refreshRate;
+#endif
+                    break;
+
+                case TargetFrameRateType.CONSTANT:
+                    Application.targetFrameRate = bootstrapOptions.TargetRate;
+                    break;
+            }
+
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            Screen.orientation = bootstrapOptions.ScreenOrientation;
+            
+            DOTween.SetTweensCapacity(bootstrapOptions.TweenersCapacity, bootstrapOptions.SequencesCapacity);
         }
 
         private void PrepareServices(AlexplayCoreKitConfig coreConfig)

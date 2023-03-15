@@ -113,7 +113,8 @@ namespace ACS.CoreEditor.Editor
             
             OdinMenuTree menuTree = new OdinMenuTree();
             
-            menuTree.Add("Core", new AlexplayCoreHomePage(), EditorIcons.House);
+            menuTree.Add("Core", _coreConfig._bootstrapOptions, EditorIcons.House);
+            _coreConfig._bootstrapOptions.Validate();
 
 #if COM_ALEXPLAY_NET_ADS
             menuTree.Add("Ads Service", _coreConfig._advertisementSettings, EditorIcons.Money);

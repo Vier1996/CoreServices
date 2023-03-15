@@ -10,6 +10,7 @@ namespace Config
     [Serializable]
     public abstract class ServiceConfigBase
     {
+        protected bool _ignoreEnableButton = false; 
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -18,12 +19,12 @@ namespace Config
         [HideInInspector] [SerializeField] private bool _isEnabled;
 
         [Button(ButtonSizes.Medium)]
-        [ShowIf("@_isEnabled == false")]
+        [ShowIf("@_isEnabled == false && _ignoreEnableButton == false")]
         [GUIColor(0, 1, 0)]
         public void Enable() => _isEnabled = true;
 
         [PropertySpace(SpaceBefore = 20)]
-        [ShowIf("@_isEnabled == true")]
+        [ShowIf("@_isEnabled == true && _ignoreEnableButton == false")]
         [Button(ButtonSizes.Medium)]
         [GUIColor(1, 0, 0)]
         public void Disable() => _isEnabled = false;
