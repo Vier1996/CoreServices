@@ -124,8 +124,7 @@ namespace ACS.Dialog.Dialogs
             {
                 case NotifyCollectionChangedAction.Add:
                 case NotifyCollectionChangedAction.Remove:
-                    int count = e.NewItems?.Count ?? 0;
-                    OnCountChanged?.Invoke(count);
+                    OnCountChanged?.Invoke(_activeDialogs.Count);
                     break;
             }
         }
