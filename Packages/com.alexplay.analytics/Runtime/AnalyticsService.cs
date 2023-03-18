@@ -52,16 +52,21 @@ namespace ACS.Analytics
         private void InitializeAgents(AnalyticsServiceConfig config)
         {
             _agents = new List<IAnalyticsAgent>(config.ActiveAgents.Count);
+            
+            List<Type> availableAgentTypes = AnalyticsUtils.GetAllAvailableAgents();
 
-            foreach (AgentInfo agentInfo in config.ActiveAgents)
+            foreach (Type agentType in availableAgentTypes)
             {
-                Type agentType = agentInfo.GetType();
-                IAnalyticsAgent analyticsAgent = (IAnalyticsAgent) Activator.CreateInstance(agentType);
-
-                analyticsAgent.CanTrack = agentInfo.CanTrackEvents;
+                AgentInfo agentInfo = config.ActiveAgents.Find(ag => ag.TypeName == agentType.Name);
                 
-                _agents.Add(analyticsAgent);
+                if (agentInfo != null && agentInfo.CanTrackEvents)
+                {
+                    IAnalyticsAgent analyticsAgent = (IAnalyticsAgent) Activator.CreateInstance(agentType);
+                    analyticsAgent.CanTrack = agentInfo.CanTrackEvents;
+                    _agents.Add(analyticsAgent);
+                }
             }
         }
+        
     }
 }
