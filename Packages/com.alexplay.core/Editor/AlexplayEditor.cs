@@ -52,7 +52,10 @@ namespace ACS.CoreEditor.Editor
             { "Analytics Service", ACSConst.AnalyticsPackageAssetPath },
 #endif
 #if COM_ALEXPLAY_NET_FBRC
-            {"Remote Config (Firebase)", ACSConst.FBRCPackageAssetPath}
+            {"Remote Config (Firebase)", ACSConst.FBRCPackageAssetPath},
+#endif
+#if COM_ALEXPLAY_NET_CHEAT_TRACKER
+            {"Cheat Tracker (in-dev)", ACSConst.CheatTrackerPackageAssetPath}
 #endif
         };
         
@@ -146,6 +149,9 @@ namespace ACS.CoreEditor.Editor
 #endif
 #if COM_ALEXPLAY_NET_FBRC
             menuTree.Add("Remote Config (Firebase)", _coreConfig._fbrcSettings, EditorIcons.SettingsCog);
+#endif
+#if COM_ALEXPLAY_NET_CHEAT_TRACKER
+            menuTree.Add("Cheat Tracker (DEV)", _coreConfig._cheatTrackerConfig, EditorIcons.Stop);
 #endif
             
             _menuTree = menuTree;

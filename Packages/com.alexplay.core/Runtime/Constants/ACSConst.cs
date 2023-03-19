@@ -31,5 +31,6 @@ namespace Constants
         public const string PurchasePackageAssetPath = "Packages/com.alexplay.iap";
         public const string AnalyticsPackageAssetPath = "Packages/com.alexplay.analytics";
         public const string FBRCPackageAssetPath = "Packages/com.alexplay.fbrc";
+        public const string CheatTrackerPackageAssetPath = "Packages/com.alexplay.cheat_tracker";
     }
 }

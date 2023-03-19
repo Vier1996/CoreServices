@@ -71,26 +71,8 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         private void SetupDialogParent()
         {
             Canvas dialogCanvas = _rectForDialogs.gameObject.AddComponent<Canvas>();
-            
-            switch (_config._dialogsSettings.RenderMode)
-            {
-                case RenderMode.WorldSpace:
-                    dialogCanvas.renderMode = RenderMode.WorldSpace;
-                    dialogCanvas.worldCamera = Camera.main;
-                    dialogCanvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
-                    dialogCanvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
-                    break;
-                case RenderMode.ScreenSpaceCamera:
-                    dialogCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-                    dialogCanvas.worldCamera = Camera.main;
-                    dialogCanvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
-                    dialogCanvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
-                    break;
-                case RenderMode.ScreenSpaceOverlay:
-                    dialogCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                    dialogCanvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
-                    break;
-            }
+
+            SetupRenderMode(dialogCanvas);
 
             CanvasScaler dialogCanvasScaler = _rectForDialogs.gameObject.AddComponent<CanvasScaler>();
             dialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -116,11 +98,34 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
             
             _customCanvases.Add(dialogCanvas);
         }
+
+        private void SetupRenderMode(Canvas canvas)
+        {
+            switch (_config._dialogsSettings.RenderMode)
+            {
+                case RenderMode.WorldSpace:
+                    canvas.renderMode = RenderMode.WorldSpace;
+                    canvas.worldCamera = Camera.main;
+                    canvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
+                    canvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
+                    break;
+                case RenderMode.ScreenSpaceCamera:
+                    canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                    canvas.worldCamera = Camera.main;
+                    canvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
+                    canvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
+                    break;
+                case RenderMode.ScreenSpaceOverlay:
+                    canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                    canvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
+                    break;
+            }
+        }
         
         private void UpdateCanvasesCamera(Scene arg0, LoadSceneMode arg1)
         {
             for (int i = 0; i < _customCanvases.Count; i++) 
-                _customCanvases[i].worldCamera = Camera.main;
+                SetupRenderMode(_customCanvases[i]);
         }
 
         private void OnDestroy()

@@ -1,4 +1,5 @@
 using System;
+using ACS.Cheat.CheatTracker;
 using UnityEngine;
 
 #if COM_ALEXPLAY_NET_ADS
@@ -67,6 +68,9 @@ namespace ACS.Core
 #endif
 #if COM_ALEXPLAY_NET_FBRC
         public FBRCConfig _fbrcSettings = new FBRCConfig();
+#endif
+#if COM_ALEXPLAY_NET_CHEAT_TRACKER
+        public CheatTrackerConfig _cheatTrackerConfig = new CheatTrackerConfig();
 #endif
 
         private void OnValidate()

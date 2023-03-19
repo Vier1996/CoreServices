@@ -17,7 +17,8 @@
         "ACS.Advertisement",
         "ACS.Audio",
         "ACS.Analytics",
-        "ACS.FBRC"
+        "ACS.FBRC",
+        "ACS.CheatTracker"
     ],
     "includePlatforms": [
         "Editor"
