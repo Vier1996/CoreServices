@@ -1,5 +1,4 @@
 using System;
-using ACS.Cheat.CheatTracker;
 using UnityEngine;
 
 #if COM_ALEXPLAY_NET_ADS
@@ -31,6 +30,9 @@ using ACS.Analytics;
 #endif
 #if COM_ALEXPLAY_NET_FBRC
 using ACS.FBRC.StaticData;
+#endif
+#if COM_ALEXPLAY_NET_CHEAT_TRACKER
+using ACS.Cheat.CheatTracker;
 #endif
 
 namespace ACS.Core
