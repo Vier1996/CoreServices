@@ -2,7 +2,9 @@
 using Config;
 using Constants;
 using Sirenix.OdinInspector;
+#if UNITY_EDITOR
 using UnityEditor.PackageManager;
+#endif
 using UnityEngine;
 
 namespace ACS.Core
@@ -19,8 +21,13 @@ namespace ACS.Core
         
         [PropertyOrder(-1)]
         [Button] 
-        private void UpdatePackage() => Client.Add(ACSConst.CorePackageURL);
-        
+        private void UpdatePackage()
+        {
+#if UNITY_EDITOR
+            Client.Add(ACSConst.CorePackageURL);
+#endif
+        }
+
         [PropertySpace(SpaceBefore = 20)]
         public TargetFrameRateType FrameRateType;
 
