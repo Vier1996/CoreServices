@@ -11,7 +11,9 @@ namespace ACS.Ads
     public class AdvertisementService : IAdvertisementService, IDisposable
     {
         public event Action<bool> OnVideoStateChanged;
-        
+        public event Action RewardedShown;
+        public event Action InterstitialShown;
+
         private readonly AdvertisementServiceConfig _config;
         private readonly IntentService.IntentService _intentService;
 
@@ -54,6 +56,9 @@ namespace ACS.Ads
         public void PlayRewarded(Action shownCallback, Action failedCallback = null)
         {
             if (!_canPlayRewarded) return;
+
+            shownCallback += () => RewardedShown?.Invoke();
+
 #if UNITY_EDITOR
             shownCallback?.Invoke();
 #else
@@ -69,6 +74,7 @@ namespace ACS.Ads
         public void PlayInterstitial(Action shownCallback = null, Action failedCallback = null)
         {
             if (!_canPlayInterstitial) return;
+            
             if (Time.realtimeSinceStartup < _options.FreeInterstitialsAtStart) return;
             if (IronS.Agent.isInterstitialReady() == false)
             {
@@ -78,6 +84,8 @@ namespace ACS.Ads
 
             if ((DateTime.UtcNow - _lastAdPlayingTime).TotalSeconds < _options.InterstitialsTimeout)
             {
+                shownCallback += () => RewardedShown?.Invoke();
+                
                 _shownCallback = shownCallback;
                 _failedCallback = failedCallback;
                 IS.IronSource.Scripts.IronSource.Agent.showInterstitial();
@@ -180,13 +188,7 @@ namespace ACS.Ads
             IronSource.Agent.onApplicationPause(!focus);
 #endif
         }
-        
-        public void Dispose()
-        {
-            _intentService.OnFocusChanged -= FocusChanged;
-            _intentService.OnPauseChanged -= PauseChanged;
-        }
-        
+
         private void PauseApplication()
         {
             AudioListener.volume = 0;
@@ -197,6 +199,12 @@ namespace ACS.Ads
         {
             AudioListener.volume = 1;
             Time.timeScale = 1;
+        }
+        
+        public void Dispose()
+        {
+            _intentService.OnFocusChanged -= FocusChanged;
+            _intentService.OnPauseChanged -= PauseChanged;
         }
         
         #region REWARDED_EVENTS

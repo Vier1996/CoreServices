@@ -5,6 +5,8 @@ namespace ACS.Ads.com.alexplay.advertisement.Runtime
     public interface IAdvertisementService
     {
         public event Action<bool> OnVideoStateChanged;
+        public event Action RewardedShown;
+        public event Action InterstitialShown;
         public void ChangeOptions(AdvertisementOptions options);
         public bool IsInterstitialReady();
         public bool IsRewardedReady();
