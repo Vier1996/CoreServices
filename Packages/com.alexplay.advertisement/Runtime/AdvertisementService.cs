@@ -84,7 +84,7 @@ namespace ACS.Ads
 
             if ((DateTime.UtcNow - _lastAdPlayingTime).TotalSeconds < _options.InterstitialsTimeout)
             {
-                shownCallback += () => RewardedShown?.Invoke();
+                shownCallback += () => InterstitialShown?.Invoke();
                 
                 _shownCallback = shownCallback;
                 _failedCallback = failedCallback;
