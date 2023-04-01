@@ -131,7 +131,7 @@ namespace ACS.ObjectPool.ObjectPool.Default
         {
             foreach (var poolElement in Pool)
             {
-                if(poolElement.Value.Count <= 2) return;
+                if(poolElement.Value.Count <= 2) continue;
                 
                 for (int i = 2; i < poolElement.Value.Count; i++) 
                     Object.Destroy(Pool[poolElement.Key][i].gameObject);
