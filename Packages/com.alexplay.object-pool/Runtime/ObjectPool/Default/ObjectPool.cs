@@ -21,6 +21,8 @@ namespace ACS.ObjectPool.ObjectPool.Default
 
         public void SetDefaultParent(Transform defaultParent) => _defaultParent = defaultParent;
 
+        public bool Contains(string poolID) => Pool.ContainsKey(poolID);
+
         public void Append(string poolID, GameObject objectInstance)
         {
             if (Pool.ContainsKey(poolID) == false)
