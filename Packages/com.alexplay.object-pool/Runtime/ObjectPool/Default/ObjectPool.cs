@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -124,6 +125,23 @@ namespace ACS.ObjectPool.ObjectPool.Default
                     Object.Destroy(Pool[poolID][i].gameObject);
                 Pool.Remove(poolID);
             }
+        }
+        
+        public void PartialRelease()
+        {
+            foreach (var poolElement in Pool)
+            {
+                if(poolElement.Value.Count <= 2) return;
+                
+                for (int i = 2; i < poolElement.Value.Count; i++) 
+                    Object.Destroy(Pool[poolElement.Key][i].gameObject);
+            }
+        }
+        
+        public void FullRelease()
+        {
+            while (Pool.Count > 0) 
+                Remove(Pool.First().Key);
         }
         
         private GameObject AddNewInstance(string poolID)
