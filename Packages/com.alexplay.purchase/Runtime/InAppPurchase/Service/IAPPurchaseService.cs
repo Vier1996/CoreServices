@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using ACS.IAP.InAppPurchase.Config;
 using ACS.IAP.InAppPurchase.Purchases;
 using ACS.IAP.InAppPurchase.Starter;
@@ -74,7 +75,14 @@ namespace ACS.IAP.InAppPurchase.Service
 #endif
             }
             else
-                localizedPrice = _inAppPurchaseServiceStarter.GetProduct(sku).GetDefaultPrice() + "$";
+            {
+                string configPrice = _inAppPurchaseServiceStarter.GetProduct(sku).GetDefaultPrice().ToString(CultureInfo.InvariantCulture);
+
+                if (configPrice.Length > 3) 
+                    configPrice = configPrice.Substring(0, 3);
+
+                localizedPrice = configPrice + "$";
+            }
             
             return localizedPrice;
         }
