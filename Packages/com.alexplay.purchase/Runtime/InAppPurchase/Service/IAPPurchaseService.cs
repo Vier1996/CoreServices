@@ -76,12 +76,8 @@ namespace ACS.IAP.InAppPurchase.Service
             }
             else
             {
-                string configPrice = _inAppPurchaseServiceStarter.GetProduct(sku).GetDefaultPrice().ToString(CultureInfo.InvariantCulture);
-
-                if (configPrice.Length > 3) 
-                    configPrice = configPrice.Substring(0, 3);
-
-                localizedPrice = configPrice + "$";
+                decimal configPrice = Math.Round((decimal)_inAppPurchaseServiceStarter.GetProduct(sku).GetDefaultPrice(), 2);
+                localizedPrice = Convert.ToDecimal(configPrice.ToString(CultureInfo.InvariantCulture)) + "$";
             }
             
             return localizedPrice;
