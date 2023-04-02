@@ -163,9 +163,8 @@ namespace ACS.Ads
         
         private void OnVideoShown()
         {
-            _shownCallback?.Invoke();
-            _shownCallback = null;
             ResumeApplication();
+            RewardPlayer();
         }
 
         private void OnVideoFailed()
@@ -199,6 +198,14 @@ namespace ACS.Ads
         {
             AudioListener.volume = 1;
             Time.timeScale = 1;
+        }
+
+        private async void RewardPlayer()
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            
+            _shownCallback?.Invoke();
+            _shownCallback = null;
         }
         
         public void Dispose()
