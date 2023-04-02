@@ -77,7 +77,7 @@ namespace ACS.IAP.InAppPurchase.Service
             else
             {
                 decimal configPrice = Math.Round((decimal)_inAppPurchaseServiceStarter.GetProduct(sku).GetDefaultPrice(), 2);
-                localizedPrice = Convert.ToDecimal(configPrice.ToString(CultureInfo.InvariantCulture)) + "$";
+                localizedPrice = $"{configPrice}$";
             }
             
             return localizedPrice;
