@@ -71,7 +71,17 @@ namespace ACS.IAP.InAppPurchase.Service
             if (IAPPurchaseUtils.IsCurrentStoreSupportedByValidator())
             {
 #if !UNITY_EDITOR
-                localizedPrice = _storeController.products.WithID(sku).metadata.localizedPrice.ToString();
+                Product purchaseProduct = _storeController.products.WithID(sku);
+
+                if (purchaseProduct != null)
+                {
+                    localizedPrice = _storeController.products.WithID(sku).metadata.localizedPrice.ToString();
+                }
+                else
+                {
+                    localizedPrice = "invalid";
+                }
+
 #endif
             }
             else
@@ -91,7 +101,15 @@ namespace ACS.IAP.InAppPurchase.Service
             Debug.Log("Purchase manager successfully initialized");
         }
 
-        public void OnInitializeFailed(InitializationFailureReason error) => Debug.Log($"Purchase manager initialize failed: {error}");
+        public void OnInitializeFailed(InitializationFailureReason error)
+        {
+            Debug.Log($"Purchase manager initialize failed with reason [{error.ToString()}]");
+        }
+
+        public void OnInitializeFailed(InitializationFailureReason error, string message)
+        {
+            Debug.Log($"Purchase manager initialize failed with reason [{error.ToString()}] and message [{message}]");
+        }
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
