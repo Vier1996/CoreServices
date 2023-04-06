@@ -118,11 +118,11 @@ namespace ACS.Dialog.Dialogs
             dialogView
                 .AddShownHandler(OnDialogShown)
                 .AddHiddenHandler(OnDialogHidden);
-            
+        
+            _raycastLocker.gameObject.SetActive(false);
+
             dialogView.SetParent(_dialogsParent);
             dialogView.Show();
-            
-            _raycastLocker.gameObject.SetActive(false);
         }
         
         private void OnDialogShown(DialogView dialogView)
