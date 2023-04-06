@@ -159,7 +159,7 @@ namespace ACS.ObjectPool.ObjectPool.Default
         {
             for (int i = 0; i < Pool[poolID].Count; i++)
             {
-                if (Pool[poolID][i].activeSelf == false)
+                if (Pool[poolID][i] != null && Pool[poolID][i].activeSelf == false)
                     return Pool[poolID][i];
             }
             return null;
