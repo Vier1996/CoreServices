@@ -8,6 +8,7 @@ using ACS.Dialog.Dialogs.View;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Zenject;
 using Object = System.Object;
 
@@ -35,6 +36,7 @@ namespace ACS.Dialog.Dialogs
         
         private readonly DialogsServiceConfig _dialogsServiceConfig;
         private readonly RectTransform _dialogsParent;
+        private GameObject _raycastLocker;
         
         public DialogService(DiContainer diContainer, DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
         {
@@ -47,8 +49,21 @@ namespace ACS.Dialog.Dialogs
             OnSceneChanged(default, default);
         }
 
-        public void PrepareService() { }
+        public void PrepareService() => CreateRaycastLocker();
 
+        private void CreateRaycastLocker()
+        {
+            _raycastLocker = new GameObject("RaycastLocker");
+            _raycastLocker.transform.SetParent(_dialogsParent);
+            _raycastLocker.gameObject.SetActive(false);
+            
+            RectTransform lockerRect = _raycastLocker.AddComponent<RectTransform>();
+            lockerRect.sizeDelta = new Vector2(Screen.width, Screen.height) * 1.5f;
+            
+            Image lockerImage = _raycastLocker.AddComponent<Image>();
+            lockerImage.color = Color.clear;
+        }
+        
         public async void CallDialog(Type dialogType, SourceContext context = SourceContext.PROJECT_CONTEXT) => 
             ShowDialog(await InstantiateDialog<DialogArgs>(dialogType, null, context));
 
@@ -72,6 +87,8 @@ namespace ACS.Dialog.Dialogs
         
         private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args, SourceContext context = SourceContext.PROJECT_CONTEXT) where TArgs : DialogArgs
         {
+            _raycastLocker.gameObject.SetActive(true);
+
             ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + dialogType.Name);
             GameObject dialogPrefab = await resourceRequest as GameObject;
 
@@ -104,6 +121,8 @@ namespace ACS.Dialog.Dialogs
             
             dialogView.SetParent(_dialogsParent);
             dialogView.Show();
+            
+            _raycastLocker.gameObject.SetActive(false);
         }
         
         private void OnDialogShown(DialogView dialogView)
