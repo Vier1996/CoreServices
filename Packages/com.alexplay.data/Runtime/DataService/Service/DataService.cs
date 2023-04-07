@@ -17,6 +17,8 @@ namespace ACS.Data.DataService.Service
     [UsedImplicitly]
     public class DataService : IDataService, IDisposable
     {
+        public event Action UpdateModelData;
+        
         public IProgressModelContainer Models
         {
             get => _modelsContainer;
@@ -61,6 +63,7 @@ namespace ACS.Data.DataService.Service
 
         public void ApplySerializedData(string serializedData)
         {
+            bool hasChanges = false;
             SerializedModelsData deserializedData = JsonUtility.FromJson<SerializedModelsData>(serializedData);
             List<ProgressModel> allModels = _modelsContainer.GetAll();
             List<SerializedModel> deserializedModels = deserializedData.SerializedModels;
@@ -81,9 +84,13 @@ namespace ACS.Data.DataService.Service
                         progressModel.SetupModel(_dataTools);
                         progressModel.PutData(deserializedModels[i].ModelData);
                         progressModel.DemandSaveImmediate();
+                        hasChanges = true;
                     }
                 }
             }
+            
+            if(hasChanges)
+                UpdateModelData?.Invoke();
         }
 
         public void ClearLocalData(List<ProgressModel> localModels)
