@@ -15,7 +15,10 @@ namespace ACS.Data.DataService.Saver
         private ProgressModel _model;
         private string _path;
 
-        
+#if UNITY_EDITOR
+        private string _debugPath;
+#endif
+
         public DataSaver(ProgressModel model, DataTool tool)
         {
             _dataTool = tool;
@@ -23,16 +26,26 @@ namespace ACS.Data.DataService.Saver
 
             _model = model;
             _path = _dataTool.Path + _model.GetType().Name + _dataTool.Extension;
+#if UNITY_EDITOR
+            _debugPath = _dataTool.DebugPath + _model.GetType().Name + _dataTool.Extension;
+#endif
         }
 
         public void SaveProgressData()
         {
             string serializedData = JsonConvert.SerializeObject(_model);
             string data = _dataTool.Security.Encrypt(serializedData);
-
+            
+            _model.PutData(serializedData);
+            
+#if UNITY_EDITOR
+            string debugData = _dataTool.Security.Encrypt(serializedData, ignoreCrypt: true);
+#endif
+            
             try
             {
                 File.WriteAllText(_path, data);
+                File.WriteAllText(_debugPath, debugData);
             }
             catch (Exception ex)
             {

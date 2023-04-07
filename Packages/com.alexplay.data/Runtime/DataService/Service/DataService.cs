@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ACS.Data.DataService.Config;
 using ACS.Data.DataService.Container;
 using ACS.Data.DataService.Loader;
 using ACS.Data.DataService.Model;
+using ACS.Data.DataService.Saver;
 using ACS.Data.DataService.Tool;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace ACS.Data.DataService.Service
 {
@@ -23,6 +26,7 @@ namespace ACS.Data.DataService.Service
 
         private DataTool _dataTools;
         private DataLoader _dataLoader;
+        private DataCleaner _dataCleaner;
         
         private ProgressModelsContainer _modelsContainer;
         
@@ -30,8 +34,57 @@ namespace ACS.Data.DataService.Service
         {
             _dataTools = new DataTool(dataServiceConfig);
             _dataLoader = new DataLoader(_dataTools);
+            _dataCleaner = new DataCleaner(_dataTools);
+        }
+
+        public string GetSerializedData()
+        {
+            SerializedModelsData serializedModelsDatas = new SerializedModelsData();
+            List<ProgressModel> allModels = _modelsContainer.GetAll();
+            
+            for (int i = 0; i < allModels.Count; i++)
+            {
+                string modelData = allModels[i].GetData();
+
+                if(!modelData.Equals(""))
+                    serializedModelsDatas.SerializedModels.Add(new SerializedModel()
+                    {
+                        ModelName = allModels[i].GetType().Name,
+                        ModelData = modelData
+                    });
+            }
+
+            string serializedData = JsonUtility.ToJson(serializedModelsDatas);
+            return serializedData;
+        }
+
+        public void ApplySerializedData(string serializedData)
+        {
+            SerializedModelsData deserializedData = JsonUtility.FromJson<SerializedModelsData>(serializedData);
+            List<ProgressModel> allModels = _modelsContainer.GetAll();
+            List<SerializedModel> deserializedModels = deserializedData.SerializedModels;
+         
+            ClearLocalData(allModels);
+            
+            for (int i = 0; i < deserializedModels.Count; i++)
+            {
+                ProgressModel progressModel = allModels.FirstOrDefault(md => md.GetType().Name.Equals(deserializedModels[i].ModelName));
+
+                if (progressModel != default)
+                {
+                    progressModel.PutData(deserializedModels[i].ModelData);
+                    progressModel.DemandSaveImmediate();
+                }
+            }
+        }
+
+        public void ClearLocalData(List<ProgressModel> localModels)
+        {
+            for (int i = 0; i < localModels.Count; i++)
+                _dataCleaner.DeleteModel<ProgressModel>(localModels[i].GetType());
         }
         
+
         public void PrepareService()
         {
             TryCreateDirectory();
@@ -50,10 +103,11 @@ namespace ACS.Data.DataService.Service
                 if(modelType.ContainsGenericParameters || modelType.IsAbstract)
                     continue;
                 
-                ProgressModel model = _dataLoader.LoadProgressJson<ProgressModel>(modelType);
+                (ProgressModel, string) modelData = _dataLoader.LoadProgressJson<ProgressModel>(modelType);
                 
-                model.SetupModel(_dataTools);
-                models.Add(model);
+                modelData.Item1.SetupModel(_dataTools);
+                modelData.Item1.PutData(modelData.Item2);
+                models.Add(modelData.Item1);
             }
 
             _modelsContainer = new ProgressModelsContainer(models);
@@ -61,14 +115,25 @@ namespace ACS.Data.DataService.Service
 
         private void TryCreateDirectory()
         {
-            if(Directory.Exists(_dataTools.ModelDirectoriesPath))
-                return;
-            
-            Directory.CreateDirectory(_dataTools.ModelDirectoriesPath);
+            if(!Directory.Exists(_dataTools.ModelDirectoriesPath)) Directory.CreateDirectory(_dataTools.ModelDirectoriesPath);
+            if(!Directory.Exists(_dataTools.ModelDebugDirectoriesPath)) Directory.CreateDirectory(_dataTools.ModelDebugDirectoriesPath);
         }
 
         public void Dispose()
         {
         }
+    }
+
+    [System.Serializable]
+    public class SerializedModelsData
+    {
+        public List<SerializedModel> SerializedModels = new List<SerializedModel>();
+    }
+
+    [System.Serializable]
+    public class SerializedModel
+    {
+        public string ModelName;
+        public string ModelData;
     }
 }

@@ -8,11 +8,15 @@ namespace ACS.Data.DataService.Model
     public class ProgressModel
     {
         private DataSaver _saver;
-        
+
+        private string _serializedData = "";
         private long _lastSaveTicks = 0;
         private long _savingDelay = TimeSpan.FromSeconds(2).Ticks;
-
+        
         public void SetupModel(DataTool tool) => _saver = new DataSaver(this, tool);
+        public void PutData(string serializedData) => _serializedData = serializedData;
+        public string GetData() => _serializedData;
+        public void DemandSaveImmediate() => SaveData();
 
         protected void SetSavingDelay(float savingDelay = 2f) => _savingDelay = TimeSpan.FromSeconds(savingDelay).Ticks;
 
@@ -21,9 +25,7 @@ namespace ACS.Data.DataService.Model
             if (SaveAllowed()) 
                 SaveData();
         }
-
-        protected void DemandSaveImmediate() => SaveData();
-
+        
         private void SaveData()
         {
             _lastSaveTicks = DateTime.UtcNow.Ticks;

@@ -13,7 +13,7 @@ namespace ACS.Data.DataService.Loader
 
         public DataLoader(DataTool tool) => _dataTool = tool;
 
-        public TModel LoadProgressJson<TModel>(Type modelType) where TModel : new()
+        public (TModel, string) LoadProgressJson<TModel>(Type modelType) where TModel : new()
         {
             TModel model = default;
             string path = _dataTool.Path + modelType.Name + _dataTool.Extension;
@@ -26,20 +26,22 @@ namespace ACS.Data.DataService.Loader
                 try
                 {
                     model = (TModel) JsonConvert.DeserializeObject(data, modelType);
+                   
                     Debug.Log($"File for [{modelType.Name}] found, data applied");
                 }
                 catch (Exception e)
                 {
-                    Debug.Log($"Corrupted data for [{modelType.Name}], set default data. \n {e.Message}");
+                    data = "";
                     model = (TModel) Activator.CreateInstance(modelType);
+                    
+                    Debug.Log($"Corrupted data for [{modelType.Name}], set default data. \n {e.Message}");
                 }
                 
-                return model;
+                return (model, data);
             }
             
             Debug.Log($"File for [{modelType.Name}] not found, applied default data");
-            
-            return (TModel) Activator.CreateInstance(modelType);
+            return ((TModel) Activator.CreateInstance(modelType), "");
         }
     }
 }

@@ -11,31 +11,33 @@ namespace ACS.Data.DataService.Tool
     {
         public readonly DataSecurity Security;
         public string Path { get; }
+        public string DebugPath { get; }
         public string ModelDirectoriesPath { get; }
+        public string ModelDebugDirectoriesPath { get; }
         public string Extension => _extension;
 
         private System.Reflection.Assembly _sharpAssembly;
 
         private const string _sharpAssemblyName = "Assembly-CSharp";
+        
         private const string _modelsPath = "/Data/Models/";
+        private const string _modelDebugPath = "/Debug/Models/";
+        
         private const string _modelDirectoriesPath = "/Data/Models";
+        private const string _modelDebugDirectoriesPath = "/Debug/Models";
+        
         private const string _extension = ".apd";
 
         public DataTool(DataServiceConfig dataServiceConfig)
         {
             Path = Application.persistentDataPath + _modelsPath;
-            ModelDirectoriesPath = Application.persistentDataPath + _modelDirectoriesPath;
-            _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(_sharpAssemblyName));
-
-            bool ignoreCrypt = false;
-
-#if UNITY_EDITOR
-            ignoreCrypt = dataServiceConfig.IgnoreCrypt;
-#else
-            ignoreCrypt = false;
-#endif
+            DebugPath = Application.persistentDataPath + _modelDebugPath;
             
-            Security = new DataSecurity(ignoreCrypt);
+            ModelDirectoriesPath = Application.persistentDataPath + _modelDirectoriesPath;
+            ModelDebugDirectoriesPath = Application.persistentDataPath + _modelDebugDirectoriesPath;
+            
+            _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(_sharpAssemblyName));
+            Security = new DataSecurity();
         }
         
         public List<Type> GetTypes<TAttribute, TType>() => GetTypesWithAttribute<TAttribute, TType>(_sharpAssembly);
