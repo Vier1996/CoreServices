@@ -9,6 +9,7 @@ using ACS.Data.DataService.Model;
 using ACS.Data.DataService.Saver;
 using ACS.Data.DataService.Tool;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace ACS.Data.DataService.Service
@@ -72,8 +73,14 @@ namespace ACS.Data.DataService.Service
 
                 if (progressModel != default)
                 {
-                    progressModel.PutData(deserializedModels[i].ModelData);
-                    progressModel.DemandSaveImmediate();
+                    var deserializeObject = (ProgressModel) JsonConvert.DeserializeObject(deserializedModels[i].ModelData, progressModel.GetType());
+
+                    if (deserializeObject != null)
+                    {
+                        progressModel = deserializeObject;
+                        progressModel.PutData(deserializedModels[i].ModelData);
+                        progressModel.DemandSaveImmediate();
+                    }
                 }
             }
         }
