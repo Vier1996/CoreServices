@@ -78,6 +78,7 @@ namespace ACS.Data.DataService.Service
                     if (deserializeObject != null)
                     {
                         progressModel = deserializeObject;
+                        progressModel.SetupModel(_dataTools);
                         progressModel.PutData(deserializedModels[i].ModelData);
                         progressModel.DemandSaveImmediate();
                     }
