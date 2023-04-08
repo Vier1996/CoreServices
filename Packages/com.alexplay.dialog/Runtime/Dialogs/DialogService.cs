@@ -10,7 +10,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
-using Object = System.Object;
 
 namespace ACS.Dialog.Dialogs
 {
@@ -84,7 +83,13 @@ namespace ACS.Dialog.Dialogs
             dialog = (T)dialogView;
             return true;
         }
-        
+
+        public void CloseAllDialogs()
+        {
+            while (_activeDialogs.Count > 0) 
+                _activeDialogs[0].Hide();
+        }
+
         private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args, SourceContext context = SourceContext.PROJECT_CONTEXT) where TArgs : DialogArgs
         {
             _raycastLocker.gameObject.SetActive(true);

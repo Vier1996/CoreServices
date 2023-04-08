@@ -52,7 +52,7 @@ namespace ACS.Dialog.Dialogs.View
             }   
         }
 
-        protected virtual void Hide()
+        public virtual void Hide()
         {
             _visible = false;
 
