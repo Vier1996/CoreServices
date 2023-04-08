@@ -6,27 +6,19 @@ namespace ACS.Data.DataService.Container
 {
     public class ProgressModelsContainer : IProgressModelContainer
     {
-        private List<ProgressModel> _models;
-        public ProgressModelsContainer(List<ProgressModel> models) => _models = models;
+        public Dictionary<Type, ProgressModel> Models => _models;
+        
+        private Dictionary<Type, ProgressModel> _models;
+        public ProgressModelsContainer(Dictionary<Type, ProgressModel> models) => _models = models;
 
         public TModel Resolve<TModel>() where TModel : ProgressModel
         {
-            ProgressModel model = null;
-            Type modelType = null;
             Type demandedType = typeof(TModel);
-            
-            for (int i = 0; i < _models.Count; i++)
-            {
-                model = _models[i];
-                modelType = model.GetType();
-                
-                if(modelType == demandedType)
-                    return (TModel)model;
-            }
 
+            if (_models.ContainsKey(demandedType))
+                return (TModel)_models[demandedType];
+            
             throw new ArgumentException($"Model with type of {demandedType} not present in container.");
         }
-        
-        public List<ProgressModel> GetAll() => _models;
     }
 }

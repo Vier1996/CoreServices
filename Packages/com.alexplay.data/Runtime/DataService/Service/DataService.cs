@@ -17,8 +17,8 @@ namespace ACS.Data.DataService.Service
     [UsedImplicitly]
     public class DataService : IDataService, IDisposable
     {
-        public event Action UpdateModelData;
-        
+        public event Action ModelsDataChanged;
+
         public IProgressModelContainer Models
         {
             get => _modelsContainer;
@@ -43,16 +43,15 @@ namespace ACS.Data.DataService.Service
         public string GetSerializedData()
         {
             SerializedModelsData serializedModelsDatas = new SerializedModelsData();
-            List<ProgressModel> allModels = _modelsContainer.GetAll();
-            
-            for (int i = 0; i < allModels.Count; i++)
+
+            foreach (KeyValuePair<Type,ProgressModel> modelPair in _modelsContainer.Models)
             {
-                string modelData = allModels[i].GetData();
+                string modelData = modelPair.Value.GetData();
 
                 if(!modelData.Equals(""))
                     serializedModelsDatas.SerializedModels.Add(new SerializedModel()
                     {
-                        ModelName = allModels[i].GetType().Name,
+                        ModelName = modelPair.Value.GetType().Name,
                         ModelData = modelData
                     });
             }
@@ -63,40 +62,51 @@ namespace ACS.Data.DataService.Service
 
         public void ApplySerializedData(string serializedData)
         {
-            bool hasChanges = false;
             SerializedModelsData deserializedData = JsonUtility.FromJson<SerializedModelsData>(serializedData);
-            List<ProgressModel> allModels = _modelsContainer.GetAll();
-            List<SerializedModel> deserializedModels = deserializedData.SerializedModels;
-         
-            ClearLocalData(allModels);
+            List<SerializedModel> deserializedModels = deserializedData.SerializedModels ?? new List<SerializedModel>();
+            
+            ClearLocalData();
             
             for (int i = 0; i < deserializedModels.Count; i++)
             {
-                ProgressModel progressModel = allModels.FirstOrDefault(md => md.GetType().Name.Equals(deserializedModels[i].ModelName));
+                KeyValuePair<Type,ProgressModel> progressPair = _modelsContainer.Models
+                    .FirstOrDefault(md => md.Value.GetType().Name.Equals(deserializedModels[i].ModelName));
 
-                if (progressModel != default)
+                if (progressPair.Value != default)
                 {
-                    var deserializeObject = (ProgressModel) JsonConvert.DeserializeObject(deserializedModels[i].ModelData, progressModel.GetType());
+                    Type targetType = progressPair.Value.GetType();
+                    ProgressModel deserializedObject = (ProgressModel) JsonConvert.DeserializeObject(deserializedModels[i].ModelData, targetType);
 
-                    if (deserializeObject != null)
+                    if (deserializedObject != null)
                     {
-                        progressModel = deserializeObject;
-                        progressModel.SetupModel(_dataTools);
-                        progressModel.PutData(deserializedModels[i].ModelData);
-                        progressModel.DemandSaveImmediate();
-                        hasChanges = true;
+                        deserializedObject.SetupModel(_dataTools);
+                        deserializedObject.PutData(deserializedModels[i].ModelData);
+                        deserializedObject.DemandSaveImmediate();
+                        
+                        if (_modelsContainer.Models.ContainsKey(targetType))
+                            _modelsContainer.Models[targetType] = deserializedObject;
                     }
                 }
             }
             
-            if(hasChanges)
-                UpdateModelData?.Invoke();
+            ModelsDataChanged?.Invoke();
         }
 
-        public void ClearLocalData(List<ProgressModel> localModels)
+        public void ClearLocalData()
         {
-            for (int i = 0; i < localModels.Count; i++)
-                _dataCleaner.DeleteModel<ProgressModel>(localModels[i].GetType());
+            List<Type> actualModelTypes = new List<Type>();
+
+            foreach (KeyValuePair<Type, ProgressModel> modelPair in _modelsContainer.Models)
+            {
+                _dataCleaner.DeleteModel<ProgressModel>(modelPair.Value.GetType());
+                actualModelTypes.Add(modelPair.Key);
+            }
+
+            for (int i = 0; i < actualModelTypes.Count(); i++)
+            {
+                _modelsContainer.Models[actualModelTypes[i]] = (ProgressModel) Activator.CreateInstance(actualModelTypes[i]);
+                _modelsContainer.Models[actualModelTypes[i]].SetupModel(_dataTools);
+            }
         }
         
 
@@ -109,7 +119,7 @@ namespace ACS.Data.DataService.Service
         private void LoadData()
         {
             List<Type> modelTypes = _dataTools.GetTypes<ProgressModelAttribute, ProgressModel>();
-            List<ProgressModel> models = new List<ProgressModel>();
+            Dictionary<Type, ProgressModel> models = new Dictionary<Type, ProgressModel>();
 
             for (int i = 0; i < modelTypes.Count; i++)
             {
@@ -122,7 +132,7 @@ namespace ACS.Data.DataService.Service
                 
                 modelData.Item1.SetupModel(_dataTools);
                 modelData.Item1.PutData(modelData.Item2);
-                models.Add(modelData.Item1);
+                models.Add(modelType, modelData.Item1);
             }
 
             _modelsContainer = new ProgressModelsContainer(models);
