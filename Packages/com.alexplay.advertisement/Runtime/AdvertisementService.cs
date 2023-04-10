@@ -11,6 +11,15 @@ namespace ACS.Ads
     public class AdvertisementService : IAdvertisementService, IDisposable
     {
         public event Action<bool> OnVideoStateChanged;
+        
+        public event Action<string> RewardedEventShow;
+        public event Action<string> RewardedEventShown;
+        public event Action<string> RewardedEventCancel;
+        
+        public event Action<string> IntersitialEventShow;
+        public event Action<string> IntersitialEventShown;
+        public event Action<string> IntersitialEventCancel;
+        
         public event Action RewardedShown;
         public event Action InterstitialShown;
 
@@ -24,6 +33,8 @@ namespace ACS.Ads
         private DateTime _lastAdPlayingTime;
         private Action _shownCallback;
         private Action _failedCallback;
+
+        private string _place = "";
         
         private readonly TimeSpan _initDelay;
 
@@ -53,28 +64,35 @@ namespace ACS.Ads
         public void CanPlayInterstitial(bool canPlay) => _canPlayInterstitial = canPlay;
         public void CanPlayRewarded(bool canPlay) => _canPlayRewarded = canPlay;
 
-        public void PlayRewarded(Action shownCallback, Action failedCallback = null)
+        public void PlayRewarded(Action shownCallback, Action failedCallback = null, string place = "")
         {
             if (!_canPlayRewarded) return;
 
+            _place = place;
+            
             shownCallback += () => RewardedShown?.Invoke();
 
 #if UNITY_EDITOR
             shownCallback?.Invoke();
 #else
             if (IronS.Agent.isRewardedVideoAvailable() == false) return;
+            
             _shownCallback = shownCallback;
             _failedCallback = failedCallback;
             _lastAdPlayingTime = DateTime.UtcNow;
             
+            RewardedEventShow?.Invoke(_place);
+
             IronS.Agent.showRewardedVideo();
 #endif
         }
 
-        public void PlayInterstitial(Action shownCallback = null, Action failedCallback = null)
+        public void PlayInterstitial(Action shownCallback = null, Action failedCallback = null, string place = "")
         {
             if (!_canPlayInterstitial) return;
             
+            _place = place;
+
             if (Time.realtimeSinceStartup < _options.FreeInterstitialsAtStart) return;
             if (IronS.Agent.isInterstitialReady() == false)
             {
@@ -88,8 +106,12 @@ namespace ACS.Ads
                 
                 _shownCallback = shownCallback;
                 _failedCallback = failedCallback;
+                
+                IntersitialEventShow?.Invoke(_place);
+                
                 IS.IronSource.Scripts.IronSource.Agent.showInterstitial();
                 IS.IronSource.Scripts.IronSource.Agent.loadInterstitial();
+                
                 _lastAdPlayingTime = DateTime.UtcNow;
             }
         }
@@ -216,8 +238,20 @@ namespace ACS.Ads
         
         #region REWARDED_EVENTS
         public void RewardedVideoAdOpenedEvent() { }
-        public void RewardedVideoAdClosedEvent() => ResumeApplication();
-        public void RewardedVideoAdRewardedEvent(IronSourcePlacement ironSourcePlacement) => OnVideoShown();
+        public void RewardedVideoAdClosedEvent()
+        {
+            ResumeApplication();
+            
+            RewardedEventCancel?.Invoke(_place);
+        }
+
+        public void RewardedVideoAdRewardedEvent(IronSourcePlacement ironSourcePlacement)
+        {
+            OnVideoShown();
+            
+            RewardedEventShown?.Invoke(_place);
+        }
+
         public void RewardedVideoAvailabilityChangedEvent(bool b) => OnVideoStateChanged?.Invoke(b);
         public void RewardedVideoAdStartedEvent() => PauseApplication();
         public void RewardedVideoAdEndedEvent() => ResumeApplication();
@@ -228,11 +262,23 @@ namespace ACS.Ads
         #region INTERSTITIAL_EVENTS
         public void InterstitialAdReadyEvent() { }
         public void InterstitialAdLoadFailedEvent(IronSourceError ironSourceError) { }
-        public void InterstitialAdShowSucceededEvent() => OnVideoShown();
+        public void InterstitialAdShowSucceededEvent()
+        {
+            OnVideoShown();
+            
+            IntersitialEventShown?.Invoke(_place);
+        }
+
         public void InterstitialAdShowFailedEvent(IronSourceError ironSourceError) => OnVideoFailed();
         public void InterstitialAdClickedEvent() { }
         public void InterstitialAdOpenedEvent() { }
-        public void InterstitialAdClosedEvent() => OnVideoFailed();
+        public void InterstitialAdClosedEvent()
+        {
+            OnVideoFailed();
+            
+            IntersitialEventCancel?.Invoke(_place);
+        }
+
         #endregion
         
         #region BANNER_EVENTS
