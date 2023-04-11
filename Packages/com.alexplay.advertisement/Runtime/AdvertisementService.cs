@@ -144,7 +144,26 @@ namespace ACS.Ads
         {
             IronSourceEvents.onSdkInitializationCompletedEvent += OnSdkInitializationCompletedEvent;
 #if UNITY_ANDROID
-            IronS.Agent.init(_config.AndroidIdentifier, IronSourceAdUnits.REWARDED_VIDEO, IronSourceAdUnits.INTERSTITIAL, IronSourceAdUnits.BANNER);
+
+            List<string> adUnits = new List<string>();
+            
+            for (int i = 0; i < _config.Options.AdvertisementTypes.Count; i++)
+            {
+                switch (_config.Options.AdvertisementTypes[i])
+                {
+                    case AdvertisementType.INTERSTITIAL: 
+                        adUnits.Add(IronSourceAdUnits.INTERSTITIAL);
+                        break;
+                    case AdvertisementType.REWARDED: 
+                        adUnits.Add(IronSourceAdUnits.REWARDED_VIDEO);
+                        break;
+                    case AdvertisementType.BANNER: 
+                        adUnits.Add(IronSourceAdUnits.BANNER);
+                        break;
+                }
+            }
+            
+            IronS.Agent.init(_config.AndroidIdentifier, adUnits.ToArray());
 #elif UNITY_IOS
             //IronSource.Agent.init(_config.IosIdentifier, IronSourceAdUnits.REWARDED_VIDEO, IronSourceAdUnits.INTERSTITIAL, IronSourceAdUnits.BANNER);
 #endif
@@ -329,5 +348,13 @@ namespace ACS.Ads
             }
         }
         #endregion
+
+        public enum AdvertisementType
+        {
+            NONE, 
+            INTERSTITIAL,
+            REWARDED,
+            BANNER
+        }
     }
 }
