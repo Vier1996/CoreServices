@@ -45,7 +45,10 @@ namespace ACS.Data.DataService.Saver
             try
             {
                 File.WriteAllText(_path, data);
+                
+#if UNITY_EDITOR
                 File.WriteAllText(_debugPath, debugData);
+#endif
             }
             catch (Exception ex)
             {
