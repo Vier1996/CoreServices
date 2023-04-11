@@ -209,9 +209,12 @@ namespace ACS.Ads
             
             IS.IronSource.Scripts.IronSource.Agent.validateIntegration();
             await UniTask.Delay(_initDelay);
-            
-            IS.IronSource.Scripts.IronSource.Agent.loadInterstitial();
-            await UniTask.Delay(_initDelay);
+
+            if (_config.Options.AdvertisementTypes.Contains(AdvertisementType.INTERSTITIAL))
+            {
+                IS.IronSource.Scripts.IronSource.Agent.loadInterstitial();
+                await UniTask.Delay(_initDelay);
+            }
         }
 
         #endregion
