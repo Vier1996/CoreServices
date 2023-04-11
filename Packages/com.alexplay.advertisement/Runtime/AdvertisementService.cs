@@ -59,8 +59,22 @@ namespace ACS.Ads
 
         public void ChangeOptions(AdvertisementOptions options) => _options = options;
 
-        public bool IsInterstitialReady() => IS.IronSource.Scripts.IronSource.Agent.isInterstitialReady();
-        public bool IsRewardedReady() => IS.IronSource.Scripts.IronSource.Agent.isRewardedVideoAvailable();
+        public bool IsInterstitialReady()
+        {
+#if UNITY_EDITOR
+            return true;
+#endif
+            return IS.IronSource.Scripts.IronSource.Agent.isInterstitialReady();
+        }
+
+        public bool IsRewardedReady()
+        {
+#if UNITY_EDITOR
+            return true;
+#endif
+            return IS.IronSource.Scripts.IronSource.Agent.isRewardedVideoAvailable();
+        }
+
         public void CanPlayInterstitial(bool canPlay) => _canPlayInterstitial = canPlay;
         public void CanPlayRewarded(bool canPlay) => _canPlayRewarded = canPlay;
 
