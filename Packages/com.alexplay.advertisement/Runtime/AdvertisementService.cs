@@ -143,7 +143,6 @@ namespace ACS.Ads
         private void InitIronSource()
         {
             IronSourceEvents.onSdkInitializationCompletedEvent += OnSdkInitializationCompletedEvent;
-#if UNITY_ANDROID
 
             List<string> adUnits = new List<string>();
             
@@ -163,9 +162,10 @@ namespace ACS.Ads
                 }
             }
             
+#if UNITY_ANDROID
             IronS.Agent.init(_config.AndroidIdentifier, adUnits.ToArray());
 #elif UNITY_IOS
-            //IronSource.Agent.init(_config.IosIdentifier, IronSourceAdUnits.REWARDED_VIDEO, IronSourceAdUnits.INTERSTITIAL, IronSourceAdUnits.BANNER);
+            IronSource.Agent.init(_config.IosIdentifier, adUnits.ToArray());
 #endif
         }
 
