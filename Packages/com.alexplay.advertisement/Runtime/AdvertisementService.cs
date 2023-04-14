@@ -274,12 +274,7 @@ namespace ACS.Ads
         
         #region REWARDED_EVENTS
         public void RewardedVideoAdOpenedEvent() { }
-        public void RewardedVideoAdClosedEvent()
-        {
-            ResumeApplication();
-            
-            RewardedEventCancel?.Invoke(_place);
-        }
+        public void RewardedVideoAdClosedEvent() => ResumeApplication();
 
         public void RewardedVideoAdRewardedEvent(IronSourcePlacement ironSourcePlacement)
         {
@@ -291,7 +286,13 @@ namespace ACS.Ads
         public void RewardedVideoAvailabilityChangedEvent(bool b) => OnVideoStateChanged?.Invoke(b);
         public void RewardedVideoAdStartedEvent() => PauseApplication();
         public void RewardedVideoAdEndedEvent() => ResumeApplication();
-        public void RewardedVideoAdShowFailedEvent(IronSourceError ironSourceError) => OnVideoFailed();
+        public void RewardedVideoAdShowFailedEvent(IronSourceError ironSourceError)
+        {
+            OnVideoFailed();
+            
+            RewardedEventCancel?.Invoke(_place);
+        }
+
         public void RewardedVideoAdClickedEvent(IronSourcePlacement ironSourcePlacement) { }
         #endregion
         
@@ -305,14 +306,18 @@ namespace ACS.Ads
             IntersitialEventShown?.Invoke(_place);
         }
 
-        public void InterstitialAdShowFailedEvent(IronSourceError ironSourceError) => OnVideoFailed();
+        public void InterstitialAdShowFailedEvent(IronSourceError ironSourceError)
+        {
+            OnVideoFailed();
+            
+            IntersitialEventCancel?.Invoke(_place);
+        }
+
         public void InterstitialAdClickedEvent() { }
         public void InterstitialAdOpenedEvent() { }
         public void InterstitialAdClosedEvent()
         {
             OnVideoFailed();
-            
-            IntersitialEventCancel?.Invoke(_place);
         }
 
         #endregion
