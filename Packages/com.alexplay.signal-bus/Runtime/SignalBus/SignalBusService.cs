@@ -31,6 +31,8 @@ namespace ACS.SignalBus.SignalBus
         public void Subscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.Subscribe(callback);
         public void Unsubscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.TryUnsubscribe(callback);
         public void Fire<TSignalType>(TSignalType signalMessage) => _signalBus.TryFire(signalMessage);
+        public void IsSignalDeclared<TSignalType>(TSignalType signalMessage) => _signalBus.IsSignalDeclared<TSignalType>();
+
 
         private void InstallSignalBus()
         {
