@@ -12,7 +12,7 @@ namespace ACS.Dialog.Dialogs.View
         
         private void Awake()
         {
-            transform.localPosition = Vector3.zero;
+            transform.DOLocalMove(Vector3.zero, 0);
             
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
             _canvasGroup.alpha = 0f;
