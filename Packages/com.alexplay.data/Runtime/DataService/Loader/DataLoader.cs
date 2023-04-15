@@ -26,20 +26,20 @@ namespace ACS.Data.DataService.Loader
                 {
                     model = (TModel) JsonConvert.DeserializeObject(data, modelType);
                    
-                    Debug.Log($"File for [{modelType.Name}] found, data applied");
+                    //Debug.Log($"File for [{modelType.Name}] found, data applied");
                 }
                 catch (Exception e)
                 {
                     data = "";
                     model = (TModel) Activator.CreateInstance(modelType);
                     
-                    Debug.Log($"Corrupted data for [{modelType.Name}], set default data. \n {e.Message}");
+                    //Debug.Log($"Corrupted data for [{modelType.Name}], set default data. \n {e.Message}");
                 }
                 
                 return (model, data);
             }
             
-            Debug.Log($"File for [{modelType.Name}] not found, applied default data");
+            //Debug.Log($"File for [{modelType.Name}] not found, applied default data");
             return ((TModel) Activator.CreateInstance(modelType), "");
         }
     }
