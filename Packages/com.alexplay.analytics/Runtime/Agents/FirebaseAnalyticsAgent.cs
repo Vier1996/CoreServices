@@ -7,8 +7,6 @@ namespace ACS.Analytics.Agents
     [AnalyticsAgentAttribute]
     public class FirebaseAnalyticsAgent : IAnalyticsAgent
     {
-        public bool CanTrack { get; set; }
-        
         private const string _keyPrefix = "FirebaseAnalytics:TrackedEvent:";
         
         private bool _isInitialized = false;

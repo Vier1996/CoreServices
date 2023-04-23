@@ -64,7 +64,6 @@ namespace ACS.Analytics
                 if (agentInfo != null && agentInfo.CanTrackEvents)
                 {
                     IAnalyticsAgent analyticsAgent = (IAnalyticsAgent) Activator.CreateInstance(agentType);
-                    analyticsAgent.CanTrack = agentInfo.CanTrackEvents;
                     _agents.Add(analyticsAgent);
                 }
             }
