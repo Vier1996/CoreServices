@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace ACS.Analytics
 {
-    public class AnalyticsService
+    public class AnalyticsService : IAnalyticsService
     {
         private List<IAnalyticsAgent> _agents;
 
@@ -19,34 +17,38 @@ namespace ACS.Analytics
 
         public void TrackEvent(string eventName)
         {
-            foreach (IAnalyticsAgent agent in _agents)
-            {
-                agent.SendEvent(eventName);
-            }
+            foreach (IAnalyticsAgent agent in _agents) 
+                agent.TrackEvent(eventName);
+        }
+
+        public void TrackEvent(string eventName, string paramName, string paramValue)
+        {
+            foreach (IAnalyticsAgent agent in _agents) 
+                agent.TrackEvent(eventName, paramName, paramValue);
         }
 
         public void TrackEvent(string eventName, Dictionary<string, object> @params)
         {
-            foreach (IAnalyticsAgent agent in _agents)
-            {
-                agent.SendEvent(eventName, @params);
-            }
+            foreach (IAnalyticsAgent agent in _agents) 
+                agent.TrackEvent(eventName, @params);
         }
 
         public void TrackEventOnce(string eventName)
         {
-            foreach (IAnalyticsAgent agent in _agents)
-            {
-                agent.SendEventOnce(eventName);
-            }
+            foreach (IAnalyticsAgent agent in _agents) 
+                agent.TrackEventOnce(eventName);
         }
 
+        public void TrackEventOnce(string eventName, string paramName, string paramValue)
+        {
+            foreach (IAnalyticsAgent agent in _agents) 
+                agent.TrackEventOnce(eventName, paramName, paramValue);
+        }
+        
         public void TrackEventOnce(string eventName, Dictionary<string, object> @params)
         {
-            foreach (IAnalyticsAgent agent in _agents)
-            {
-                agent.SendEventOnce(eventName, @params);
-            }
+            foreach (IAnalyticsAgent agent in _agents) 
+                agent.TrackEventOnce(eventName, @params);
         }
         
         private void InitializeAgents(AnalyticsServiceConfig config)
@@ -67,6 +69,5 @@ namespace ACS.Analytics
                 }
             }
         }
-        
     }
 }

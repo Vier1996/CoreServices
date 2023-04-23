@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Firebase;
 using Firebase.Analytics;
 using UnityEngine;
 
@@ -34,20 +33,27 @@ namespace ACS.Analytics.Agents
 #endif
         }
 
-        public void SendEvent(string eventName)
+        public void TrackEvent(string eventName)
         {
             if (_isInitialized == false) return;
-             
+            
             FirebaseAnalytics.LogEvent(eventName);
         }
 
-        public void SendEvent(string eventName, Dictionary<string, object> eventParams)
+        public void TrackEvent(string eventName, string paramName, string paramValue)
+        {
+            if (_isInitialized == false) return;
+            
+            FirebaseAnalytics.LogEvent(eventName, paramName, paramValue);
+        }
+
+        public void TrackEvent(string eventName, Dictionary<string, object> eventParams)
         {
             if (_isInitialized == false) return;
              
             if (eventParams == null)
             {
-                SendEvent(eventName);
+                TrackEvent(eventName);
                 return;
             }
 
@@ -55,21 +61,30 @@ namespace ACS.Analytics.Agents
             FirebaseAnalytics.LogEvent(eventName, analyticsParams);
         }
 
-        public void SendEventOnce(string eventName)
+        public void TrackEventOnce(string eventName)
         {
             if (_isInitialized == false ||
                 NeedToSendEvent(eventName, out string prefsName) == false) return;
             
-            SendEvent(eventName);
+            TrackEvent(eventName);
             MarkAsSent(prefsName);
         }
 
-        public void SendEventOnce(string eventName, Dictionary<string, object> eventParams)
+        public void TrackEventOnce(string eventName, string paramName, string paramValue)
+        {
+            if (_isInitialized == false ||
+                NeedToSendEvent(eventName, out string prefsName) == false) return;
+            
+            TrackEvent(eventName, paramName, paramValue);
+            MarkAsSent(prefsName);
+        }
+
+        public void TrackEventOnce(string eventName, Dictionary<string, object> eventParams)
         {
             if (_isInitialized == false ||
                 NeedToSendEvent(eventName, out string prefsName) == false) return;
 
-            SendEvent(eventName, eventParams);
+            TrackEvent(eventName, eventParams);
             MarkAsSent(prefsName);
         }
 

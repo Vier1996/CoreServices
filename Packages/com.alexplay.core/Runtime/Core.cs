@@ -329,7 +329,7 @@ namespace ACS.Core
 #if COM_ALEXPLAY_NET_ANALYTICS
             if (coreConfig._analyticsSettings.IsEnabled)
             {
-                _diContainer.BindInstance(_analyticsService).AsSingle();
+                _diContainer.Bind<IAnalyticsService>().FromInstance(_analyticsService).AsSingle();
             }
 #endif
 #if COM_ALEXPLAY_NET_FBRC
