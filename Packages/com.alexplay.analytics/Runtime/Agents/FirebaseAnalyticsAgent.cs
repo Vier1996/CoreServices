@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable once RedundantUsingDirective
+using Firebase;
 using Firebase.Analytics;
 using UnityEngine;
 
