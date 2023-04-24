@@ -12,16 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49669b8b7c1a9604584fafe2b9bc7572, type: 3}
   m_Name: ACS Config
   m_EditorClassIdentifier: 
+  _bootstrapOptions:
+    _isEnabled: 0
+    FrameRateType: 0
+    TargetRate: 60
+    TweenersCapacity: 500
+    SequencesCapacity: 125
+    ScreenOrientation: 1
   _dataSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.data
-    IgnoreCrypt: 0
   _signalBusSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
   _dialogsSettings:
-    _isEnabled: 1
+    _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.dialog
+    RenderMode: 1
     DialogSortingOrder: 0
     DefaultResources: Dialogs/
   _objectPoolSettings:
@@ -34,9 +41,10 @@ MonoBehaviour:
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.advertisement
     AndroidIdentifier: 
     IosIdentifier: 
-    InterstitialsTimeout: 0
-    FreeInterstitialsAtStart: 0
-    RewardedTimeout: 0
+    Options:
+      InterstitialsTimeout: 0
+      FreeInterstitialsAtStart: 0
+      AdvertisementTypes: 
   _gdprSettings:
     _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.gdpr
@@ -54,15 +62,10 @@ MonoBehaviour:
     MixerVolumeParameters: []
     PlaybackPrioritiesAmount: 0
   _purchaseSettings:
-    _isEnabled: 1
-    GooglePlayPublicKey: 
-    ActualInAppPurchases:
-    - Identifier: Test_purchase_id_1
-      Purchase: {fileID: 11400000, guid: fde1e687d4c59954289c2379200b38c6, type: 2}
-      AvailableToExecuting: 1
-    - Identifier: Test_purchase_id_2
-      Purchase: {fileID: 11400000, guid: 54bf0033d57f9734eacf573bfd3cfb7e, type: 2}
-      AvailableToExecuting: 1
+    _isEnabled: 0
+    GooglePlayPublicKey: "\u0421\u044E\u0434\u0430 \u0432\u0441\u0442\u0430\u0432\u0438\u0442\u044C
+      \u043A\u043B\u044E\u0447 \u0441 GooglePlay \u043A\u043E\u043D\u0441\u043E\u043B\u0438"
+    ActualInAppPurchases: []
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.purchase
   _analyticsSettings:
     _isEnabled: 0
@@ -73,51 +76,6 @@ MonoBehaviour:
     LoadingStrategy: 0
     CacheExpirationInSeconds: 0
     IsLoggingEnabled: 0
-    Values:
-    - Name: test_boolean_parameter
-      Type: 0
-      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u0431\u0443\u043B\u0438\u043D\u043E\u0432\u044B\u0439
-        \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440"
-      BoolValue: 0
-      LongValue: 0
-      DoubleValue: 0
-      StringValue: 
-      JsonValue: 
-    - Name: test_json_parameter
-      Type: 4
-      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440
-        JSON"
-      BoolValue: 0
-      LongValue: 0
-      DoubleValue: 0
-      StringValue: 
-      JsonValue: '{"someComplexObject":{"stringProp":"string","intProp":2,"boolProp":true}}'
-    - Name: test_float_parameter
-      Type: 2
-      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u0432\u0435\u0449\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439
-        \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440"
-      BoolValue: 0
-      LongValue: 0
-      DoubleValue: 9.75
-      StringValue: 
-      JsonValue: 
-    - Name: test_string_parameter
-      Type: 3
-      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440
-        \u0441\u0442\u0440\u043E\u043A\u043E\u0432\u043E\u0433\u043E \u0442\u0438\u043F\u0430"
-      BoolValue: 0
-      LongValue: 0
-      DoubleValue: 0
-      StringValue: Hello world! Again 6
-      JsonValue: 
-    - Name: test_int_parameter
-      Type: 1
-      Description: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u0446\u0435\u043B\u043E\u0447\u0438\u0441\u043B\u0435\u043D\u043D\u044B\u0439
-        \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440"
-      BoolValue: 0
-      LongValue: 256
-      DoubleValue: 0
-      StringValue: 
-      JsonValue: 
+    Values: []
     GeneratedFilePath: 
-    SnakeToPascal: 1
+    SnakeToPascal: 0

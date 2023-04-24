@@ -1,0 +1,11 @@
+﻿{
+  "name": "com.alexplay.cheat_tracker",
+  "version": "0.0.1",
+  "displayName": "ACS Cheat Tracker",
+  "author": {
+    "name": "Alexplay",
+    "email": "https://alexplay.net"
+  },
+  "description": "",
+  "unity": "2020.3"
+}
