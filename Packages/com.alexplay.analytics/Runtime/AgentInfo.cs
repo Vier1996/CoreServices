@@ -23,17 +23,14 @@ namespace ACS.Analytics
 
         public Type GetAgentType()
         {
-            try
-            {
-                Assembly assembly = Assembly.Load(AssemblyName);
+            Assembly assembly = Assembly.Load(AssemblyName);
+                if (assembly == null)
+                    Debug.Log($"Assembly '{AssemblyName}' not found");
                 Type agentType = assembly.GetType(TypeFullName);
+                if (agentType == null)    
+                    Debug.Log($"Type with full name '{TypeFullName}' doesn't exist within {AssemblyName}");
                 return agentType;
-            }
-            catch (Exception)
-            {
-                Debug.Log($"Type with full name '{TypeFullName}' doesn't exist");
-                throw;
-            }
+
         }
 
         public bool Equals(AgentInfo other) => 
