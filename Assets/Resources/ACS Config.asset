@@ -68,9 +68,12 @@ MonoBehaviour:
     ActualInAppPurchases: []
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.purchase
   _analyticsSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.analytics
-    ActiveAgents: []
+    ActiveAgents:
+    - TypeFullName: ACS.Analytics.Agents.FirebaseAnalyticsAgent
+      AssemblyName: ACS.Analytics
+      CanTrackEvents: 0
   _fbrcSettings:
     _isEnabled: 0
     LoadingStrategy: 0

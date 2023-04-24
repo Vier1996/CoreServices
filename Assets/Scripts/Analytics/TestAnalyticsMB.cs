@@ -1,5 +1,4 @@
 ﻿using ACS.Analytics;
-using ACS.Analytics.Agents;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -8,17 +7,17 @@ namespace Analytics
 {
     public class TestAnalyticsMB : MonoBehaviour
     {
-        private AnalyticsService _analytics;
+        private IAnalyticsService _analytics;
 
         [Inject]
-        private void Inject(AnalyticsService analytics)
-        {
+        private void Inject(IAnalyticsService analytics) => 
             _analytics = analytics;
-            _analytics.RegisterAgent(new FirebaseAnalyticsAgent());
-        }
 
         [Button]
         private void TrackEvent(string eventName) => 
-            _analytics.TrackEvent(eventName);
+            _analytics.Event("name")
+                .AddParam("paramName", "paramValue")
+                .AddParam("param2", 2)
+                .TrackOnce();
     }
 }
