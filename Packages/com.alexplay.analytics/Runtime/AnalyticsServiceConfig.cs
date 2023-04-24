@@ -16,9 +16,8 @@ namespace ACS.Analytics
         [ShowIf("@IsEnabled == true")]
         public List<AgentInfo> ActiveAgents = new List<AgentInfo>();
         
-        [ShowIf("@_isEnabled == true")]
-        [GUIColor(0.5f, 1, 1)]
-        [PropertyOrder(-1)]
+        #if UNITY_EDITOR
+        [ShowIf("@_isEnabled == true"), GUIColor(0.5f, 1, 1), PropertyOrder(-1)]
         [Button] private void UpdateAgents()
         {
             List<Type> availableAgents = AnalyticsUtils.GetAllAvailableAgents();
@@ -33,5 +32,6 @@ namespace ACS.Analytics
         }
 
         [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
+        #endif
     }
 }
