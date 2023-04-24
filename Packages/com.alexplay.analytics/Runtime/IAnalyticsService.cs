@@ -1,5 +1,4 @@
-﻿using ACS.Analytics.Agent;
-using ACS.Analytics.Bundle;
+﻿using ACS.Analytics.Bundle;
 
 namespace ACS.Analytics
 {

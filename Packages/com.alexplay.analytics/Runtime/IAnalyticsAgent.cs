@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ACS.Analytics.Agent
+namespace ACS.Analytics
 {
     public interface IAnalyticsAgent
     {

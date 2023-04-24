@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ACS.Analytics.Agent;
 using ACS.Analytics.Bundle;
 
 namespace ACS.Analytics
