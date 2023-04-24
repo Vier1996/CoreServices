@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ACS.Analytics
+namespace ACS.Analytics.Agent
 {
     public class AnalyticsAgentAttribute : Attribute { }
 }

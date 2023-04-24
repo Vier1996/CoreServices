@@ -12,16 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49669b8b7c1a9604584fafe2b9bc7572, type: 3}
   m_Name: ACS Config
   m_EditorClassIdentifier: 
+  _bootstrapOptions:
+    _isEnabled: 0
+    FrameRateType: 0
+    TargetRate: 60
+    TweenersCapacity: 500
+    SequencesCapacity: 125
+    ScreenOrientation: 1
   _dataSettings:
     _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.data
-    IgnoreCrypt: 0
   _signalBusSettings:
     _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
   _dialogsSettings:
     _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.dialog
+    RenderMode: 1
     DialogSortingOrder: 0
     DefaultResources: Dialogs/
   _objectPoolSettings:
@@ -34,9 +41,10 @@ MonoBehaviour:
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.advertisement
     AndroidIdentifier: 
     IosIdentifier: 
-    InterstitialsTimeout: 0
-    FreeInterstitialsAtStart: 0
-    RewardedTimeout: 0
+    Options:
+      InterstitialsTimeout: 0
+      FreeInterstitialsAtStart: 0
+      AdvertisementTypes: 
   _gdprSettings:
     _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.gdpr
@@ -65,9 +73,12 @@ MonoBehaviour:
       AvailableToExecuting: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.purchase
   _analyticsSettings:
-    _isEnabled: 0
+    _isEnabled: 1
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.analytics
-    ActiveAgents: []
+    ActiveAgents:
+    - TypeFullName: ACS.Analytics.Agents.FirebaseAnalyticsAgent
+      AssemblyName: ACS.Analytics
+      CanTrackEvents: 1
   _fbrcSettings:
     _isEnabled: 0
     LoadingStrategy: 0

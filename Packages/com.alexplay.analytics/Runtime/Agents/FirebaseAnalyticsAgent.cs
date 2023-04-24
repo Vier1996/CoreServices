@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ACS.Analytics.Agent;
 // ReSharper disable once RedundantUsingDirective
 using Firebase;
 using Firebase.Analytics;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace ACS.Analytics.Agents
 {
-    [AnalyticsAgentAttribute]
+    [AnalyticsAgent]
     public class FirebaseAnalyticsAgent : IAnalyticsAgent
     {
         private const string _keyPrefix = "FirebaseAnalytics:TrackedEvent:";
@@ -39,14 +40,7 @@ namespace ACS.Analytics.Agents
             
             FirebaseAnalytics.LogEvent(eventName);
         }
-
-        public void TrackEvent(string eventName, string paramName, string paramValue)
-        {
-            if (_isInitialized == false) return;
-            
-            FirebaseAnalytics.LogEvent(eventName, paramName, paramValue);
-        }
-
+        
         public void TrackEvent(string eventName, Dictionary<string, object> eventParams)
         {
             if (_isInitialized == false) return;
@@ -69,16 +63,7 @@ namespace ACS.Analytics.Agents
             TrackEvent(eventName);
             MarkAsSent(prefsName);
         }
-
-        public void TrackEventOnce(string eventName, string paramName, string paramValue)
-        {
-            if (_isInitialized == false ||
-                NeedToSendEvent(eventName, out string prefsName) == false) return;
-            
-            TrackEvent(eventName, paramName, paramValue);
-            MarkAsSent(prefsName);
-        }
-
+        
         public void TrackEventOnce(string eventName, Dictionary<string, object> eventParams)
         {
             if (_isInitialized == false ||

@@ -1,33 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using ACS.Analytics.Agent;
+// ReSharper disable RedundantExplicitArrayCreation
 
 namespace ACS.Analytics
 {
     public static class AnalyticsUtils
     {
+        private const string AnalyticsAssemblyName = "ACS.Analytics";
+        private const string CSharpAssemblyName = "Assembly-CSharp";
+        
         public static List<Type> GetAllAvailableAgents()
         {
             List<Type> agents = new List<Type>();
-            
-            agents.AddRange(GetAgentsByAssembly(AnalyticsConstants.AnalyticsAssemblyName));
-            agents.AddRange(GetAgentsByAssembly(AnalyticsConstants.SharpAssemblyName));
+
+            var mainAsm = Assembly.GetEntryAssembly();
+            AssemblyName[] asmList;
+            if (mainAsm is { })
+                asmList = mainAsm.GetReferencedAssemblies();
+            else
+                asmList = new AssemblyName[]
+                {
+                    Assembly.Load(AnalyticsAssemblyName).GetName(),
+                    Assembly.Load(CSharpAssemblyName).GetName(),
+                };
+
+            foreach (AssemblyName name in asmList) 
+                AddAgentsByAssembly(name, agents);
 
             return agents;
         }
         
-        private static List<Type> GetAgentsByAssembly(string assemblyName)
+        private static void AddAgentsByAssembly(AssemblyName assemblyName, ICollection<Type> to)
         {
-            List<Type> agents = new List<Type>();
-            
             foreach(Type type in Assembly.Load(assemblyName).GetTypes())
-            {
-                if (type.GetCustomAttributes(typeof(AnalyticsAgentAttribute), false).Length > 0 &&
-                    !type.Name.Equals(nameof(AnalyticsAgentAttribute)))
-                    agents.Add(type);
-            }
-
-            return agents;
+                if (type.GetInterface(nameof(IAnalyticsAgent)) != null && type.IsClass)
+                    to.Add(type);
         }
     }
 }
