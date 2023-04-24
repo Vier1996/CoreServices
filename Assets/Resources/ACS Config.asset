@@ -78,7 +78,7 @@ MonoBehaviour:
     ActiveAgents:
     - TypeFullName: ACS.Analytics.Agents.FirebaseAnalyticsAgent
       AssemblyName: ACS.Analytics
-      CanTrackEvents: 1
+      CanTrackEvents: 0
   _fbrcSettings:
     _isEnabled: 0
     LoadingStrategy: 0
