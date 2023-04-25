@@ -1,6 +1,9 @@
 <dependencies>
   <packages>
     <package>com.amplitude:android-sdk:2.38.3</package>
+    <package>com.android.installreferrer:installreferrer:2.1</package>
+    <package>com.appsflyer:af-android-sdk:6.8.2</package>
+    <package>com.appsflyer:unity-wrapper:6.8.2</package>
     <package>com.google.android.gms:play-services-ads-identifier:18.0.1</package>
     <package>com.google.android.gms:play-services-base:18.1.0</package>
     <package>com.google.android.gms:play-services-basement:18.1.0</package>
