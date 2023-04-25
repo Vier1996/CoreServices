@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ACS.Ads.com.alexplay.advertisement.Runtime;
 using Cysharp.Threading.Tasks;
 using IS.IronSource.Scripts;
 using UnityEngine;
@@ -19,9 +18,6 @@ namespace ACS.Ads
         public event Action<string> IntersitialEventShow;
         public event Action<string> IntersitialEventShown;
         public event Action<string> IntersitialEventCancel;
-        
-        public event Action RewardedShown;
-        public event Action InterstitialShown;
 
         private readonly AdvertisementServiceConfig _config;
         private readonly IntentService.IntentService _intentService;
@@ -29,7 +25,9 @@ namespace ACS.Ads
         private bool _canPlayRewarded = true;
         private bool _canPlayInterstitial = true;
 
+        private AdvertisementImpressionSender _advertisementImpressionSender;
         private AdvertisementOptions _options;
+        
         private DateTime _lastAdPlayingTime;
         private Action _shownCallback;
         private Action _failedCallback;
@@ -55,6 +53,9 @@ namespace ACS.Ads
             SetMetaSettings(true);
             InitIronSource();
             BindIronSourceEvents();
+
+            if(_config.HandleImpression)
+                _advertisementImpressionSender = new AdvertisementImpressionSender(_config.IsDebug);
         }
 
         public void ChangeOptions(AdvertisementOptions options) => _options = options;
@@ -84,8 +85,6 @@ namespace ACS.Ads
 
             _place = place;
             
-            shownCallback += () => RewardedShown?.Invoke();
-
 #if UNITY_EDITOR
             shownCallback?.Invoke();
 #else
@@ -116,8 +115,6 @@ namespace ACS.Ads
 
             if ((DateTime.UtcNow - _lastAdPlayingTime).TotalSeconds < _options.InterstitialsTimeout)
             {
-                shownCallback += () => InterstitialShown?.Invoke();
-                
                 _shownCallback = shownCallback;
                 _failedCallback = failedCallback;
                 

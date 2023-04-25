@@ -1,13 +1,10 @@
 ﻿using System;
 
-namespace ACS.Ads.com.alexplay.advertisement.Runtime
+namespace ACS.Ads
 {
     public interface IAdvertisementService
     {
         public event Action<bool> OnVideoStateChanged;
-        public event Action RewardedShown;
-        public event Action InterstitialShown;
-        
         public event Action<string> RewardedEventShow;
         public event Action<string> RewardedEventShown;
         public event Action<string> RewardedEventCancel;

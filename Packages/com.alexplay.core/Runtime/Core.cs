@@ -1,11 +1,11 @@
 using System;
+using ACS.Core.Internal.AlexplayCoreBootstrap;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
 #if COM_ALEXPLAY_NET_ADS
 using ACS.Ads;
-using ACS.Ads.com.alexplay.advertisement.Runtime;
 #endif
 #if COM_ALEXPLAY_NET_GDPR
 #endif

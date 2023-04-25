@@ -1,0 +1,39 @@
+﻿using System.Collections.Generic;
+using AppsFlyerSDK;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+
+namespace ACS.Ads
+{
+    public class AppsFlyerImpressionHandler : IImpressionHandler
+    {
+        private bool _isDebug = false;
+        
+        public AppsFlyerImpressionHandler(bool isDebug) => _isDebug = isDebug;
+
+        public async UniTaskVoid HandleImpression(Dictionary<string, string> impressionParam, double revenue)
+        {
+            if(!(AppsFlyer.instance is { isInit: true })) return;
+            
+            string impressionKey = "";
+
+            if (_isDebug)
+            {
+                impressionKey = "ad_impression_test";
+
+                string info = "";
+                        
+                foreach (var adsParam in impressionParam)
+                    info += $"[AdvertisementImpressionSender] appsflyer event: |{adsParam.Key}| : {adsParam.Value} \n";
+                        
+                Debug.Log(info);
+            }
+            else
+            {
+                impressionKey = "ad_impression";
+            }
+
+            AppsFlyer.sendEvent(impressionKey, impressionParam);
+        }
+    }
+}

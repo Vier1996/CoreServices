@@ -5,7 +5,9 @@
         "ServicesConfigDefenition",
         "UniTask",
         "Core.Intent",
-        "IS"
+        "IS",
+        "UniRx",
+        "AppsFlyer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

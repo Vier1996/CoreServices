@@ -19,6 +19,9 @@ namespace ACS.Ads
 
         [ShowIf("@IsEnabled == true")]
         public AdvertisementOptions Options = new AdvertisementOptions();
+
+        [ShowIf("@IsEnabled == true")] public bool HandleImpression = false;
+        [ShowIf("@IsEnabled == true")] public bool IsDebug = false;
         
         [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
     }
