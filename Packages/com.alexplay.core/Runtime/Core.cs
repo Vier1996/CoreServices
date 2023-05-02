@@ -171,7 +171,7 @@ namespace ACS.Core
             }
         }
 #endif
-
+ 
         private IntentService.IntentService IntentService { get; }
         private DiContainer _diContainer;
         private bool _initialized = false;
