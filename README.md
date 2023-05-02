@@ -28,3 +28,4 @@ Before installing ACS services you need to install dependencies below:
 8. Object Pool - `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.object-pool`
 9. Purchases -  `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.purchase`
 10. Signal Bus - `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus`
+11. Remote config (Firebase)- `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.fbrc`
