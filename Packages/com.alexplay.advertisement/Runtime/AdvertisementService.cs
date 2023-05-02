@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using IS.IronSource.Scripts;
 using UnityEngine;
 using IronS = IS.IronSource.Scripts.IronSource;
@@ -216,11 +217,7 @@ namespace ACS.Ads
 
         #endregion
         
-        private void OnVideoShown()
-        {
-            ResumeApplication();
-            RewardPlayer();
-        }
+        private void OnVideoShown() => RewardPlayer();
 
         private void OnVideoFailed()
         {
@@ -251,8 +248,12 @@ namespace ACS.Ads
         
         private void ResumeApplication()
         {
-            AudioListener.volume = 1;
             Time.timeScale = 1;
+            
+            DOTween.To(() => AudioListener.volume, volume =>
+            {
+                AudioListener.volume = volume;
+            }, 1f, 1f);
         }
 
         private async void RewardPlayer()
