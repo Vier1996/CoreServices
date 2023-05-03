@@ -38,12 +38,14 @@ namespace ACS.Ads
             string impressionMediationKey = "";
             string impressionKey = "";
             string totalRevenueKey = "";
+            string adRevenueKey = "";
 
             if (_isDebug)
             {
                 impressionMediationKey = "ad_impression_mediation_test";
                 impressionKey = "ad_impression_test";
                 totalRevenueKey = "total_revenue_test";
+                adRevenueKey = "ad_revenue_test";
 
                 string info = "";
                 info +=
@@ -58,13 +60,13 @@ namespace ACS.Ads
                 impressionMediationKey = "ad_impression_mediation";
                 impressionKey = "ad_impression";
                 totalRevenueKey = "total_revenue";
+                adRevenueKey = "ad_revenue";
             }
 
             FirebaseAnalytics.LogEvent(impressionMediationKey, adParameters);
             FirebaseAnalytics.LogEvent(impressionKey, adParameters);
-            FirebaseAnalytics.LogEvent(totalRevenueKey,
-                new Parameter(FirebaseAnalytics.ParameterValue, revenue),
-                new Parameter(FirebaseAnalytics.ParameterCurrency, "USD"));
+            FirebaseAnalytics.LogEvent(totalRevenueKey, new Parameter(FirebaseAnalytics.ParameterValue, revenue), new Parameter(FirebaseAnalytics.ParameterCurrency, "USD"));
+            FirebaseAnalytics.LogEvent(adRevenueKey, new Parameter(FirebaseAnalytics.ParameterValue, revenue), new Parameter(FirebaseAnalytics.ParameterCurrency, "USD"));
         }
     }
 }

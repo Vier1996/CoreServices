@@ -16,10 +16,12 @@ namespace ACS.Ads
             if(!(AppsFlyer.instance is { isInit: true })) return;
             
             string impressionKey = "";
+            string adRevenueKey = "";
 
             if (_isDebug)
             {
                 impressionKey = "ad_impression_test";
+                adRevenueKey = "ad_revenue_test";
 
                 string info = "";
                         
@@ -31,9 +33,11 @@ namespace ACS.Ads
             else
             {
                 impressionKey = "ad_impression";
+                adRevenueKey = "ad_revenue";
             }
 
             AppsFlyer.sendEvent(impressionKey, impressionParam);
+            AppsFlyer.sendEvent(adRevenueKey, impressionParam);
         }
     }
 }
