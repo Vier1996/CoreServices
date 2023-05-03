@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using AppsFlyerSDK;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace ACS.Ads
@@ -11,7 +10,7 @@ namespace ACS.Ads
         
         public AppsFlyerImpressionHandler(bool isDebug) => _isDebug = isDebug;
 
-        public async UniTaskVoid HandleImpression(Dictionary<string, string> impressionParam, double revenue)
+        public void HandleImpression(Dictionary<string, string> impressionParam, double revenue)
         {
             if(!(AppsFlyer.instance is { isInit: true })) return;
             

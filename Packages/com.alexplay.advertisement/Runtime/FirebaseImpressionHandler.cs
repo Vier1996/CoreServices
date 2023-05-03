@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using Firebase;
 using Firebase.Analytics;
 using UnityEngine;
@@ -22,9 +21,9 @@ namespace ACS.Ads
             });
         }
 
-        public async UniTaskVoid HandleImpression(Dictionary<string, string> impressionParam, double revenue)
+        public void HandleImpression(Dictionary<string, string> impressionParam, double revenue)
         {
-            if(_isReady) return;
+            if(!_isReady) return;
             
             Parameter[] adParameters =
             {

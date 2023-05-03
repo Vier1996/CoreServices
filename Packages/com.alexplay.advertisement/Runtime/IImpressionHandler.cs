@@ -5,6 +5,6 @@ namespace ACS.Ads
 {
     public interface IImpressionHandler
     {
-        UniTaskVoid HandleImpression(Dictionary<string, string> impressionParam, double revenue);
+        void HandleImpression(Dictionary<string, string> impressionParam, double revenue);
     }
 }

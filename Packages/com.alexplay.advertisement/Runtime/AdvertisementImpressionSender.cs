@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using IS.IronSource.Scripts;
 using UniRx;
@@ -148,7 +149,7 @@ namespace ACS.Ads
                 _impressionParams["adUnit"] = impressionData.adUnit;
                 _impressionParams["instanceName"] = impressionData.instanceName;
                 _impressionParams["currency"] = "USD";
-                _impressionParams["value"] = (impressionData.revenue ?? 0d).ToString();
+                _impressionParams["value"] = revenue.ToString(CultureInfo.InvariantCulture);
                 _impressionParams["auctionId"] = impressionData.auctionId;
                 _impressionParams["lifetimeRevenue"] = impressionData.lifetimeRevenue.ToString();
                 _impressionParams["country"] = impressionData.country;
