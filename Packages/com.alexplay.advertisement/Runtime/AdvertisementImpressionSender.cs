@@ -119,8 +119,6 @@ namespace ACS.Ads
                 if (_impressionsQueue.Count > 0)
                     _impressionsQueue.RemoveAll(x => true);
             }
-
-            Debug.Log("[AIS]: updated info");
         }
 
         private void ImpressionHandle(IronSourceImpressionData imprInfo)
