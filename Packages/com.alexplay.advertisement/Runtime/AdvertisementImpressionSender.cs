@@ -106,24 +106,23 @@ namespace ACS.Ads
 
         private void UpdateInfo()
         {
-            for (;;)
+            if (_impressionsQueue.Any())
             {
-                if (_impressionsQueue.Any())
+                if (_impressionsQueue.Count > 0)
                 {
-                    if (_impressionsQueue.Count > 0)
+                    foreach (var data in _impressionsQueue)
                     {
-                        foreach (var data in _impressionsQueue)
-                        {
-                            HandleImpression(data);
-                        }
+                        HandleImpression(data);
                     }
-
-                    if (_impressionsQueue.Count > 0)
-                        _impressionsQueue.RemoveAll(x => true);
                 }
+
+                if (_impressionsQueue.Count > 0)
+                    _impressionsQueue.RemoveAll(x => true);
             }
+
+            Debug.Log("[AIS]: updated info");
         }
-        
+
         private void ImpressionHandle(IronSourceImpressionData imprInfo)
         {
             if (imprInfo.adUnit == "banner")
