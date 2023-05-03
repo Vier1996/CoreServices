@@ -10,7 +10,7 @@ namespace ACS.Ads
     {
         private bool _isDebug = false;
         private bool _isReady = false;
-        
+
         public FirebaseImpressionHandler(bool isDebug)
         {
             _isDebug = isDebug;
@@ -65,8 +65,13 @@ namespace ACS.Ads
 
             FirebaseAnalytics.LogEvent(impressionMediationKey, adParameters);
             FirebaseAnalytics.LogEvent(impressionKey, adParameters);
-            FirebaseAnalytics.LogEvent(totalRevenueKey, new Parameter(FirebaseAnalytics.ParameterValue, revenue), new Parameter(FirebaseAnalytics.ParameterCurrency, "USD"));
-            FirebaseAnalytics.LogEvent(adRevenueKey, new Parameter(FirebaseAnalytics.ParameterValue, revenue), new Parameter(FirebaseAnalytics.ParameterCurrency, "USD"));
+            
+            FirebaseAnalytics.LogEvent(totalRevenueKey, 
+                new Parameter(FirebaseAnalytics.ParameterValue, revenue), 
+                new Parameter(FirebaseAnalytics.ParameterCurrency, "USD"));
+            FirebaseAnalytics.LogEvent(adRevenueKey, 
+                new Parameter(FirebaseAnalytics.ParameterValue, revenue),
+                new Parameter(FirebaseAnalytics.ParameterCurrency, "USD"));
         }
     }
 }
