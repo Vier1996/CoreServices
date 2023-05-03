@@ -8,15 +8,18 @@ using UnityEngine;
 
 namespace ACS.Ads
 {
-    public class AdvertisementImpressionSender
+    public class AdvertisementImpressionSender : IDisposable
     {
         private int _userImpressions = 0;
         private float _userAdRevenue = 0;
         private float _userEcpm = 0;
 
+        private IDisposable _disposable;
+        private float _disposableTimer;
+        private const float _disposableDelay = 1f;
+        
         private readonly IImpressionHandler _appsFlyerImpressionHandler;
         private readonly IImpressionHandler _firebaseImpressionHandler;
-        private readonly List<IDisposable> _disposables = new List<IDisposable>();
         private readonly List<IronSourceImpressionData> _impressionsQueue = new List<IronSourceImpressionData>();
         private readonly Dictionary<string, string> _impressionParams = new Dictionary<string, string>();
         private readonly List<ImpressionAchievement> _achievements = new List<ImpressionAchievement>
@@ -54,8 +57,9 @@ namespace ACS.Ads
             
             _appsFlyerImpressionHandler = new AppsFlyerImpressionHandler(isDebug);
             _firebaseImpressionHandler = new FirebaseImpressionHandler(isDebug);
-
-            Observable.Interval(TimeSpan.FromMilliseconds(1000)).Subscribe(x => Setup()).AddTo(_disposables);
+            _disposableTimer = _disposableDelay;
+            
+            Setup();
         }
         
         private void Setup()
@@ -84,7 +88,20 @@ namespace ACS.Ads
                 PlayerPrefs.Save();
             }
 
-            Observable.Interval(TimeSpan.FromMilliseconds(1000)).Subscribe(x => UpdateInfo()).AddTo(_disposables);
+            _disposable = Observable.EveryFixedUpdate().Subscribe(OnTick);
+        }
+
+        private void OnTick(long next)
+        {
+            if (_disposableTimer > 0)
+            {
+                _disposableTimer -= Time.fixedDeltaTime;
+                return;
+            }
+            
+            _disposableTimer = _disposableDelay;
+
+            UpdateInfo();
         }
 
         private void UpdateInfo()
@@ -190,5 +207,7 @@ namespace ACS.Ads
             TotalEcpm,
             TotalImpressions
         }
+
+        public void Dispose() => _disposable?.Dispose();
     }
 }
