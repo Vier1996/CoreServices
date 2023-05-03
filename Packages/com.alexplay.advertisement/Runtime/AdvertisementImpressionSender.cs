@@ -18,11 +18,11 @@ namespace ACS.Ads
         private float _disposableTimer;
         private const float _disposableDelay = 1f;
         
-        private readonly IImpressionHandler _appsFlyerImpressionHandler;
-        private readonly IImpressionHandler _firebaseImpressionHandler;
-        private readonly List<IronSourceImpressionData> _impressionsQueue = new List<IronSourceImpressionData>();
-        private readonly Dictionary<string, string> _impressionParams = new Dictionary<string, string>();
-        private readonly List<ImpressionAchievement> _achievements = new List<ImpressionAchievement>
+        private IImpressionHandler _appsFlyerImpressionHandler;
+        private IImpressionHandler _firebaseImpressionHandler;
+        private List<IronSourceImpressionData> _impressionsQueue = new List<IronSourceImpressionData>();
+        private Dictionary<string, string> _impressionParams = new Dictionary<string, string>();
+        private List<ImpressionAchievement> _achievements = new List<ImpressionAchievement>
         {
             new ImpressionAchievement {Type = ImpressionAchievementType.TotalRevenue, Value = 0.5f, Achieved = false, NumberOfAchievement = 8},
             new ImpressionAchievement {Type = ImpressionAchievementType.TotalRevenue, Value = 1, Achieved = false, NumberOfAchievement = 9},
