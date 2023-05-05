@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using IS.IronSource.Scripts;
 using UnityEngine;
-using IronS = IS.IronSource.Scripts.IronSource;
 
 namespace ACS.Ads
 {
@@ -66,7 +64,7 @@ namespace ACS.Ads
 #if UNITY_EDITOR
             return true;
 #endif
-            return IS.IronSource.Scripts.IronSource.Agent.isInterstitialReady();
+            return IronSource.Agent.isInterstitialReady();
         }
 
         public bool IsRewardedReady()
@@ -74,7 +72,7 @@ namespace ACS.Ads
 #if UNITY_EDITOR
             return true;
 #endif
-            return IS.IronSource.Scripts.IronSource.Agent.isRewardedVideoAvailable();
+            return IronSource.Agent.isRewardedVideoAvailable();
         }
 
         public void CanPlayInterstitial(bool canPlay) => _canPlayInterstitial = canPlay;
@@ -108,9 +106,9 @@ namespace ACS.Ads
             _place = place;
 
             if (Time.realtimeSinceStartup < _options.FreeInterstitialsAtStart) return;
-            if (IronS.Agent.isInterstitialReady() == false)
+            if (IronSource.Agent.isInterstitialReady() == false)
             {
-                IS.IronSource.Scripts.IronSource.Agent.loadInterstitial();
+                IronSource.Agent.loadInterstitial();
                 return;
             }
 
@@ -121,21 +119,21 @@ namespace ACS.Ads
                 
                 IntersitialEventShow?.Invoke(_place);
                 
-                IS.IronSource.Scripts.IronSource.Agent.showInterstitial();
-                IS.IronSource.Scripts.IronSource.Agent.loadInterstitial();
+                IronSource.Agent.showInterstitial();
+                IronSource.Agent.loadInterstitial();
                 
                 _lastAdPlayingTime = DateTime.UtcNow;
             }
         }
         
-        public bool HasVideo() => Application.isEditor || IronS.Agent.isRewardedVideoAvailable();
+        public bool HasVideo() => Application.isEditor || IronSource.Agent.isRewardedVideoAvailable();
         
         #region Initialization
 
         private void SetMetaSettings(bool accepted)
         {
-            IronS.Agent.setConsent(accepted);
-            IronS.Agent.setMetaData("do_not_sell",(!accepted).ToString());
+            IronSource.Agent.setConsent(accepted);
+            IronSource.Agent.setMetaData("do_not_sell",(!accepted).ToString());
         }
 
         private void InitIronSource()
@@ -161,7 +159,7 @@ namespace ACS.Ads
             }
             
 #if UNITY_ANDROID
-            IronS.Agent.init(_config.AndroidIdentifier, adUnits.ToArray());
+            IronSource.Agent.init(_config.AndroidIdentifier, adUnits.ToArray());
 #elif UNITY_IOS
             IronSource.Agent.init(_config.IosIdentifier, adUnits.ToArray());
 #endif
@@ -205,12 +203,12 @@ namespace ACS.Ads
         {
             await UniTask.Delay(_initDelay);
             
-            IS.IronSource.Scripts.IronSource.Agent.validateIntegration();
+            IronSource.Agent.validateIntegration();
             await UniTask.Delay(_initDelay);
 
             if (_config.Options.AdvertisementTypes.Contains(AdvertisementType.INTERSTITIAL))
             {
-                IS.IronSource.Scripts.IronSource.Agent.loadInterstitial();
+                IronSource.Agent.loadInterstitial();
                 await UniTask.Delay(_initDelay);
             }
         }
