@@ -87,7 +87,7 @@ namespace ACS.Ads
 #if UNITY_EDITOR
             shownCallback?.Invoke();
 #else
-            if (IronS.Agent.isRewardedVideoAvailable() == false) return;
+            if (IronSource.Agent.isRewardedVideoAvailable() == false) return;
             
             _shownCallback = shownCallback;
             _failedCallback = failedCallback;
@@ -95,7 +95,7 @@ namespace ACS.Ads
             
             RewardedEventShow?.Invoke(_place);
 
-            IronS.Agent.showRewardedVideo();
+            IronSource.Agent.showRewardedVideo();
 #endif
         }
 
