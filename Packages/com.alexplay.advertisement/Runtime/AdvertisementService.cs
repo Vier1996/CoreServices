@@ -196,7 +196,7 @@ namespace ACS.Ads
         private void OnSdkInitializationCompletedEvent()
         {
             IronSourceEvents.onSdkInitializationCompletedEvent -= OnSdkInitializationCompletedEvent;
-            PreloadAds().Forget();
+            PreloadAds().Forget(); 
         }
 
         private async UniTaskVoid PreloadAds()
