@@ -112,7 +112,7 @@ namespace ACS.Ads
                 return;
             }
 
-            if ((DateTime.UtcNow - _lastAdPlayingTime).TotalSeconds < _options.InterstitialsTimeout)
+            if ((DateTime.UtcNow - _lastAdPlayingTime).TotalSeconds > _options.InterstitialsTimeout)
             {
                 _shownCallback = shownCallback;
                 _failedCallback = failedCallback;
