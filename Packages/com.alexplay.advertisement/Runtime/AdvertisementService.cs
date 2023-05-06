@@ -160,37 +160,36 @@ namespace ACS.Ads
             
 #if UNITY_ANDROID
             IronSource.Agent.init(_config.AndroidIdentifier, adUnits.ToArray());
-#else
+#elif UNITY_IPHONE || UNITY_IOS
             IronSource.Agent.init(_config.IosIdentifier, adUnits.ToArray());
 #endif
         }
 
         private void BindIronSourceEvents()
         {
-            IronSourceEvents.onRewardedVideoAdOpenedEvent += RewardedVideoAdOpenedEvent;
-            IronSourceEvents.onRewardedVideoAdClosedEvent += RewardedVideoAdClosedEvent; 
-            IronSourceEvents.onRewardedVideoAvailabilityChangedEvent += RewardedVideoAvailabilityChangedEvent;
-            IronSourceEvents.onRewardedVideoAdStartedEvent += RewardedVideoAdStartedEvent;
-            IronSourceEvents.onRewardedVideoAdEndedEvent += RewardedVideoAdEndedEvent;
-            IronSourceEvents.onRewardedVideoAdRewardedEvent += RewardedVideoAdRewardedEvent; 
-            IronSourceEvents.onRewardedVideoAdShowFailedEvent += RewardedVideoAdShowFailedEvent;
-            IronSourceEvents.onRewardedVideoAdClickedEvent += RewardedVideoAdClickedEvent;
+            IronSourceRewardedVideoEvents.onAdAvailableEvent += RewardedVideoAvailable;
+            IronSourceRewardedVideoEvents.onAdUnavailableEvent += RewardedVideoUnavailable;
             
-            IronSourceEvents.onInterstitialAdReadyEvent += InterstitialAdReadyEvent;
-            IronSourceEvents.onInterstitialAdLoadFailedEvent += InterstitialAdLoadFailedEvent;        
-            IronSourceEvents.onInterstitialAdShowSucceededEvent += InterstitialAdShowSucceededEvent; 
-            IronSourceEvents.onInterstitialAdShowFailedEvent += InterstitialAdShowFailedEvent; 
-            IronSourceEvents.onInterstitialAdClickedEvent += InterstitialAdClickedEvent;
-            IronSourceEvents.onInterstitialAdOpenedEvent += InterstitialAdOpenedEvent;
-            IronSourceEvents.onInterstitialAdClosedEvent += InterstitialAdClosedEvent;
-            IronSourceEvents.onImpressionSuccessEvent += ImpressionSuccessEvent;
-
-            IronSourceEvents.onBannerAdLoadFailedEvent += BannerAdLoadFailedEvent;
-            IronSourceEvents.onBannerAdScreenDismissedEvent += BannerAdScreenDismissedEvent;
-            IronSourceEvents.onBannerAdLoadedEvent += BannerAdLoadedEvent;
-            IronSourceEvents.onBannerAdClickedEvent += BannerAdClickedEvent;
-            IronSourceEvents.onBannerAdScreenPresentedEvent += BannerAdScreenPresentedEvent;
-            IronSourceEvents.onBannerAdLeftApplicationEvent += BannerAdLeftApplicationEvent;
+            IronSourceRewardedVideoEvents.onAdOpenedEvent += RewardedVideoAdOpenedEvent;
+            IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoAdClosedEvent;
+            IronSourceRewardedVideoEvents.onAdRewardedEvent += RewardedVideoAdRewardedEvent; 
+            IronSourceRewardedVideoEvents.onAdShowFailedEvent += RewardedVideoAdShowFailedEvent;
+            IronSourceRewardedVideoEvents.onAdClickedEvent += RewardedVideoAdClickedEvent;
+            
+            IronSourceInterstitialEvents.onAdReadyEvent += InterstitialAdReadyEvent;
+            IronSourceInterstitialEvents.onAdLoadFailedEvent += InterstitialAdLoadFailedEvent;        
+            IronSourceInterstitialEvents.onAdShowSucceededEvent += InterstitialAdShowSucceededEvent; 
+            IronSourceInterstitialEvents.onAdShowFailedEvent += InterstitialAdShowFailedEvent; 
+            IronSourceInterstitialEvents.onAdClickedEvent += InterstitialAdClickedEvent;
+            IronSourceInterstitialEvents.onAdOpenedEvent += InterstitialAdOpenedEvent;
+            IronSourceInterstitialEvents.onAdClosedEvent += InterstitialAdClosedEvent;
+            
+            IronSourceBannerEvents.onAdLoadFailedEvent += BannerAdLoadFailedEvent;
+            IronSourceBannerEvents.onAdScreenDismissedEvent += BannerAdScreenDismissedEvent;
+            IronSourceBannerEvents.onAdLoadedEvent += BannerAdLoadedEvent;
+            IronSourceBannerEvents.onAdClickedEvent += BannerAdClickedEvent;
+            IronSourceBannerEvents.onAdScreenPresentedEvent += BannerAdScreenPresentedEvent;
+            IronSourceBannerEvents.onAdLeftApplicationEvent += BannerAdLeftApplicationEvent;
         }
 
         private void OnSdkInitializationCompletedEvent()
@@ -271,49 +270,49 @@ namespace ACS.Ads
         }
         
         #region REWARDED_EVENTS
-        public void RewardedVideoAdOpenedEvent() { }
-        public void RewardedVideoAdClosedEvent() => ResumeApplication();
+        public void RewardedVideoAdOpenedEvent(IronSourceAdInfo ironSourceAdInfo) => PauseApplication();
+        public void RewardedVideoAdClosedEvent(IronSourceAdInfo ironSourceAdInfo) => ResumeApplication();
 
-        public void RewardedVideoAdRewardedEvent(IronSourcePlacement ironSourcePlacement)
+        public void RewardedVideoAdRewardedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo ironSourceAdInfo)
         {
             OnVideoShown();
             
             RewardedEventShown?.Invoke(_place);
         }
 
-        public void RewardedVideoAvailabilityChangedEvent(bool b) => OnVideoStateChanged?.Invoke(b);
-        public void RewardedVideoAdStartedEvent() => PauseApplication();
-        public void RewardedVideoAdEndedEvent() => ResumeApplication();
-        public void RewardedVideoAdShowFailedEvent(IronSourceError ironSourceError)
+        public void RewardedVideoAvailable(IronSourceAdInfo ironSourceAdInfo) => OnVideoStateChanged?.Invoke(true);
+        public void RewardedVideoUnavailable() => OnVideoStateChanged?.Invoke(false);
+        
+        public void RewardedVideoAdShowFailedEvent(IronSourceError ironSourceError, IronSourceAdInfo ironSourceAdInfo)
         {
             OnVideoFailed();
             
             RewardedEventCancel?.Invoke(_place);
         }
 
-        public void RewardedVideoAdClickedEvent(IronSourcePlacement ironSourcePlacement) { }
+        public void RewardedVideoAdClickedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo ironSourceAdInfo) { }
         #endregion
         
         #region INTERSTITIAL_EVENTS
-        public void InterstitialAdReadyEvent() { }
+        public void InterstitialAdReadyEvent(IronSourceAdInfo ironSourceAdInfo) { }
         public void InterstitialAdLoadFailedEvent(IronSourceError ironSourceError) { }
-        public void InterstitialAdShowSucceededEvent()
+        public void InterstitialAdShowSucceededEvent(IronSourceAdInfo ironSourceError)
         {
             OnVideoShown();
             
             IntersitialEventShown?.Invoke(_place);
         }
 
-        public void InterstitialAdShowFailedEvent(IronSourceError ironSourceError)
+        public void InterstitialAdShowFailedEvent(IronSourceError ironSourceError, IronSourceAdInfo ironSourceAdInfo)
         {
             OnVideoFailed();
             
             IntersitialEventCancel?.Invoke(_place);
         }
 
-        public void InterstitialAdClickedEvent() { }
-        public void InterstitialAdOpenedEvent() { }
-        public void InterstitialAdClosedEvent()
+        public void InterstitialAdClickedEvent(IronSourceAdInfo ironSourceAdInfo) { }
+        public void InterstitialAdOpenedEvent(IronSourceAdInfo ironSourceAdInfo) { }
+        public void InterstitialAdClosedEvent(IronSourceAdInfo ironSourceAdInfo)
         {
             OnVideoFailed();
         }
@@ -321,38 +320,12 @@ namespace ACS.Ads
         #endregion
         
         #region BANNER_EVENTS
-        public void BannerAdLeftApplicationEvent() { }
-        public void BannerAdScreenDismissedEvent() { }
-        public void BannerAdScreenPresentedEvent() { }
-        public void BannerAdClickedEvent() { }
+        public void BannerAdLeftApplicationEvent(IronSourceAdInfo ironSourceAdInfo) { }
+        public void BannerAdScreenDismissedEvent(IronSourceAdInfo ironSourceAdInfo) { }
+        public void BannerAdScreenPresentedEvent(IronSourceAdInfo ironSourceAdInfo) { }
+        public void BannerAdClickedEvent(IronSourceAdInfo ironSourceAdInfo) { }
         public void BannerAdLoadFailedEvent(IronSourceError obj) { }
-        public void BannerAdLoadedEvent() { }
-        #endregion
-        
-        #region IMPRESSION_EVENT
-        public void ImpressionSuccessEvent(IronSourceImpressionData impressionData)
-        {
-            if (impressionData != null)
-            {
-                Dictionary<string, object> param = new Dictionary<string, object>();
-                param["ad_platform"] = "ironSource";
-                param["adNetwork"] = impressionData.adNetwork;
-                param["adUnit"] = impressionData.adUnit;
-                param["instanceName"] = impressionData.instanceName;
-                param["currency"] = "USD";
-                param["value"] = impressionData.revenue.ToString();
-                param["auctionId"] = impressionData.auctionId;
-                param["lifetimeRevenue"] = impressionData.lifetimeRevenue.ToString();
-                param["country"] = impressionData.country;
-                param["ab"] = impressionData.ab;
-                param["segmentName"] = impressionData.segmentName;
-                param["placement"] = impressionData.placement;
-                param["instanceId"] = impressionData.instanceId;
-                param["precision"] = impressionData.precision;
-                param["encryptedCPM"] = impressionData.encryptedCPM;
-                param["conversionValue"] = impressionData.conversionValue.ToString();
-            }
-        }
+        public void BannerAdLoadedEvent(IronSourceAdInfo ironSourceAdInfo) { }
         #endregion
 
         public enum AdvertisementType
