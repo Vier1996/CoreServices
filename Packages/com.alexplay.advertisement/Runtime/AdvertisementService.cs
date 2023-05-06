@@ -160,7 +160,7 @@ namespace ACS.Ads
             
 #if UNITY_ANDROID
             IronSource.Agent.init(_config.AndroidIdentifier, adUnits.ToArray());
-#elif UNITY_IPHONE || UNITY_IOS
+#else
             IronSource.Agent.init(_config.IosIdentifier, adUnits.ToArray());
 #endif
         }
