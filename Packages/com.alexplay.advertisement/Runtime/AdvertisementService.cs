@@ -196,6 +196,8 @@ namespace ACS.Ads
         {
             IronSourceEvents.onSdkInitializationCompletedEvent -= OnSdkInitializationCompletedEvent;
             PreloadAds().Forget(); 
+            
+            IronSource.Agent.validateIntegration();
         }
 
         private async UniTaskVoid PreloadAds()
@@ -203,6 +205,7 @@ namespace ACS.Ads
             await UniTask.Delay(_initDelay);
             
             IronSource.Agent.validateIntegration();
+            
             await UniTask.Delay(_initDelay);
 
             if (_config.Options.AdvertisementTypes.Contains(AdvertisementType.INTERSTITIAL))
