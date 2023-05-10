@@ -5,13 +5,13 @@ namespace ACS.Ads
     public interface IAdvertisementService
     {
         public event Action<bool> OnVideoStateChanged;
-        public event Action<string> RewardedEventShow;
+        public event Action<string> RewardedVideoEventShow;
         public event Action<string> RewardedEventShown;
         public event Action<string> RewardedEventCancel;
         
-        public event Action<string> IntersitialEventShow;
-        public event Action<string> IntersitialEventShown;
-        public event Action<string> IntersitialEventCancel;
+        public event Action<string> InterstitialEventShow;
+        public event Action<string> InterstitialEventShown;
+        public event Action<string> InterstitialEventCancel;
         
         public void ChangeOptions(AdvertisementOptions options);
         public bool IsInterstitialReady();
@@ -21,5 +21,10 @@ namespace ACS.Ads
         public void PlayRewarded(Action shownCallback, Action failedCallback = null, string place = "");
         public void PlayInterstitial(Action shownCallback = null, Action failedCallback = null, string place = "");
         public bool HasVideo();
+        public void OverridePauseApplicationDelegate(PauseApplicationDelegate pauseDelegate);
+        public void OverrideResumeApplicationDelegate(ResumeApplicationDelegate resumeDelegate);
+        
+        public delegate void PauseApplicationDelegate();
+        public delegate void ResumeApplicationDelegate();
     }
 }

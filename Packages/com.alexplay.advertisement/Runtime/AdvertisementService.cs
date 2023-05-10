@@ -10,13 +10,13 @@ namespace ACS.Ads
     {
         public event Action<bool> OnVideoStateChanged;
         
-        public event Action<string> RewardedEventShow;
+        public event Action<string> RewardedVideoEventShow;
         public event Action<string> RewardedEventShown;
         public event Action<string> RewardedEventCancel;
         
-        public event Action<string> IntersitialEventShow;
-        public event Action<string> IntersitialEventShown;
-        public event Action<string> IntersitialEventCancel;
+        public event Action<string> InterstitialEventShow;
+        public event Action<string> InterstitialEventShown;
+        public event Action<string> InterstitialEventCancel;
 
         private readonly AdvertisementServiceConfig _config;
         private readonly IntentService.IntentService _intentService;
@@ -26,6 +26,9 @@ namespace ACS.Ads
 
         private AdvertisementImpressionSender _advertisementImpressionSender;
         private AdvertisementOptions _options;
+        
+        private IAdvertisementService.PauseApplicationDelegate _pauseApplicationDelegate = null;
+        private IAdvertisementService.ResumeApplicationDelegate _resumeApplicationDelegate = null;
         
         private DateTime _lastAdPlayingTime;
         private Action _shownCallback;
@@ -46,6 +49,9 @@ namespace ACS.Ads
         
         public void PrepareService()
         {
+            _pauseApplicationDelegate = PauseApplication;
+            _resumeApplicationDelegate = ResumeApplication;
+            
             _intentService.OnFocusChanged += FocusChanged;
             _intentService.OnPauseChanged += PauseChanged;
 
@@ -56,7 +62,7 @@ namespace ACS.Ads
             if(_config.HandleImpression)
                 _advertisementImpressionSender = new AdvertisementImpressionSender(_config.IsDebug);
         }
-
+        
         public void ChangeOptions(AdvertisementOptions options) => _options = options;
 
         public bool IsInterstitialReady()
@@ -117,7 +123,7 @@ namespace ACS.Ads
                 _shownCallback = shownCallback;
                 _failedCallback = failedCallback;
                 
-                IntersitialEventShow?.Invoke(_place);
+                InterstitialEventShow?.Invoke(_place);
                 
                 IronSource.Agent.showInterstitial();
                 IronSource.Agent.loadInterstitial();
@@ -127,7 +133,12 @@ namespace ACS.Ads
         }
         
         public bool HasVideo() => Application.isEditor || IronSource.Agent.isRewardedVideoAvailable();
-        
+
+        public void OverridePauseApplicationDelegate(IAdvertisementService.PauseApplicationDelegate pauseDelegate) 
+            => _pauseApplicationDelegate = pauseDelegate;
+        public void OverrideResumeApplicationDelegate(IAdvertisementService.ResumeApplicationDelegate resumeDelegate) 
+            => _resumeApplicationDelegate = resumeDelegate;
+
         #region Initialization
 
         private void SetMetaSettings(bool accepted)
@@ -223,7 +234,7 @@ namespace ACS.Ads
         {
             _failedCallback?.Invoke();
             _failedCallback = null;
-            ResumeApplication();
+            _resumeApplicationDelegate?.Invoke();
         }
         
         private void PauseChanged(bool pauseStatus)
@@ -259,11 +270,10 @@ namespace ACS.Ads
         private async void RewardPlayer()
         {
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
-
-            ResumeApplication();
             
             _shownCallback?.Invoke();
             _shownCallback = null;
+            _resumeApplicationDelegate?.Invoke();
         }
         
         public void Dispose()
@@ -273,8 +283,9 @@ namespace ACS.Ads
         }
         
         #region REWARDED_EVENTS
-        public void RewardedVideoAdOpenedEvent(IronSourceAdInfo ironSourceAdInfo) => PauseApplication();
-        public void RewardedVideoAdClosedEvent(IronSourceAdInfo ironSourceAdInfo) => ResumeApplication();
+
+        public void RewardedVideoAdOpenedEvent(IronSourceAdInfo ironSourceAdInfo) => _pauseApplicationDelegate?.Invoke();
+        public void RewardedVideoAdClosedEvent(IronSourceAdInfo ironSourceAdInfo) => _resumeApplicationDelegate?.Invoke();
 
         public void RewardedVideoAdRewardedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo ironSourceAdInfo)
         {
@@ -303,14 +314,14 @@ namespace ACS.Ads
         {
             OnVideoShown();
             
-            IntersitialEventShown?.Invoke(_place);
+            InterstitialEventShown?.Invoke(_place);
         }
 
         public void InterstitialAdShowFailedEvent(IronSourceError ironSourceError, IronSourceAdInfo ironSourceAdInfo)
         {
             OnVideoFailed();
             
-            IntersitialEventCancel?.Invoke(_place);
+            InterstitialEventCancel?.Invoke(_place);
         }
 
         public void InterstitialAdClickedEvent(IronSourceAdInfo ironSourceAdInfo) { }
