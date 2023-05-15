@@ -99,7 +99,7 @@ namespace ACS.Ads
             _failedCallback = failedCallback;
             _lastAdPlayingTime = DateTime.UtcNow;
             
-            RewardedEventShow?.Invoke(_place);
+            RewardedVideoEventShow?.Invoke(_place);
 
             IronSource.Agent.showRewardedVideo();
 #endif
