@@ -65,7 +65,7 @@ namespace ACS.Data.DataService.Service
             SerializedModelsData deserializedData = JsonUtility.FromJson<SerializedModelsData>(serializedData);
             List<SerializedModel> deserializedModels = deserializedData.SerializedModels ?? new List<SerializedModel>();
             
-            ClearLocalData();
+            ClearLocalData(true);
             
             for (int i = 0; i < deserializedModels.Count; i++)
             {
@@ -92,7 +92,7 @@ namespace ACS.Data.DataService.Service
             ModelsDataChanged?.Invoke();
         }
 
-        public void ClearLocalData()
+        public void ClearLocalData(bool ignoreBroadcastingChangeEvent = false)
         {
             List<Type> actualModelTypes = new List<Type>();
 
@@ -107,6 +107,9 @@ namespace ACS.Data.DataService.Service
                 _modelsContainer.Models[actualModelTypes[i]] = (ProgressModel) Activator.CreateInstance(actualModelTypes[i]);
                 _modelsContainer.Models[actualModelTypes[i]].SetupModel(_dataTools);
             }
+            
+            if(!ignoreBroadcastingChangeEvent)
+                ModelsDataChanged?.Invoke();
         }
         
 
