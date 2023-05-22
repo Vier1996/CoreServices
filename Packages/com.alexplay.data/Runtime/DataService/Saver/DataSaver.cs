@@ -1,10 +1,8 @@
 using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using ACS.Data.DataService.Model;
 using ACS.Data.DataService.Tool;
 using Newtonsoft.Json;
-using UniRx;
 
 namespace ACS.Data.DataService.Saver
 {
@@ -31,40 +29,28 @@ namespace ACS.Data.DataService.Saver
 #if UNITY_EDITOR
             _debugPath = _dataTool.DebugPath + _model.GetType().Name + _dataTool.Extension;
 #endif
-
+            
+#if UNITY_EDITOR
+            _dataTool.IntentService.CoreDestroy += OnCoreDestroy;
+#else
             _dataTool.IntentService.OnPauseChanged += OnApplicationPause;
+#endif
         }
 
-        /*public void SaveProgressData()
+#if UNITY_EDITOR
+        private void OnCoreDestroy()
         {
-            _serializedData = JsonConvert.SerializeObject(_model);
-            _normalData = _dataTool.Security.Encrypt(_serializedData);
+            _dataTool.IntentService.CoreDestroy -= OnCoreDestroy;
             
-            _model.PutData(_serializedData);
-            
-#if UNITY_EDITOR
-            _debugData = _dataTool.Security.Encrypt(_serializedData, ignoreCrypt: true);
-#endif
-
-            try
-            {
-                File.WriteAllText(_path, _normalData);
-                
-#if UNITY_EDITOR
-                File.WriteAllText(_debugPath, _debugData);
-#endif
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error saving data: " + ex.Message);
-            }
-        }*/
-
+            SaveDataInStorage();
+        }
+#else
         private void OnApplicationPause(bool pauseStatus)
         {
             if (pauseStatus) 
                 SaveDataInStorage();
         }
+#endif
 
         private void SaveDataInStorage()
         {
