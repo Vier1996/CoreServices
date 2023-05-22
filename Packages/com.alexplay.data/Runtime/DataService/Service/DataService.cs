@@ -30,12 +30,12 @@ namespace ACS.Data.DataService.Service
         private DataTool _dataTools;
         private DataLoader _dataLoader;
         private DataCleaner _dataCleaner;
-        
+
         private ProgressModelsContainer _modelsContainer;
         
-        public DataService(DataServiceConfig dataServiceConfig)
+        public DataService(DataServiceConfig dataServiceConfig, IntentService.IntentService intentService)
         {
-            _dataTools = new DataTool(dataServiceConfig);
+            _dataTools = new DataTool(dataServiceConfig, intentService);
             _dataLoader = new DataLoader(_dataTools);
             _dataCleaner = new DataCleaner(_dataTools);
         }

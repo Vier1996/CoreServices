@@ -29,7 +29,7 @@ namespace ACS.Data.DataService.Model
         private void SaveData()
         {
             _lastSaveTicks = DateTime.UtcNow.Ticks;
-            _saver.SaveProgressData();
+            //_saver.SaveProgressData();
         }
 
         private bool SaveAllowed() => DateTime.UtcNow.Ticks - _lastSaveTicks >= _savingDelay;

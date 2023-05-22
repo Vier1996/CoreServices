@@ -188,7 +188,7 @@ namespace ACS.Core
                 
 #if COM_ALEXPLAY_NET_DATA
                 if(coreConfig._dataSettings.IsEnabled)
-                    _dataService = new DataService(coreConfig._dataSettings);
+                    _dataService = new DataService(coreConfig._dataSettings, IntentService);
 #endif
 
 #if COM_ALEXPLAY_NET_SIGNAL_BUS

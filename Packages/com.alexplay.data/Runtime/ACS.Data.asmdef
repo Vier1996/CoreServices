@@ -2,7 +2,9 @@
     "name": "ACS.Data",
     "rootNamespace": "ACS.Data",
     "references": [
-        "GUID:4f21c891bf3b5d149bca88a83c9c25b3"
+        "GUID:4f21c891bf3b5d149bca88a83c9c25b3",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:6d80c856f98c28f479bdba1d88d8db19"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
