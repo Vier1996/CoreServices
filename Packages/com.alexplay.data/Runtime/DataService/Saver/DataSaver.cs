@@ -32,7 +32,7 @@ namespace ACS.Data.DataService.Saver
             _debugPath = _dataTool.DebugPath + _model.GetType().Name + _dataTool.Extension;
 #endif
 
-            _dataTool.IntentService.CoreDestroy += OnCoreDestroy;
+            _dataTool.IntentService.OnPauseChanged += OnApplicationPause;
         }
 
         /*public void SaveProgressData()
@@ -60,11 +60,10 @@ namespace ACS.Data.DataService.Saver
             }
         }*/
 
-        private void OnCoreDestroy()
+        private void OnApplicationPause(bool pauseStatus)
         {
-            _dataTool.IntentService.CoreDestroy -= OnCoreDestroy;
-            
-            SaveDataInStorage();
+            if (pauseStatus) 
+                SaveDataInStorage();
         }
 
         private void SaveDataInStorage()
