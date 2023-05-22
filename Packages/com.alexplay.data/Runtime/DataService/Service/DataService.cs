@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using ACS.Data.DataService.Config;
 using ACS.Data.DataService.Container;
 using ACS.Data.DataService.Loader;
@@ -81,7 +82,9 @@ namespace ACS.Data.DataService.Service
                     {
                         deserializedObject.SetupModel(_dataTools);
                         deserializedObject.PutData(deserializedModels[i].ModelData);
-                        deserializedObject.DemandSaveImmediate();
+                        
+                        MethodInfo methodInfo = targetType.GetMethod("DemandStorageSave", BindingFlags.NonPublic | BindingFlags.Instance);
+                        methodInfo?.Invoke(deserializedObject, null);
                         
                         if (_modelsContainer.Models.ContainsKey(targetType))
                             _modelsContainer.Models[targetType] = deserializedObject;

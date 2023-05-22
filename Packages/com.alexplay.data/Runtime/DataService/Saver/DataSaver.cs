@@ -36,23 +36,8 @@ namespace ACS.Data.DataService.Saver
             _dataTool.IntentService.OnPauseChanged += OnApplicationPause;
 #endif
         }
-
-#if UNITY_EDITOR
-        private void OnCoreDestroy()
-        {
-            _dataTool.IntentService.CoreDestroy -= OnCoreDestroy;
-            
-            SaveDataInStorage();
-        }
-#else
-        private void OnApplicationPause(bool pauseStatus)
-        {
-            if (pauseStatus) 
-                SaveDataInStorage();
-        }
-#endif
-
-        private void SaveDataInStorage()
+        
+        public void SaveDataInStorage()
         {
             _serializedData = JsonConvert.SerializeObject(_model);
             _normalData = _dataTool.Security.Encrypt(_serializedData);
@@ -76,5 +61,20 @@ namespace ACS.Data.DataService.Saver
                 Console.WriteLine("Error saving data: " + ex.Message);
             }
         }
+
+#if UNITY_EDITOR
+        private void OnCoreDestroy()
+        {
+            _dataTool.IntentService.CoreDestroy -= OnCoreDestroy;
+            
+            SaveDataInStorage();
+        }
+#else
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus) 
+                SaveDataInStorage();
+        }
+#endif
     }
 }

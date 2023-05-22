@@ -16,11 +16,6 @@ namespace ACS.Data.DataService.Model
         public string GetData() => _serializedData;
         
         [Obsolete("This API has been deprecated as of ACS Data 1.1.0. All data save immediate by default.", false)]
-        public void DemandSaveImmediate()
-        {
-        }
-
-        [Obsolete("This API has been deprecated as of ACS Data 1.1.0. All data save immediate by default.", false)]
         protected void SetSavingDelay(float savingDelay = 2f)
         {
         }
@@ -29,6 +24,8 @@ namespace ACS.Data.DataService.Model
         protected void DemandSave()
         {
         }
+        
+        private void DemandStorageSave() => _saver.SaveDataInStorage();
     }
     
     public class ProgressModelAttribute : Attribute { }
