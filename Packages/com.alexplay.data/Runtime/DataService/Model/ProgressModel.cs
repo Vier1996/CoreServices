@@ -24,6 +24,11 @@ namespace ACS.Data.DataService.Model
         protected void SetSavingDelay(float savingDelay = 2f)
         {
         }
+        
+        [Obsolete("This API has been deprecated as of ACS Data 1.1.0. All data save immediate by default.", false)]
+        protected void DemandSave()
+        {
+        }
     }
     
     public class ProgressModelAttribute : Attribute { }
