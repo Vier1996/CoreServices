@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -257,9 +258,11 @@ namespace ACS.Ads
             Time.timeScale = 0;
         }
         
-        private void ResumeApplication()
+        private async void ResumeApplication()
         {
             Time.timeScale = 1;
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(1));
             
             DOTween.To(() => AudioListener.volume, volume =>
             {
