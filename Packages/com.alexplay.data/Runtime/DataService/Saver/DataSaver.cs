@@ -4,6 +4,7 @@ using ACS.Data.DataService.Model;
 using ACS.Data.DataService.Tool;
 using Newtonsoft.Json;
 using UniRx;
+using UnityEngine;
 using Time = UnityEngine.Time;
 
 namespace ACS.Data.DataService.Saver
@@ -79,6 +80,7 @@ namespace ACS.Data.DataService.Saver
 #if UNITY_EDITOR
                 File.WriteAllText(_debugPath, _debugData);
 #endif
+                Debug.Log("Successfuly saving [" + _model.GetType().ToString() + "]");
             }
             catch (Exception ex)
             {
