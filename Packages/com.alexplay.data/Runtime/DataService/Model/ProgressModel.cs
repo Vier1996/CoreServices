@@ -5,6 +5,7 @@ using ACS.Data.DataService.Tool;
 namespace ACS.Data.DataService.Model
 {
     [ProgressModel]
+    [UnityEngine.Scripting.Preserve]
     public class ProgressModel
     {
         private DataSaver _saver;

@@ -12,17 +12,13 @@ namespace ACS.Data.DataService.Saver
     {
         private readonly DataTool _dataTool;
 
+        private Type _modelType;
         private IDisposable _saveDisposable;
         private ProgressModel _model;
         private readonly string _path;
 
         private string _serializedData;
         private string _normalData;
-
-        private float _updateDataTime = 2f;
-        private float _updateDataTimer = 10;
-
-        private bool _canSave = false;
 
 #if UNITY_EDITOR
         private string _debugData;
@@ -33,47 +29,26 @@ namespace ACS.Data.DataService.Saver
         {
             _dataTool = tool;
             _model = model;
-            _path = _dataTool.Path + _model.GetType().Name + _dataTool.Extension;
+            _modelType = model.GetType();
+            
+            _path = _dataTool.Path + _modelType.Name + _dataTool.Extension;
 #if UNITY_EDITOR
-            _debugPath = _dataTool.DebugPath + _model.GetType().Name + _dataTool.Extension;
+            _debugPath = _dataTool.DebugPath + _modelType.Name + _dataTool.Extension;
 #endif
 
 #if UNITY_EDITOR
             _dataTool.IntentService.CoreDestroy += OnCoreDestroy;
 #else
+#if UNITY_ANDROID
             _dataTool.IntentService.OnPauseChanged += OnApplicationPause;
+#else
+            _dataTool.IntentService.OnFocusChanged += OnApplicationFocus;
 #endif
-            LaunchSaveTimer();
-        }
-
-        private void LaunchSaveTimer()
-        {
-            _saveDisposable = Observable.EveryFixedUpdate().Subscribe(OnNext);
-        }
-
-        private void OnNext(long obj)
-        {
-            if (_updateDataTimer > 0)
-            {
-                _updateDataTimer -= Time.fixedDeltaTime;
-                return;
-            }
-
-            _canSave = true;
-        }
-
-        private void CloseSaving()
-        {
-            _canSave = false;
-            _updateDataTimer = _updateDataTime;
+#endif
         }
 
         public void SaveDataInStorage()
         {
-            if(!_canSave) return;
-
-            CloseSaving();
-            
             _serializedData = JsonConvert.SerializeObject(_model);
             _normalData = _dataTool.Security.Encrypt(_serializedData);
             
@@ -105,11 +80,21 @@ namespace ACS.Data.DataService.Saver
             SaveDataInStorage();
         }
 #else
+       
+#if UNITY_ANDROID
         private void OnApplicationPause(bool pauseStatus)
         {
             if (pauseStatus) 
                 SaveDataInStorage();
         }
+#else
+        private void OnApplicationFocus(bool focusStatus)
+        {
+            if (!focusStatus) 
+                SaveDataInStorage();
+        }
+#endif
+        
 #endif
         public void Dispose()
         {
