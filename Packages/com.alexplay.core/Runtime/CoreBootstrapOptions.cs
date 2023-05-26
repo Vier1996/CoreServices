@@ -42,5 +42,5 @@ namespace ACS.Core
         public void Validate() => _ignoreEnableButton = true;
     }
 
-    public enum TargetFrameRateType { ADAPTIVE, CONSTANT, UNLIMITED }
+    public enum TargetFrameRateType { ADAPTIVE, CONSTANT, UNLIMITED, EQUALS }
 }

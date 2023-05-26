@@ -257,6 +257,10 @@ namespace ACS.Core
                 case TargetFrameRateType.UNLIMITED:
                     Application.targetFrameRate = -1;
                     break;
+                
+                case TargetFrameRateType.EQUALS:
+                    Application.targetFrameRate = Screen.currentResolution.refreshRate;
+                    break;
             }
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
