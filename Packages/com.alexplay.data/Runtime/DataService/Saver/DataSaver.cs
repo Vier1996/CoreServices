@@ -39,9 +39,9 @@ namespace ACS.Data.DataService.Saver
 #if UNITY_EDITOR
             _dataTool.IntentService.CoreDestroy += OnCoreDestroy;
 #else
-            LaunchSaveTimer();
             _dataTool.IntentService.OnPauseChanged += OnApplicationPause;
 #endif
+            LaunchSaveTimer();
         }
 
         private void LaunchSaveTimer()
