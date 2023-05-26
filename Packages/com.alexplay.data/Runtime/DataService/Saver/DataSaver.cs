@@ -41,7 +41,7 @@ namespace ACS.Data.DataService.Saver
 #else
             _dataTool.IntentService.OnPauseChanged += OnApplicationPause;
 #endif
-            LaunchSaveTimer();
+            //LaunchSaveTimer();
         }
 
         private void LaunchSaveTimer()
