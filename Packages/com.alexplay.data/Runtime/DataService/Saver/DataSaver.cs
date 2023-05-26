@@ -4,7 +4,6 @@ using ACS.Data.DataService.Model;
 using ACS.Data.DataService.Tool;
 using Newtonsoft.Json;
 using UniRx;
-using UnityEngine;
 using Time = UnityEngine.Time;
 
 namespace ACS.Data.DataService.Saver
@@ -21,7 +20,9 @@ namespace ACS.Data.DataService.Saver
         private string _normalData;
 
         private float _updateDataTime = 2f;
-        private float _updateDataTimer = 1f;
+        private float _updateDataTimer = 10;
+
+        private bool _canSave = false;
 
 #if UNITY_EDITOR
         private string _debugData;
@@ -42,7 +43,7 @@ namespace ACS.Data.DataService.Saver
 #else
             _dataTool.IntentService.OnPauseChanged += OnApplicationPause;
 #endif
-            //LaunchSaveTimer();
+            LaunchSaveTimer();
         }
 
         private void LaunchSaveTimer()
@@ -58,12 +59,21 @@ namespace ACS.Data.DataService.Saver
                 return;
             }
 
-            SaveDataInStorage();
+            _canSave = true;
+        }
+
+        private void CloseSaving()
+        {
+            _canSave = false;
+            _updateDataTimer = _updateDataTime;
         }
 
         public void SaveDataInStorage()
         {
-            _updateDataTimer = _updateDataTime;
+            if(!_canSave) return;
+
+            CloseSaving();
+            
             _serializedData = JsonConvert.SerializeObject(_model);
             _normalData = _dataTool.Security.Encrypt(_serializedData);
             
@@ -80,7 +90,6 @@ namespace ACS.Data.DataService.Saver
 #if UNITY_EDITOR
                 File.WriteAllText(_debugPath, _debugData);
 #endif
-                Debug.Log("Successfuly saving [" + _model.GetType().ToString() + "]");
             }
             catch (Exception ex)
             {
