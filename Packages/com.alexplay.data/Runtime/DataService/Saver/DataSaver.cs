@@ -12,13 +12,14 @@ namespace ACS.Data.DataService.Saver
     {
         private readonly DataTool _dataTool;
 
-        private Type _modelType;
-        private IDisposable _saveDisposable;
+        private IDisposable _autoSaveDisposable;
         private ProgressModel _model;
         private readonly string _path;
 
         private string _serializedData;
         private string _normalData;
+        private float _autoSaveTimer;
+        private bool _savingBusy = false;
 
 #if UNITY_EDITOR
         private string _debugData;
@@ -28,12 +29,13 @@ namespace ACS.Data.DataService.Saver
         public DataSaver(ProgressModel model, DataTool tool)
         {
             _dataTool = tool;
-            _model = model;
-            _modelType = model.GetType();
+            Type modelType = (_model = model).GetType();
             
-            _path = _dataTool.Path + _modelType.Name + _dataTool.Extension;
+            _autoSaveTimer = _dataTool.DataServiceConfig.AutoSaveDelay;
+
+            _path = _dataTool.Path + modelType.Name + _dataTool.Extension;
 #if UNITY_EDITOR
-            _debugPath = _dataTool.DebugPath + _modelType.Name + _dataTool.Extension;
+            _debugPath = _dataTool.DebugPath + modelType.Name + _dataTool.Extension;
 #endif
 
 #if UNITY_EDITOR
@@ -45,13 +47,20 @@ namespace ACS.Data.DataService.Saver
             _dataTool.IntentService.OnFocusChanged += OnApplicationFocus;
 #endif
 #endif
+
+            if (_dataTool.DataServiceConfig.EnableAutoSave)
+                _autoSaveDisposable = Observable.EveryFixedUpdate().Subscribe(OnTick);
         }
 
         public void SaveDataInStorage()
         {
+            if(_savingBusy) return;
+            
+            _savingBusy = true;
+            _autoSaveTimer = _dataTool.DataServiceConfig.AutoSaveDelay;
             _serializedData = JsonConvert.SerializeObject(_model);
             _normalData = _dataTool.Security.Encrypt(_serializedData);
-            
+
             _model.PutData(_serializedData);
             
 #if UNITY_EDITOR
@@ -65,9 +74,12 @@ namespace ACS.Data.DataService.Saver
 #if UNITY_EDITOR
                 File.WriteAllText(_debugPath, _debugData);
 #endif
+                
+                _savingBusy = false;
             }
             catch (Exception ex)
             {
+                _savingBusy = false;
                 Console.WriteLine("Error saving data: " + ex.Message);
             }
         }
@@ -96,9 +108,21 @@ namespace ACS.Data.DataService.Saver
 #endif
         
 #endif
+        
+        private void OnTick(long tick)
+        {
+            if (_autoSaveTimer > 0)
+            {
+                _autoSaveTimer -= Time.fixedDeltaTime;
+                return;
+            }
+
+            SaveDataInStorage();
+        }
+        
         public void Dispose()
         {
-            _saveDisposable?.Dispose();
+            _autoSaveDisposable?.Dispose();
         }
     }
 }

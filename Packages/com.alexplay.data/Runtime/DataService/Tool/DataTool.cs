@@ -11,6 +11,7 @@ namespace ACS.Data.DataService.Tool
     {
         public readonly DataSecurity Security;
         public readonly IntentService.IntentService IntentService;
+        public readonly DataServiceConfig DataServiceConfig;
         public string Path { get; }
         public string DebugPath { get; }
         public string ModelDirectoriesPath { get; }
@@ -20,18 +21,16 @@ namespace ACS.Data.DataService.Tool
         private System.Reflection.Assembly _sharpAssembly;
         
         private const string _sharpAssemblyName = "Assembly-CSharp";
-        
         private const string _modelsPath = "/Data/Models/";
         private const string _modelDebugPath = "/Debug/Models/";
-        
         private const string _modelDirectoriesPath = "/Data/Models";
         private const string _modelDebugDirectoriesPath = "/Debug/Models";
-        
         private const string _extension = ".apd";
 
         public DataTool(DataServiceConfig dataServiceConfig, IntentService.IntentService intentService)
         {
             IntentService = intentService;
+            DataServiceConfig = dataServiceConfig;
             
             Path = Application.persistentDataPath + _modelsPath;
             DebugPath = Application.persistentDataPath + _modelDebugPath;
