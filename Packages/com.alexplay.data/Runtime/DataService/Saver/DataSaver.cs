@@ -28,9 +28,9 @@ namespace ACS.Data.DataService.Saver
 
         public DataSaver(ProgressModel model, DataTool tool)
         {
-            _dataTool = tool;
             Type modelType = (_model = model).GetType();
             
+            _dataTool = tool;
             _autoSaveTimer = _dataTool.DataServiceConfig.AutoSaveDelay;
 
             _path = _dataTool.Path + modelType.Name + _dataTool.Extension;
@@ -54,7 +54,7 @@ namespace ACS.Data.DataService.Saver
 
         public void SaveDataInStorage()
         {
-            if(_savingBusy) return;
+            if(_savingBusy || !_model.IsDirty) return;
             
             _savingBusy = true;
             _autoSaveTimer = _dataTool.DataServiceConfig.AutoSaveDelay;

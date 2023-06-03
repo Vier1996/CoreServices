@@ -8,25 +8,17 @@ namespace ACS.Data.DataService.Model
     [UnityEngine.Scripting.Preserve]
     public class ProgressModel
     {
+        public bool IsDirty { get; private set; }
+        
         private DataSaver _saver;
-
         private string _serializedData = "";
 
         public void SetupModel(DataTool tool) => _saver = new DataSaver(this, tool);
         public void PutData(string serializedData) => _serializedData = serializedData;
         public string GetData() => _serializedData;
-        
-        [Obsolete("This API has been deprecated as of ACS Data 1.1.0. All data save immediate by default.", false)]
-        protected void SetSavingDelay(float savingDelay = 2f)
-        {
-        }
-        
-        [Obsolete("This API has been deprecated as of ACS Data 1.1.0. All data save immediate by default.", false)]
-        protected void DemandSave()
-        {
-        }
-        
-        private void DemandStorageSave() => _saver.SaveDataInStorage();
+
+        protected void MarkAsDirty() => IsDirty = true;
+        private void DemandStorageSave() => _saver.SaveDataInStorage(); // This method gets by reflection
     }
     
     public class ProgressModelAttribute : Attribute { }

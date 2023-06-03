@@ -33,10 +33,8 @@ namespace ACS.Core
 
         [ShowIf("@FrameRateType == TargetFrameRateType.CONSTANT")]
         public int TargetRate = 60;
-        
         public int TweenersCapacity = 500;
         public int SequencesCapacity = 125;
-        
         public ScreenOrientation ScreenOrientation = ScreenOrientation.Portrait;
 
         public void Validate() => _ignoreEnableButton = true;
