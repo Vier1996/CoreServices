@@ -14,7 +14,12 @@ namespace ACS.Data.DataService.Model
         private string _serializedData = "";
 
         public void SetupModel(DataTool tool) => _saver = new DataSaver(this, tool);
-        public void PutData(string serializedData) => _serializedData = serializedData;
+        public void PutData(string serializedData)
+        {
+            _serializedData = serializedData;
+            IsDirty = false;
+        }
+
         public string GetData() => _serializedData;
 
         protected void MarkAsDirty() => IsDirty = true;
