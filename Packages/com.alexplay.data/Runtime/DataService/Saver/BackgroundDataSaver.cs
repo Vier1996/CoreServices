@@ -81,13 +81,13 @@ namespace ACS.Data.DataService.Saver
         private void OnApplicationPause(bool pauseStatus)
         {
             if (pauseStatus) 
-                SaveDataInStorage();
+                ForceSaveInStorage();
         }
 #else
         private void OnApplicationFocus(bool focusStatus)
         {
             if (!focusStatus) 
-                SaveDataInStorage();
+                ForceSaveInStorage();
         }
 #endif
         
