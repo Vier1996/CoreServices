@@ -99,7 +99,7 @@ namespace ACS.Data.DataService.Saver
 
                     foreach (var modelPair in _modelsContainer.Models)
                     {
-                        if(_savingBusy || !modelPair.Value.IsDirty) return;
+                        if(_savingBusy || !modelPair.Value.IsDirty) continue;
                         
                         _path = _dataTool.Path + modelPair.Key.Name + _dataTool.Extension;
 #if UNITY_EDITOR
