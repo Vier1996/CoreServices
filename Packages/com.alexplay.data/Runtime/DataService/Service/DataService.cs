@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using ACS.Data.DataService.Config;
 using ACS.Data.DataService.Container;
 using ACS.Data.DataService.Loader;
@@ -28,10 +27,10 @@ namespace ACS.Data.DataService.Service
             }
         }
 
-        private DataTool _dataTools;
-        private DataLoader _dataLoader;
-        private DataCleaner _dataCleaner;
-
+        private readonly DataTool _dataTools;
+        private readonly DataLoader _dataLoader;
+        private readonly DataCleaner _dataCleaner;
+        private readonly BackgroundDataSaver _backgroundDataSaver;
         private ProgressModelsContainer _modelsContainer;
         
         public DataService(DataServiceConfig dataServiceConfig, IntentService.IntentService intentService)
@@ -39,6 +38,7 @@ namespace ACS.Data.DataService.Service
             _dataTools = new DataTool(dataServiceConfig, intentService);
             _dataLoader = new DataLoader(_dataTools);
             _dataCleaner = new DataCleaner(_dataTools);
+            _backgroundDataSaver = new BackgroundDataSaver(_dataTools, dataServiceConfig);
         }
 
         public string GetSerializedData()
@@ -80,17 +80,15 @@ namespace ACS.Data.DataService.Service
 
                     if (deserializedObject != null)
                     {
-                        deserializedObject.SetupModel(_dataTools);
                         deserializedObject.PutData(deserializedModels[i].ModelData);
-                        
-                        MethodInfo methodInfo = targetType.GetMethod("DemandStorageSave", BindingFlags.NonPublic | BindingFlags.Instance);
-                        methodInfo?.Invoke(deserializedObject, null);
-                        
+
                         if (_modelsContainer.Models.ContainsKey(targetType))
                             _modelsContainer.Models[targetType] = deserializedObject;
                     }
                 }
             }
+            
+            _backgroundDataSaver.ForceSaveInStorage();
             
             ModelsDataChanged?.Invoke();
         }
@@ -106,11 +104,9 @@ namespace ACS.Data.DataService.Service
             }
 
             for (int i = 0; i < actualModelTypes.Count(); i++)
-            {
-                _modelsContainer.Models[actualModelTypes[i]] = (ProgressModel) Activator.CreateInstance(actualModelTypes[i]);
-                _modelsContainer.Models[actualModelTypes[i]].SetupModel(_dataTools);
-            }
-            
+                _modelsContainer.Models[actualModelTypes[i]] =
+                    (ProgressModel)Activator.CreateInstance(actualModelTypes[i]);
+
             if(!ignoreBroadcastingChangeEvent)
                 ModelsDataChanged?.Invoke();
         }
@@ -120,6 +116,8 @@ namespace ACS.Data.DataService.Service
         {
             TryCreateDirectory();
             LoadData();
+            
+            _backgroundDataSaver.Initialize(_modelsContainer);
         }
 
         private void LoadData()
@@ -136,7 +134,6 @@ namespace ACS.Data.DataService.Service
                 
                 (ProgressModel, string) modelData = _dataLoader.LoadProgressJson<ProgressModel>(modelType);
                 
-                modelData.Item1.SetupModel(_dataTools);
                 modelData.Item1.PutData(modelData.Item2);
                 models.Add(modelType, modelData.Item1);
             }

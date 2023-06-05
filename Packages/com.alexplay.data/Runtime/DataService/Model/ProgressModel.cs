@@ -1,6 +1,4 @@
 ﻿using System;
-using ACS.Data.DataService.Saver;
-using ACS.Data.DataService.Tool;
 
 namespace ACS.Data.DataService.Model
 {
@@ -10,10 +8,8 @@ namespace ACS.Data.DataService.Model
     {
         public bool IsDirty { get; private set; }
         
-        private DataSaver _saver;
         private string _serializedData = "";
 
-        public void SetupModel(DataTool tool) => _saver = new DataSaver(this, tool);
         public void PutData(string serializedData)
         {
             _serializedData = serializedData;
@@ -23,7 +19,6 @@ namespace ACS.Data.DataService.Model
         public string GetData() => _serializedData;
 
         protected void MarkAsDirty() => IsDirty = true;
-        private void DemandStorageSave() => _saver.SaveDataInStorage(); // This method gets by reflection
     }
     
     public class ProgressModelAttribute : Attribute { }
