@@ -24,7 +24,7 @@ namespace ACS.Data.DataService.Saver
         private string _debugData;
         private string _debugPath;
 #endif
-        private readonly int _cycleSaveTime;
+        private int _cycleSaveTime;
         private bool _savingBusy = false;
         private bool _isCanceled = false;
 
@@ -32,7 +32,6 @@ namespace ACS.Data.DataService.Saver
         {
             _dataTool = tool;
             _dataServiceConfig = dataServiceConfig;
-            _cycleSaveTime = (int)(_dataTool.DataServiceConfig.AutoSaveDelay * TimeSpan.TicksPerSecond);
             
 #if UNITY_EDITOR
             _dataTool.IntentService.CoreDestroy += OnCoreDestroy;
@@ -51,6 +50,8 @@ namespace ACS.Data.DataService.Saver
 
             if (_dataTool.DataServiceConfig.EnableAutoSave && _dataTool.DataServiceConfig.AutoSaveDelay > 0)
             {
+                _cycleSaveTime = _dataTool.DataServiceConfig.AutoSaveDelay * 1000;
+
                 _cycleSavingThread = new Thread(ExecuteStorageSaving)
                 {
                     Name = "SavingDataThread",
