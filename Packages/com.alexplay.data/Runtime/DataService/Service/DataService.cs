@@ -88,7 +88,7 @@ namespace ACS.Data.DataService.Service
                 }
             }
             
-            _backgroundDataSaver.ForceSaveInStorage();
+            _backgroundDataSaver.DemandStorageSaving();
             
             ModelsDataChanged?.Invoke();
         }
