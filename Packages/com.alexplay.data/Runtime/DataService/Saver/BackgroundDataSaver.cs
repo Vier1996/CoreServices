@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using ACS.Data.DataService.Config;
 using ACS.Data.DataService.Container;
+using ACS.Data.DataService.Model;
 using ACS.Data.DataService.Tool;
 using Newtonsoft.Json;
 
@@ -68,8 +69,11 @@ namespace ACS.Data.DataService.Saver
         private void OnCoreDestroy()
         {
             _dataTool.IntentService.CoreDestroy -= OnCoreDestroy;
+
+            _isCanceled = true;
             
-            ExecuteStorageSaving();
+            foreach (var modelPair in _modelsContainer.Models) 
+                SaveModelInStorage(modelPair.Value);
         }
 #else
        
@@ -97,37 +101,8 @@ namespace ACS.Data.DataService.Saver
                 {
                     _savingBusy = true;
 
-                    foreach (var modelPair in _modelsContainer.Models)
-                    {
-                        if(_savingBusy || !modelPair.Value.IsDirty) continue;
-                        
-                        _path = _dataTool.Path + modelPair.Key.Name + _dataTool.Extension;
-#if UNITY_EDITOR
-                        _debugPath = _dataTool.DebugPath + modelPair.Key.Name + _dataTool.Extension;
-#endif
-                        _serializedData = JsonConvert.SerializeObject(modelPair.Value);
-                        _normalData = _dataTool.Security.Encrypt(_serializedData);
-
-                        modelPair.Value.PutData(_serializedData);
-            
-#if UNITY_EDITOR
-                        _debugData = _dataTool.Security.Encrypt(_serializedData, ignoreCrypt: true);
-#endif
-
-                        try
-                        {
-                            File.WriteAllText(_path, _normalData);
-                
-#if UNITY_EDITOR
-                            File.WriteAllText(_debugPath, _debugData);
-#endif
-                        }
-                        catch (Exception ex)
-                        {
-                            _savingBusy = false;
-                            Console.WriteLine("Error saving data: " + ex.Message);
-                        }
-                    }
+                    foreach (var modelPair in _modelsContainer.Models) 
+                        SaveModelInStorage(modelPair.Value);
                 }
 
                 if (!_isCanceled)
@@ -138,9 +113,40 @@ namespace ACS.Data.DataService.Saver
             }
         }
 
-        public void Dispose()
+        private void SaveModelInStorage(ProgressModel model)
         {
-            _isCanceled = true;
+            if(_savingBusy || !model.IsDirty) return;
+
+            Type modelType = model.GetType();
+            
+            _path = _dataTool.Path + modelType.Name + _dataTool.Extension;
+#if UNITY_EDITOR
+            _debugPath = _dataTool.DebugPath + modelType.Name + _dataTool.Extension;
+#endif
+            _serializedData = JsonConvert.SerializeObject(model);
+            _normalData = _dataTool.Security.Encrypt(_serializedData);
+
+            model.PutData(_serializedData);
+            
+#if UNITY_EDITOR
+            _debugData = _dataTool.Security.Encrypt(_serializedData, ignoreCrypt: true);
+#endif
+
+            try
+            {
+                File.WriteAllText(_path, _normalData);
+                
+#if UNITY_EDITOR
+                File.WriteAllText(_debugPath, _debugData);
+#endif
+            }
+            catch (Exception ex)
+            {
+                _savingBusy = false;
+                Console.WriteLine("Error saving data: " + ex.Message);
+            }
         }
+
+        public void Dispose() { }
     }
 }
