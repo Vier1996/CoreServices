@@ -358,10 +358,6 @@ namespace ACS.Core
 #if COM_ALEXPLAY_NET_DATA
             _dataService?.Dispose();
 #endif
-            
-#if COM_ALEXPLAY_NET_SIGNAL_BUS
-            _signalBusService?.Dispose();
-#endif
         }
     }
 }
