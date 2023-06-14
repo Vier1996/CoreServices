@@ -1,6 +1,6 @@
 {
     "name": "IS",
-    "rootNamespace": "IS",
+    "rootNamespace": "ISIS",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

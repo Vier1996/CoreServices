@@ -1,12 +1,9 @@
 ﻿using System;
 
-namespace IS.IronSource.Scripts
+public interface IUnityRewardedVideoManual
 {
-    public interface IUnityRewardedVideoManual
-    {
-        event Action OnRewardedVideoAdReady;
+    event Action OnRewardedVideoAdReady;
 
-        event Action<IronSourceError> OnRewardedVideoAdLoadFailed;
+    event Action<IronSourceError> OnRewardedVideoAdLoadFailed;
 
-    }
 }

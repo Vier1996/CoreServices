@@ -4,7 +4,10 @@ using System.Net;
 using UnityEditor;
 using UnityEngine;
 
-namespace ISEditor.IronSource.Editor
+using UnityEngine.Networking;
+
+
+namespace MobileDependencyResolverLP.Installer.Editor
 {
     static class MobileDependencyResolverInstallerLp
     {

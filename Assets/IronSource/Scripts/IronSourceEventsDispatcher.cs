@@ -2,83 +2,80 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IS.IronSource.Scripts
+public class IronSourceEventsDispatcher : MonoBehaviour
 {
-    public class IronSourceEventsDispatcher : MonoBehaviour
+    private static IronSourceEventsDispatcher instance = null;
+
+    // Queue For Events
+    private static readonly Queue<Action> ironSourceExecuteOnMainThreadQueue = new Queue<Action>();
+
+    public static void executeAction(Action action)
     {
-        private static IronSourceEventsDispatcher instance = null;
-
-        // Queue For Events
-        private static readonly Queue<Action> ironSourceExecuteOnMainThreadQueue = new Queue<Action>();
-
-        public static void executeAction(Action action)
+        lock (ironSourceExecuteOnMainThreadQueue)
         {
+            ironSourceExecuteOnMainThreadQueue.Enqueue(action);
+        }
+    }
+
+    void Update()
+    {
+        // dispatch events on the main thread when the queue is bigger than 0
+        while (ironSourceExecuteOnMainThreadQueue.Count > 0)
+        {
+            Action IronSourceDequeuedAction = null;
             lock (ironSourceExecuteOnMainThreadQueue)
             {
-                ironSourceExecuteOnMainThreadQueue.Enqueue(action);
-            }
-        }
-
-        void Update()
-        {
-            // dispatch events on the main thread when the queue is bigger than 0
-            while (ironSourceExecuteOnMainThreadQueue.Count > 0)
-            {
-                Action IronSourceDequeuedAction = null;
-                lock (ironSourceExecuteOnMainThreadQueue)
+                try
                 {
-                    try
-                    {
-                        IronSourceDequeuedAction = ironSourceExecuteOnMainThreadQueue.Dequeue();
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogException(e);
-                    }
+                    IronSourceDequeuedAction = ironSourceExecuteOnMainThreadQueue.Dequeue();
                 }
-                if (IronSourceDequeuedAction != null)
+                catch (Exception e)
                 {
-                    IronSourceDequeuedAction.Invoke();
+                    Debug.LogException(e);
                 }
             }
-        }
-
-        public void removeFromParent()
-        {
-            if (Application.platform != RuntimePlatform.IPhonePlayer && Application.platform != RuntimePlatform.Android)
+            if (IronSourceDequeuedAction != null)
             {
-                Destroy(this);
+                IronSourceDequeuedAction.Invoke();
             }
         }
-
-        public static void initialize()
-        {
-            if (isCreated())
-            {
-                return;
-            }
-
-            // Add an invisible game object to the scene
-            GameObject obj = new GameObject("IronSourceEventsDispatcher");
-            obj.hideFlags = HideFlags.HideAndDontSave;
-            DontDestroyOnLoad(obj);
-            instance = obj.AddComponent<IronSourceEventsDispatcher>();
-        }
-
-        public static bool isCreated()
-        {
-            return instance != null;
-        }
-
-        public void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-
-        public void OnDisable()
-        {
-            instance = null;
-        }
-
     }
+
+    public void removeFromParent()
+    {
+        if (Application.platform != RuntimePlatform.IPhonePlayer && Application.platform != RuntimePlatform.Android)
+        {
+            Destroy(this);
+        }
+    }
+
+    public static void initialize()
+    {
+        if (isCreated())
+        {
+            return;
+        }
+
+        // Add an invisible game object to the scene
+        GameObject obj = new GameObject("IronSourceEventsDispatcher");
+        obj.hideFlags = HideFlags.HideAndDontSave;
+        DontDestroyOnLoad(obj);
+        instance = obj.AddComponent<IronSourceEventsDispatcher>();
+    }
+
+    public static bool isCreated()
+    {
+        return instance != null;
+    }
+
+    public void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void OnDisable()
+    {
+        instance = null;
+    }
+
 }

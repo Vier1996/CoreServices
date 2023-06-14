@@ -1,37 +1,34 @@
 ﻿using System;
 using UnityEngine;
 
-namespace IS.IronSource.Scripts
-{
-    public class IronSourceSegmentAndroid : AndroidJavaProxy, IUnitySegment
+public class IronSourceSegmentAndroid : AndroidJavaProxy, IUnitySegment
     {
-        public event Action<string> OnSegmentRecieved = delegate { };
+    public event Action<string> OnSegmentRecieved = delegate { };
 
-        //implements UnitySegmentListener java interface
-        public IronSourceSegmentAndroid():base(IronSourceConstants.segmentBridgeListenerClass)
+    //implements UnitySegmentListener java interface
+    public IronSourceSegmentAndroid():base(IronSourceConstants.segmentBridgeListenerClass)
         {
-            try
-            {
+        try
+        {
             
-                using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
-                {
-                    var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
-                    bridgeInstance.Call("setUnitySegmentListener", this);
-                }
-            }
-            catch(Exception e)
+            using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
             {
-                Debug.LogError("setUnitySegmentListener method doesn't exist, error: " + e.Message);
+                var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
+                bridgeInstance.Call("setUnitySegmentListener", this);
             }
-
         }
-
-        public void onSegmentRecieved(string segmentName){
-            if(OnSegmentRecieved != null)
-            {
-                OnSegmentRecieved(segmentName);
-            }
+       catch(Exception e)
+       {
+            Debug.LogError("setUnitySegmentListener method doesn't exist, error: " + e.Message);
         }
 
     }
+
+    public void onSegmentRecieved(string segmentName){
+        if(OnSegmentRecieved != null)
+        {
+            OnSegmentRecieved(segmentName);
+        }
+    }
+
 }

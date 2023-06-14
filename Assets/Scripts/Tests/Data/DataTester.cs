@@ -27,11 +27,6 @@ namespace Tests.Data
             model.AddDoubleElement(Random.Range(1, 1000000));
             model.AddFloatElement(Random.Range(1f, 1000f));
         }
-
-        [Button] private void Save()
-        {
-            model.SaveToDB(); 
-        }
     }
 
     public class TestModel : ProgressModel
@@ -40,14 +35,10 @@ namespace Tests.Data
         [JsonProperty] private List<int> _ints = new List<int>();
         [JsonProperty] private List<double> _doubles = new List<double>();
         [JsonProperty] private List<float> _floats = new List<float>();
-
-        public TestModel() => SetSavingDelay(0);
-
+        
         public void AddStringElement(string data) => _strings.Add(data);
         public void AddIntElement(int data) => _ints.Add(data);
         public void AddDoubleElement(double data) => _doubles.Add(data);
         public void AddFloatElement(float data) => _floats.Add(data);
-        
-        public void SaveToDB() => DemandSave();
     }
 }

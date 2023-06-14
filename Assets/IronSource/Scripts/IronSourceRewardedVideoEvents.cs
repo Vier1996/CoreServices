@@ -1,34 +1,34 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
-namespace IS.IronSource.Scripts
+
+public class IronSourceRewardedVideoEvents : MonoBehaviour
 {
-    public class IronSourceRewardedVideoEvents : MonoBehaviour
+
+#if UNITY_ANDROID
+    #pragma warning disable CS0067
+    public static event Action<IronSourceError,IronSourceAdInfo> onAdShowFailedEvent;
+    public static event Action <IronSourceAdInfo> onAdOpenedEvent;
+    public static event Action <IronSourceAdInfo> onAdClosedEvent;
+    public static event Action<IronSourcePlacement,IronSourceAdInfo> onAdRewardedEvent;
+    public static event Action<IronSourcePlacement,IronSourceAdInfo> onAdClickedEvent;
+    public static event Action<IronSourceAdInfo> onAdAvailableEvent;
+    public static event Action onAdUnavailableEvent;
+    public static event Action<IronSourceError> onAdLoadFailedEvent;
+    public static event Action<IronSourceAdInfo> onAdReadyEvent;
+
+#endif
+
+#if UNITY_ANDROID
+    private IUnityLevelPlayRewardedVideo LevelPlayRewardedVideoAndroid;
+    private IUnityLevelPlayRewardedVideoManual LevelPlayRewardedVideoAndroidManual;
+#endif
+
+    void Awake()
     {
-
-#if UNITY_ANDROID
-#pragma warning disable CS0067
-        public static event Action<IronSourceError,IronSourceAdInfo> onAdShowFailedEvent;
-        public static event Action <IronSourceAdInfo> onAdOpenedEvent;
-        public static event Action <IronSourceAdInfo> onAdClosedEvent;
-        public static event Action<IronSourcePlacement,IronSourceAdInfo> onAdRewardedEvent;
-        public static event Action<IronSourcePlacement,IronSourceAdInfo> onAdClickedEvent;
-        public static event Action<IronSourceAdInfo> onAdAvailableEvent;
-        public static event Action onAdUnavailableEvent;
-        public static event Action<IronSourceError> onAdLoadFailedEvent;
-        public static event Action<IronSourceAdInfo> onAdReadyEvent;
-
-#endif
-
-#if UNITY_ANDROID
-        private IUnityLevelPlayRewardedVideo LevelPlayRewardedVideoAndroid;
-        private IUnityLevelPlayRewardedVideoManual LevelPlayRewardedVideoAndroidManual;
-#endif
-
-        void Awake()
-        {
 #if UNITY_ANDROID && !UNITY_EDITOR
         LevelPlayRewardedVideoAndroid = new IronSourceRewardedVideoLevelPlayAndroid();//sets this.IronSourceRewardedVideoLevelPlayAndroid as listener for RV events in the bridge
         registerRewardedVideoEvents();//subscribe to RV events from this.rewardedVideoLevelPlayAndroid
@@ -36,9 +36,9 @@ namespace IS.IronSource.Scripts
         registerRewardedVideoManualEvents();//subscribe to RV Manual events from this.rewardedVideoManualLevelPlayAndroid
 #endif
 
-            gameObject.name = "IronSourceRewardedVideoEvents";           //Change the GameObject name to IronSourceEvents.
-            DontDestroyOnLoad(gameObject);                 //Makes the object not be destroyed automatically when loading a new scene.
-        }
+        gameObject.name = "IronSourceRewardedVideoEvents";           //Change the GameObject name to IronSourceEvents.
+        DontDestroyOnLoad(gameObject);                 //Makes the object not be destroyed automatically when loading a new scene.
+    }
 
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -433,54 +433,53 @@ namespace IS.IronSource.Scripts
     }
 
 #endif
-        // ******************************* Helper methods *******************************   
+    // ******************************* Helper methods *******************************   
 
-        private IronSourceError getErrorFromErrorObject(object descriptionObject)
+    private IronSourceError getErrorFromErrorObject(object descriptionObject)
+    {
+        Dictionary<string, object> error = null;
+        if (descriptionObject is IDictionary)
         {
-            Dictionary<string, object> error = null;
-            if (descriptionObject is IDictionary)
-            {
-                error = descriptionObject as Dictionary<string, object>;
-            }
-            else if (descriptionObject is String && !String.IsNullOrEmpty(descriptionObject.ToString()))
-            {
-                error = Json.Deserialize(descriptionObject.ToString()) as Dictionary<string, object>;
-            }
-
-            IronSourceError sse = new IronSourceError(-1, "");
-            if (error != null && error.Count > 0)
-            {
-                int eCode = Convert.ToInt32(error[IronSourceConstants.ERROR_CODE].ToString());
-                string eDescription = error[IronSourceConstants.ERROR_DESCRIPTION].ToString();
-                sse = new IronSourceError(eCode, eDescription);
-            }
-
-            return sse;
+            error = descriptionObject as Dictionary<string, object>;
+        }
+        else if (descriptionObject is String && !String.IsNullOrEmpty(descriptionObject.ToString()))
+        {
+            error = IronSourceJSON.Json.Deserialize(descriptionObject.ToString()) as Dictionary<string, object>;
         }
 
-        private IronSourcePlacement getPlacementFromObject(object placementObject)
+        IronSourceError sse = new IronSourceError(-1, "");
+        if (error != null && error.Count > 0)
         {
-            Dictionary<string, object> placementJSON = null;
-            if (placementObject is IDictionary)
-            {
-                placementJSON = placementObject as Dictionary<string, object>;
-            }
-            else if (placementObject is String)
-            {
-                placementJSON = Json.Deserialize(placementObject.ToString()) as Dictionary<string, object>;
-            }
-
-            IronSourcePlacement ssp = null;
-            if (placementJSON != null && placementJSON.Count > 0)
-            {
-                int rewardAmount = Convert.ToInt32(placementJSON["placement_reward_amount"].ToString());
-                string rewardName = placementJSON["placement_reward_name"].ToString();
-                string placementName = placementJSON["placement_name"].ToString();
-
-                ssp = new IronSourcePlacement(placementName, rewardName, rewardAmount);
-            }
-
-            return ssp;
+            int eCode = Convert.ToInt32(error[IronSourceConstants.ERROR_CODE].ToString());
+            string eDescription = error[IronSourceConstants.ERROR_DESCRIPTION].ToString();
+            sse = new IronSourceError(eCode, eDescription);
         }
+
+        return sse;
+    }
+
+    private IronSourcePlacement getPlacementFromObject(object placementObject)
+    {
+        Dictionary<string, object> placementJSON = null;
+        if (placementObject is IDictionary)
+        {
+            placementJSON = placementObject as Dictionary<string, object>;
+        }
+        else if (placementObject is String)
+        {
+            placementJSON = IronSourceJSON.Json.Deserialize(placementObject.ToString()) as Dictionary<string, object>;
+        }
+
+        IronSourcePlacement ssp = null;
+        if (placementJSON != null && placementJSON.Count > 0)
+        {
+            int rewardAmount = Convert.ToInt32(placementJSON["placement_reward_amount"].ToString());
+            string rewardName = placementJSON["placement_reward_name"].ToString();
+            string placementName = placementJSON["placement_name"].ToString();
+
+            ssp = new IronSourcePlacement(placementName, rewardName, rewardAmount);
+        }
+
+        return ssp;
     }
 }

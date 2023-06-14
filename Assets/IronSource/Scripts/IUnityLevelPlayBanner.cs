@@ -1,19 +1,15 @@
 ﻿using System;
-
-namespace IS.IronSource.Scripts
+public interface IUnityLevelPlayBanner
 {
-    public interface IUnityLevelPlayBanner
-    {
-        event Action<IronSourceAdInfo> OnAdLoaded;
+    event Action<IronSourceAdInfo> OnAdLoaded;
 
-        event Action<IronSourceAdInfo> OnAdLeftApplication;
+    event Action<IronSourceAdInfo> OnAdLeftApplication;
 
-        event Action<IronSourceAdInfo> OnAdScreenDismissed;
+    event Action<IronSourceAdInfo> OnAdScreenDismissed;
 
-        event Action<IronSourceAdInfo> OnAdScreenPresented;
+    event Action<IronSourceAdInfo> OnAdScreenPresented;
 
-        event Action<IronSourceAdInfo> OnAdClicked;
+    event Action<IronSourceAdInfo> OnAdClicked;
 
-        event Action<IronSourceError> OnAdLoadFailed;
-    }
+    event Action<IronSourceError> OnAdLoadFailed;
 }

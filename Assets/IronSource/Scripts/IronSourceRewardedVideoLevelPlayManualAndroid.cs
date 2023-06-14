@@ -1,44 +1,41 @@
 ﻿#if UNITY_ANDROID
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-
-namespace IS.IronSource.Scripts
+public class IronSourceRewardedVideoLevelPlayManualAndroid : AndroidJavaProxy, IUnityLevelPlayRewardedVideoManual
 {
-    public class IronSourceRewardedVideoLevelPlayManualAndroid : AndroidJavaProxy, IUnityLevelPlayRewardedVideoManual
+
+    public IronSourceRewardedVideoLevelPlayManualAndroid() : base(IronSourceConstants.LevelPlayRewardedVideoManualBridgeListenerClass)
     {
-
-        public IronSourceRewardedVideoLevelPlayManualAndroid() : base(IronSourceConstants.LevelPlayRewardedVideoManualBridgeListenerClass)
+        try
         {
-            try
+            using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
             {
-                using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
-                {
-                    var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
-                    bridgeInstance.Call("setUnityRewardedVideoManualLevelPlayListener", this);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("setUnityRewardedVideoManualLevelPlayListener method doesn't exist, error: " + e.Message);
+                var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
+                bridgeInstance.Call("setUnityRewardedVideoManualLevelPlayListener", this);
             }
         }
-
-        public event Action<IronSourceError> OnAdLoadFailed = delegate { };
-        public event Action<IronSourceAdInfo> OnAdReady = delegate { };
-
-
-        void onAdReady(string data) {
-            if (this.OnAdReady != null) {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
-                this.OnAdReady(adInfo);
-            }
+        catch (Exception e)
+        {
+            Debug.LogError("setUnityRewardedVideoManualLevelPlayListener method doesn't exist, error: " + e.Message);
         }
+    }
 
-        void onAdLoadFailed(string args) {
-            if (this.OnAdLoadFailed!=null) {
-                IronSourceError err = IronSourceUtils.getErrorFromErrorObject(args);
-                this.OnAdLoadFailed(err);
-            }
+    public event Action<IronSourceError> OnAdLoadFailed = delegate { };
+    public event Action<IronSourceAdInfo> OnAdReady = delegate { };
+
+
+    void onAdReady(string data) {
+        if (this.OnAdReady != null) {
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
+            this.OnAdReady(adInfo);
+        }
+    }
+
+    void onAdLoadFailed(string args) {
+        if (this.OnAdLoadFailed!=null) {
+            IronSourceError err = IronSourceUtils.getErrorFromErrorObject(args);
+            this.OnAdLoadFailed(err);
         }
     }
 }

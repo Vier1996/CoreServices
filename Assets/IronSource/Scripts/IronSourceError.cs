@@ -1,36 +1,35 @@
 
-namespace IS.IronSource.Scripts
+using System;
+
+public class IronSourceError
 {
-	public class IronSourceError
+	private string description;
+	private int code;
+
+	public int getErrorCode ()
 	{
-		private string description;
-		private int code;
+		return code;
+	}
 
-		public int getErrorCode ()
-		{
-			return code;
-		}
+	public string getDescription ()
+	{
+		return description;
+	}
 
-		public string getDescription ()
-		{
-			return description;
-		}
+	public int getCode ()
+	{
+		return code;
+	}
 
-		public int getCode ()
-		{
-			return code;
-		}
+	public IronSourceError (int errorCode, string errorDescription)
+	{
+		code = errorCode;
+		description = errorDescription;
+	}
 
-		public IronSourceError (int errorCode, string errorDescription)
-		{
-			code = errorCode;
-			description = errorDescription;
-		}
-
-		public override string ToString ()
-		{
-			return code + " : " + description;
-		}
+	public override string ToString ()
+	{
+		return code + " : " + description;
 	}
 }
 

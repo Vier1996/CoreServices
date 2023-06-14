@@ -2,85 +2,82 @@
 using System;
 using UnityEngine;
 
-namespace IS.IronSource.Scripts
+public class IronSourceBannerLevelPlayAndroid : AndroidJavaProxy, IUnityLevelPlayBanner
 {
-    public class IronSourceBannerLevelPlayAndroid : AndroidJavaProxy, IUnityLevelPlayBanner
+
+    public event Action<IronSourceAdInfo> OnAdLoaded = delegate { };
+    public event Action<IronSourceAdInfo> OnAdLeftApplication = delegate { };
+    public event Action<IronSourceAdInfo> OnAdScreenDismissed = delegate { };
+    public event Action<IronSourceAdInfo> OnAdScreenPresented = delegate { };
+    public event Action<IronSourceAdInfo> OnAdClicked = delegate { };
+    public event Action<IronSourceError> OnAdLoadFailed = delegate { };
+
+    //implements UnityLevelPlayBannerListener java interface and implement banner callbacks
+    public IronSourceBannerLevelPlayAndroid() : base(IronSourceConstants.LevelPlaybannerBridgeListenerClass)
     {
-
-        public event Action<IronSourceAdInfo> OnAdLoaded = delegate { };
-        public event Action<IronSourceAdInfo> OnAdLeftApplication = delegate { };
-        public event Action<IronSourceAdInfo> OnAdScreenDismissed = delegate { };
-        public event Action<IronSourceAdInfo> OnAdScreenPresented = delegate { };
-        public event Action<IronSourceAdInfo> OnAdClicked = delegate { };
-        public event Action<IronSourceError> OnAdLoadFailed = delegate { };
-
-        //implements UnityLevelPlayBannerListener java interface and implement banner callbacks
-        public IronSourceBannerLevelPlayAndroid() : base(IronSourceConstants.LevelPlaybannerBridgeListenerClass)
+        try
         {
-            try
+            using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
             {
-                using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
-                {
-                    var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
-                    bridgeInstance.Call("setUnityBannerLevelPlayListener", this);
-                }
-
-            }
-            catch(Exception e)
-            {
-                Debug.LogError("setUnityBannerLevelPlayListener method doesn't exist, error: " + e.Message);
+                var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
+                bridgeInstance.Call("setUnityBannerLevelPlayListener", this);
             }
 
         }
+        catch(Exception e)
+        {
+            Debug.LogError("setUnityBannerLevelPlayListener method doesn't exist, error: " + e.Message);
+        }
 
-        void onAdLoaded(String data)
-        {
-            if (OnAdLoaded != null)
-            {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
-                OnAdLoaded(adInfo);
-            }
+    }
 
-        }
-        void onAdLoadFailed(String args)
+    void onAdLoaded(String data)
+    {
+        if (OnAdLoaded != null)
         {
-            if (OnAdLoadFailed != null)
-            {
-                IronSourceError error = IronSourceUtils.getErrorFromErrorObject(args);
-                OnAdLoadFailed(error);
-            }
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
+            OnAdLoaded(adInfo);
         }
-        void onAdClicked(String data)
+
+    }
+    void onAdLoadFailed(String args)
+    {
+        if (OnAdLoadFailed != null)
         {
-            if (OnAdClicked != null)
-            {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
-                OnAdClicked(adInfo);
-            }
+            IronSourceError error = IronSourceUtils.getErrorFromErrorObject(args);
+            OnAdLoadFailed(error);
         }
-        void onAdScreenPresented(String data)
+    }
+    void onAdClicked(String data)
+    {
+        if (OnAdClicked != null)
         {
-            if (OnAdScreenPresented != null)
-            {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
-                OnAdScreenPresented(adInfo);
-            }
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
+            OnAdClicked(adInfo);
         }
-        void onAdScreenDismissed(String data)
+    }
+    void onAdScreenPresented(String data)
+    {
+        if (OnAdScreenPresented != null)
         {
-            if (OnAdScreenDismissed != null)
-            {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
-                OnAdScreenDismissed(adInfo);
-            }
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
+            OnAdScreenPresented(adInfo);
         }
-        void onAdLeftApplication(String data)
+    }
+    void onAdScreenDismissed(String data)
+    {
+        if (OnAdScreenDismissed != null)
         {
-            if (OnAdLeftApplication != null)
-            {
-                IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
-                OnAdLeftApplication(adInfo);
-            }
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
+            OnAdScreenDismissed(adInfo);
+        }
+    }
+    void onAdLeftApplication(String data)
+    {
+        if (OnAdLeftApplication != null)
+        {
+            IronSourceAdInfo adInfo = new IronSourceAdInfo(data);
+            OnAdLeftApplication(adInfo);
         }
     }
 }

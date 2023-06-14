@@ -1,11 +1,7 @@
 ﻿using System;
-
-namespace IS.IronSource.Scripts
+public interface IUnityLevelPlayRewardedVideoManual
 {
-    public interface IUnityLevelPlayRewardedVideoManual
-    {
-        event Action<IronSourceAdInfo> OnAdReady;
+    event Action<IronSourceAdInfo> OnAdReady;
 
-        event Action<IronSourceError> OnAdLoadFailed;
-    }
+    event Action<IronSourceError> OnAdLoadFailed;
 }

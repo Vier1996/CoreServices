@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IS.IronSource.Scripts
-{
-    public interface IUnityOfferwall
+public interface IUnityOfferwall
     {
 
-        event Action<IronSourceError> OnOfferwallShowFailed;
+    event Action<IronSourceError> OnOfferwallShowFailed;
 
-        event Action OnOfferwallOpened;
+    event Action OnOfferwallOpened;
 
-        event Action OnOfferwallClosed;
+    event Action OnOfferwallClosed;
 
-        event Action<IronSourceError> OnGetOfferwallCreditsFailed;
+    event Action<IronSourceError> OnGetOfferwallCreditsFailed;
 
-        event Action<Dictionary<string, object>> OnOfferwallAdCredited;
+    event Action<Dictionary<string, object>> OnOfferwallAdCredited;
 
-        event Action<bool> OnOfferwallAvailable;
+    event Action<bool> OnOfferwallAvailable;
 
-    }
 }

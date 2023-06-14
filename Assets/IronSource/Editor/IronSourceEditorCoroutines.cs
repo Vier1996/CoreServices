@@ -1,40 +1,37 @@
-﻿using System.Collections;
-using UnityEditor;
+﻿using UnityEditor;
+using System.Collections;
 
-namespace ISEditor.IronSource.Editor
+public class IronSourceEditorCoroutines
 {
-    public class IronSourceEditorCoroutines
+    readonly IEnumerator mRoutine;
+
+    public static IronSourceEditorCoroutines StartEditorCoroutine( IEnumerator routine)
     {
-        readonly IEnumerator mRoutine;
+        IronSourceEditorCoroutines coroutine = new IronSourceEditorCoroutines(routine);
+        coroutine.start();
+        return coroutine;
+    }
 
-        public static IronSourceEditorCoroutines StartEditorCoroutine( IEnumerator routine)
-        {
-            IronSourceEditorCoroutines coroutine = new IronSourceEditorCoroutines(routine);
-            coroutine.start();
-            return coroutine;
-        }
+    IronSourceEditorCoroutines(IEnumerator routine)
+    {
+        mRoutine = routine;
+    }
 
-        IronSourceEditorCoroutines(IEnumerator routine)
-        {
-            mRoutine = routine;
-        }
+    void start()
+    {
+        EditorApplication.update += update;
+    }
 
-        void start()
+    void update()
+    {
+        if(!mRoutine.MoveNext())
         {
-            EditorApplication.update += update;
+            StopEditorCoroutine();
         }
+    }
 
-        void update()
-        {
-            if(!mRoutine.MoveNext())
-            {
-                StopEditorCoroutine();
-            }
-        }
-
-        public void StopEditorCoroutine()
-        {
-            EditorApplication.update -= update;
-        }
+    public void StopEditorCoroutine()
+    {
+        EditorApplication.update -= update;
     }
 }
