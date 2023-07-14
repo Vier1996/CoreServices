@@ -68,7 +68,7 @@ namespace ACS.CoreEditor.Editor
 
         #endregion
 
-        [MenuItem(kMenuItemPath + "/Configuration")]
+        [MenuItem(kMenuItemPath + "/Setup")]
         private static void OpenWindow()
         {
             AlexplayEditor window = GetWindow<AlexplayEditor>();
