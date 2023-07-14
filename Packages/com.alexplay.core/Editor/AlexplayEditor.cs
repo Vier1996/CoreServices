@@ -64,11 +64,10 @@ namespace ACS.CoreEditor.Editor
         private const string DocumentationURL =
             "https://docs.google.com/document/d/1PORrcDtGcskwvLADl1r7Vcs8eJlcicsKJyL8jW8-c-k/edit?usp=sharing";
 
-        private const string kMenuItemPath = "Tools/Alexplay/";
 
         #endregion
 
-        [MenuItem(kMenuItemPath + "/Setup")]
+        [MenuItem("Alexplay/Configuration")]
         private static void OpenWindow()
         {
             AlexplayEditor window = GetWindow<AlexplayEditor>();
