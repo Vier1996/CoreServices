@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace ACS.Data.DataService.Model
 {
@@ -6,7 +7,7 @@ namespace ACS.Data.DataService.Model
     [UnityEngine.Scripting.Preserve]
     public class ProgressModel
     {
-        public bool IsDirty { get; private set; }
+        [JsonIgnore] public bool IsDirty { get; private set; }
         
         private string _serializedData = "";
 
