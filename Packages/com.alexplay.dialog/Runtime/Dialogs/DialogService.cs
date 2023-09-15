@@ -18,7 +18,8 @@ namespace ACS.Dialog.Dialogs
         public event Action<Type> DialogShown;
         public event Action<Type> DialogHide;
         public event Action<int> OnCountChanged;
-        
+        public event Action<RenderMode> RenderModeChanged;
+
         public bool HasActiveDialog
         {
             get => _activeDialogs.Count > 0;
@@ -83,6 +84,8 @@ namespace ACS.Dialog.Dialogs
             dialog = (T)dialogView;
             return true;
         }
+
+        public void ChangeRenderMode(RenderMode mode) => RenderModeChanged?.Invoke(mode);
 
         public void CloseAllDialogs()
         {

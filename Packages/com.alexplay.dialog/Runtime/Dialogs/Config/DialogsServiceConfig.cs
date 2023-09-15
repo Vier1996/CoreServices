@@ -20,6 +20,12 @@ namespace ACS.Dialog.Dialogs.Config
         
         [ShowIf("@IsEnabled == true")]
         public int DialogSortingOrder;
+        
+        [ShowIf("@IsEnabled == true")]
+        public int ReferenceResolutionX = 720;
+        
+        [ShowIf("@IsEnabled == true")]
+        public int ReferenceResolutionY = 1280;
 
         [ShowIf("@IsEnabled == true")] 
         public string DefaultResources = "Dialogs/";

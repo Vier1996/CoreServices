@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using ACS.Core.UI;
 using Constants;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
 
         [SerializeField] private bool _loadFromInitialScene;
         
-        private List<Canvas> _customCanvases = new List<Canvas>();
+        private readonly List<CachedCustomCanvas> _customCanvases = new List<CachedCustomCanvas>();
         private RectTransform _rectForDialogs;
         private AlexplayCoreKitConfig _config = null;
         private Core _core;
@@ -72,11 +73,11 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         {
             Canvas dialogCanvas = _rectForDialogs.gameObject.AddComponent<Canvas>();
 
-            SetupRenderMode(dialogCanvas);
+            SetupRenderMode(dialogCanvas, _config._dialogsSettings.RenderMode);
 
             CanvasScaler dialogCanvasScaler = _rectForDialogs.gameObject.AddComponent<CanvasScaler>();
             dialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            dialogCanvasScaler.referenceResolution = new Vector2(720, 1280);
+            dialogCanvasScaler.referenceResolution = new Vector2(_config._dialogsSettings.ReferenceResolutionX, _config._dialogsSettings.ReferenceResolutionY);
             dialogCanvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
             dialogCanvasScaler.matchWidthOrHeight = 1f;
             dialogCanvasScaler.referencePixelsPerUnit = 100;
@@ -95,13 +96,29 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
 
             UIResizer dialogUIResizer = _rectForDialogs.gameObject.AddComponent<UIResizer>();
             dialogUIResizer.SetupCanvas();
+
+            _customCanvases.Add(new CachedCustomCanvas()
+            {
+                Canvas = dialogCanvas,
+                CustomCanvasType = CustomCanvasType.DIALOG_CANVAS,
+            });
             
-            _customCanvases.Add(dialogCanvas);
+#if COM_ALEXPLAY_NET_DIALOG
+            _core.DialogService.RenderModeChanged += OnRenderModeChanged;
+#endif
         }
 
-        private void SetupRenderMode(Canvas canvas)
+        private void OnRenderModeChanged(RenderMode renderMode)
         {
-            switch (_config._dialogsSettings.RenderMode)
+            CachedCustomCanvas cachedCanvas = _customCanvases.FirstOrDefault(canvas => canvas.CustomCanvasType == CustomCanvasType.DIALOG_CANVAS);
+            
+            if(cachedCanvas != default)
+                SetupRenderMode(cachedCanvas.Canvas, renderMode);
+        }
+
+        private void SetupRenderMode(Canvas canvas, RenderMode renderMode)
+        {
+            switch (renderMode)
             {
                 case RenderMode.WorldSpace:
                     canvas.renderMode = RenderMode.WorldSpace;
@@ -125,11 +142,14 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         private void UpdateCanvasesCamera(Scene arg0, LoadSceneMode arg1)
         {
             for (int i = 0; i < _customCanvases.Count; i++) 
-                SetupRenderMode(_customCanvases[i]);
+                SetupRenderMode(_customCanvases[i].Canvas, _config._dialogsSettings.RenderMode);
         }
 
         private void OnDestroy()
         {
+#if COM_ALEXPLAY_NET_DIALOG
+            _core.DialogService.RenderModeChanged -= OnRenderModeChanged;
+#endif            
             ProjectContext.PreInstall -= OnProjectContextPreInstall;
             SceneManager.sceneLoaded -= UpdateCanvasesCamera;
             Core.PostInitialized -= OnProjectContextPostInstall;
