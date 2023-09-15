@@ -26,6 +26,9 @@ namespace ACS.Dialog.Dialogs.Config
         
         [ShowIf("@IsEnabled == true")]
         public int ReferenceResolutionY = 1280;
+        
+        [ShowIf("@IsEnabled == true")]
+        public float BaseScreenRatio = 16 / 9f;
 
         [ShowIf("@IsEnabled == true")] 
         public string DefaultResources = "Dialogs/";
