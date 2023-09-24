@@ -1,5 +1,6 @@
 using ACS.Dialog.Dialogs.Arguments;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +8,16 @@ namespace ACS.Dialog.Dialogs.View
 {
     public class DialogView : Dialog, IReceiveArgs<DialogArgs>
     {
-        [SerializeField] private bool _ignoreAnimation = false;
+        [BoxGroup("PARAMETERS"), SerializeField] private bool _ignoreAnimation = false;
+        [BoxGroup("PARAMETERS"), SerializeField] private bool _customDialogSize = false;
+        [BoxGroup("PARAMETERS"), ShowIf("@_customDialogSize"), SerializeField] private Vector3 _customPosition;
+        [BoxGroup("PARAMETERS"), ShowIf("@_customDialogSize"), SerializeField] private Vector3 _customScale;
+        
         [SerializeField] private Button _closeButton;
         
         private void Awake()
         {
-            transform.DOLocalMove(Vector3.zero, 0);
+            transform.DOLocalMove(_customDialogSize ? _customPosition : Vector3.zero, 0);
             
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
             _canvasGroup.alpha = 0f;
@@ -28,7 +33,7 @@ namespace ACS.Dialog.Dialogs.View
                 
             dialogRect.SetParent(parentTransform);
             dialogRect.position = Vector3.zero;
-            dialogRect.localScale = Vector3.one;
+            dialogRect.localScale = _customDialogSize ? _customScale : Vector3.one;
             dialogRect.rotation = new Quaternion(0, 0, 0, 0);
         }
         
