@@ -13,7 +13,7 @@ namespace ACS.Dialog.Dialogs.View
         [BoxGroup("PARAMETERS"), ShowIf("@_customDialogSize"), SerializeField] private Vector3 _customPosition;
         [BoxGroup("PARAMETERS"), ShowIf("@_customDialogSize"), SerializeField] private Vector3 _customScale;
         
-        [SerializeField] private Button _closeButton;
+        [BoxGroup("CLOSE"), SerializeField] private Button _closeButton;
         
         private void Awake()
         {
