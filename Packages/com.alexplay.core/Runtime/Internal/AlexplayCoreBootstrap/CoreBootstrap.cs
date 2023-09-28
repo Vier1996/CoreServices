@@ -149,7 +149,8 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         private void OnDestroy()
         {
 #if COM_ALEXPLAY_NET_DIALOG
-            _core.DialogService.RenderModeChanged -= OnRenderModeChanged;
+            if(_core != null)
+                _core.DialogService.RenderModeChanged -= OnRenderModeChanged;
 #endif            
             ProjectContext.PreInstall -= OnProjectContextPreInstall;
             SceneManager.sceneLoaded -= UpdateCanvasesCamera;
