@@ -22,6 +22,8 @@ MonoBehaviour:
   _dataSettings:
     _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.data
+    EnableAutoSave: 0
+    AutoSaveDelay: 60
   _signalBusSettings:
     _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus
@@ -30,6 +32,9 @@ MonoBehaviour:
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.dialog
     RenderMode: 1
     DialogSortingOrder: 0
+    ReferenceResolutionX: 720
+    ReferenceResolutionY: 1280
+    BaseScreenRatio: 1.7777778
     DefaultResources: Dialogs/
   _objectPoolSettings:
     _isEnabled: 0
@@ -45,6 +50,8 @@ MonoBehaviour:
       InterstitialsTimeout: 0
       FreeInterstitialsAtStart: 0
       AdvertisementTypes: 
+    HandleImpression: 0
+    IsDebug: 0
   _gdprSettings:
     _isEnabled: 0
     PackageURL: https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.gdpr
