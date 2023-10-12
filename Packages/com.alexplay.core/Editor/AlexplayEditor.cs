@@ -11,7 +11,9 @@ using UnityEditor.PackageManager;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
 using Zenject;
+#endif
 using Object = UnityEngine.Object;
 
 namespace ACS.CoreEditor.Editor
@@ -78,8 +80,10 @@ namespace ACS.CoreEditor.Editor
         [MenuItem("GameObject/Alexplay/Core", false, 10)]
         public static void CreateCore(MenuCommand menuCommand)
         {
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
             if(FindObjectOfType<SceneContext>() == null)
                 CreateSceneContext();
+#endif
             
             if(FindObjectOfType<CoreBootstrap>() != null)
                 return;
@@ -99,6 +103,7 @@ namespace ACS.CoreEditor.Editor
             EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
         }
         
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
         private static void CreateSceneContext()
         {
             var root = new GameObject("SceneContext").AddComponent<SceneContext>();
@@ -106,6 +111,7 @@ namespace ACS.CoreEditor.Editor
 
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
+#endif
 
         protected override OdinMenuTree BuildMenuTree()
         {
