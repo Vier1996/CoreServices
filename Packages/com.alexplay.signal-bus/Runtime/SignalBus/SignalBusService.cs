@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ACS.SignalBus.SignalBus.Parent;
 using UniRx;
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
 using Zenject;
+#endif
 
 namespace ACS.SignalBus.SignalBus
 {
@@ -13,6 +15,8 @@ namespace ACS.SignalBus.SignalBus
         
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         private System.Reflection.Assembly _sharpAssembly;
+        
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
         private DiContainer _diContainer;
         private Zenject.SignalBus _signalBus;
         
@@ -21,6 +25,14 @@ namespace ACS.SignalBus.SignalBus
             _diContainer = diContainer;
             _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(_sharpAssemblyName));
         }
+#else
+        private NativeSignalBus.SignalBus _signalBus;
+        
+        public SignalBusService()
+        {
+            _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(_sharpAssemblyName));
+        }
+#endif
         
         public void PrepareService()
         {
@@ -28,7 +40,15 @@ namespace ACS.SignalBus.SignalBus
             DeclareSignals();
         }
         
-        public void Subscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.Subscribe(callback);
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
+        public void Subscribe<TSignalType>(Action<TSignalType> callback)
+#else
+        public void Subscribe<TSignalType>(Action<TSignalType> callback)
+#endif
+        {
+            _signalBus.Subscribe(callback);
+        }
+
         public void Unsubscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.TryUnsubscribe(callback);
         public void Fire<TSignalType>(TSignalType signalMessage) => _signalBus.TryFire(signalMessage);
         public void IsSignalDeclared<TSignalType>(TSignalType signalMessage) => _signalBus.IsSignalDeclared<TSignalType>();
@@ -36,8 +56,12 @@ namespace ACS.SignalBus.SignalBus
 
         private void InstallSignalBus()
         {
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
             SignalBusInstaller.Install(_diContainer);
             _signalBus = _diContainer.Resolve<Zenject.SignalBus>();
+#else
+            _signalBus = new NativeSignalBus.SignalBus();
+#endif
         }
         
         private void DeclareSignals()

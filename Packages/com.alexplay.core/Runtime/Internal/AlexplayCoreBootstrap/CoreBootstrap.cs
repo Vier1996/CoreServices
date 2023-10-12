@@ -4,7 +4,9 @@ using Constants;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
 using Zenject;
+#endif
 
 namespace ACS.Core.Internal.AlexplayCoreBootstrap
 {
@@ -34,7 +36,12 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
 
                 CreateDialogParent();
                 
-                ProjectContext.PreInstall += OnProjectContextPreInstall;
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
+                ProjectContext.PreInstall += OnInstalled;
+#else
+                OnInstalled();
+#endif
+                
                 SceneManager.sceneLoaded += UpdateCanvasesCamera;
                 Core.PostInitialized += OnProjectContextPostInstall;
                 
@@ -42,9 +49,11 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
             }
         }
 
-        private void OnProjectContextPreInstall()
+        private void OnInstalled()
         {
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
             ProjectContext.PreInstall -= OnProjectContextPreInstall;
+#endif
             
             _core = new Core(_config, gameObject, _rectForDialogs);
             
@@ -152,7 +161,10 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
             if(_core != null)
                 _core.DialogService.RenderModeChanged -= OnRenderModeChanged;
 #endif            
-            ProjectContext.PreInstall -= OnProjectContextPreInstall;
+            
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
+            ProjectContext.PreInstall -= OnInstalled;
+#endif
             SceneManager.sceneLoaded -= UpdateCanvasesCamera;
             Core.PostInitialized -= OnProjectContextPostInstall;
         }

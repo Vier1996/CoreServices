@@ -2,7 +2,10 @@ using System;
 using ACS.Core.Internal.AlexplayCoreBootstrap;
 using DG.Tweening;
 using UnityEngine;
+
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
 using Zenject;
+#endif
 
 #if COM_ALEXPLAY_NET_ADS
 using ACS.Ads;
@@ -173,7 +176,10 @@ namespace ACS.Core
 #endif
  
         private IntentService.IntentService IntentService { get; }
+        
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
         private DiContainer _diContainer;
+#endif
         private bool _initialized = false;
 
         public Core(AlexplayCoreKitConfig coreConfig, GameObject parentMonoBehavior, RectTransform rectForDialogs)
@@ -181,7 +187,10 @@ namespace ACS.Core
             if (Instance == null)
             {
                 Instance = this;
+                
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer = ProjectContext.Instance.Container;
+#endif
                 IntentService = parentMonoBehavior.AddComponent<IntentService.IntentService>();
                 
                 SetupOptions(coreConfig._bootstrapOptions);
@@ -193,15 +202,29 @@ namespace ACS.Core
 
 #if COM_ALEXPLAY_NET_SIGNAL_BUS
                 if(coreConfig._signalBusSettings.IsEnabled)
-                    _signalBusService = new SignalBusService(_diContainer);
+                    _signalBusService = 
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
+                        new SignalBusService(_diContainer);
+#else
+                        new SignalBusService();
+#endif
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
                 if(coreConfig._dialogsSettings.IsEnabled)
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                     _dialogService = new DialogService(_diContainer, coreConfig._dialogsSettings, rectForDialogs);
+#else
+                    _dialogService = new DialogService(coreConfig._dialogsSettings, rectForDialogs);
+#endif
 #endif
 #if COM_ALEXPLAY_NET_OBJECT_POOL
                 if (coreConfig._objectPoolSettings.IsEnabled)
-                    _objectPoolService = new ObjectPoolService(parentMonoBehavior.transform, _diContainer, coreConfig._objectPoolSettings);
+                    _objectPoolService = 
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
+                        new ObjectPoolService(parentMonoBehavior.transform, _diContainer, coreConfig._objectPoolSettings);
+#else
+                        new ObjectPoolService(parentMonoBehavior.transform, coreConfig._objectPoolSettings);
+#endif
 #endif
 #if COM_ALEXPLAY_NET_ADS
                 if (coreConfig._advertisementSettings.IsEnabled)
@@ -275,7 +298,9 @@ namespace ACS.Core
             if (coreConfig._dataSettings.IsEnabled)
             {
                 _dataService.PrepareService();
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer.Bind<IDataService>().FromInstance(_dataService);
+#endif
             }
 #endif
             
@@ -283,7 +308,9 @@ namespace ACS.Core
 
             if (coreConfig._audioSettings.IsEnabled)
             {
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer.Bind<AudioService>().FromInstance(_audioService);
+#endif
             }
 #endif
             
@@ -291,7 +318,9 @@ namespace ACS.Core
             if (coreConfig._signalBusSettings.IsEnabled)
             {
                 _signalBusService.PrepareService();
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer.Bind<ISignalBusService>().FromInstance(_signalBusService);
+#endif
             }
 #endif
             
@@ -299,44 +328,55 @@ namespace ACS.Core
             if (coreConfig._dialogsSettings.IsEnabled)
             {
                 _dialogService.PrepareService();
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer.Bind<IDialogService>().FromInstance(_dialogService);
+#endif
             }
 #endif
 #if COM_ALEXPLAY_NET_OBJECT_POOL
             if (coreConfig._objectPoolSettings.IsEnabled)
             {
                 _objectPoolService.PrepareService();
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer.Bind<IObjectPoolService>().FromInstance(_objectPoolService);
+#endif
             }
 #endif
 #if COM_ALEXPLAY_NET_ADS
             if (coreConfig._advertisementSettings.IsEnabled)
             {
                 _advertisementService.PrepareService();
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer.Bind<IAdvertisementService>().FromInstance(_advertisementService);
+#endif
             }
 #endif
 #if COM_ALEXPLAY_NET_GDPR
             if (coreConfig._gdprSettings.IsEnabled)
             {
                 _gdprService.PrepareService();
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer.Bind<IGdprService>().FromInstance(_gdprService);
+#endif
             }
 #endif
 #if COM_ALEXPLAY_NET_PURCHASE
             if (coreConfig._purchaseSettings.IsEnabled)
             {
                 _iapPurchaseService.PrepareService();
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
                 _diContainer.Bind<IPurchaseService>().FromInstance(_iapPurchaseService);
+#endif
             }
 #endif
-#if COM_ALEXPLAY_NET_ANALYTICS
+#if COM_ALEXPLAY_NET_ANALYTICS && COM_ALEXPLAY_ZENJECT_EXTENSION
             if (coreConfig._analyticsSettings.IsEnabled)
             {
                 _diContainer.Bind<IAnalyticsService>().FromInstance(_analyticsService).AsSingle();
             }
 #endif
-#if COM_ALEXPLAY_NET_FBRC
+#if COM_ALEXPLAY_NET_FBRC && COM_ALEXPLAY_ZENJECT_EXTENSION
+
             if (coreConfig._fbrcSettings.IsEnabled)
             {
                 _diContainer.BindInstance(_fbrcService).AsSingle();

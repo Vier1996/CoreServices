@@ -9,7 +9,10 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
 using Zenject;
+#endif
 
 namespace ACS.Dialog.Dialogs
 {
@@ -31,16 +34,30 @@ namespace ACS.Dialog.Dialogs
 
         private readonly ObservableCollection<DialogView> _activeDialogs = new ObservableCollection<DialogView>();
         
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
         private readonly DiContainer _projectContextContainer;
         private DiContainer _sceneContextContainer;
+#endif
         
         private readonly DialogsServiceConfig _dialogsServiceConfig;
         private readonly RectTransform _dialogsParent;
         private GameObject _raycastLocker;
         
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
         public DialogService(DiContainer diContainer, DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
         {
             _projectContextContainer = diContainer;
+            _dialogsServiceConfig = dialogsServiceConfig;
+            _dialogsParent = rectForDialogs;
+            _activeDialogs.CollectionChanged += OnDialogsCountChanged;
+            SceneManager.activeSceneChanged += OnSceneChanged;
+
+            OnSceneChanged(default, default);
+        }
+#endif
+     
+        public DialogService(DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
+        {
             _dialogsServiceConfig = dialogsServiceConfig;
             _dialogsParent = rectForDialogs;
             _activeDialogs.CollectionChanged += OnDialogsCountChanged;
@@ -99,7 +116,7 @@ namespace ACS.Dialog.Dialogs
 
             ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + dialogType.Name);
             GameObject dialogPrefab = await resourceRequest as GameObject;
-
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
             DiContainer container = null;
 
             switch (context)
@@ -117,7 +134,14 @@ namespace ACS.Dialog.Dialogs
                 (instance as IReceiveArgs<TArgs>).SetArgs(args);
                 return instance;
             }
-
+#else
+            if (dialogPrefab != null) 
+            {
+                DialogView instance = Object.Instantiate(dialogPrefab).GetComponent<DialogView>();
+                (instance as IReceiveArgs<TArgs>).SetArgs(args);
+                return instance;
+            }
+#endif
             throw new Exception("You try to instantiate dialog that has no instance or contains name not equal to its type");
         }
 
@@ -156,8 +180,12 @@ namespace ACS.Dialog.Dialogs
             }
         }
         
-        private void OnSceneChanged(Scene arg0, Scene arg1) => 
+        private void OnSceneChanged(Scene arg0, Scene arg1)
+        {
+#if COM_ALEXPLAY_ZENJECT_EXTENSION
             _sceneContextContainer = UnityEngine.Object.FindObjectOfType<SceneContext>().Container;
+#endif
+        }
 
         public void Dispose()
         {
