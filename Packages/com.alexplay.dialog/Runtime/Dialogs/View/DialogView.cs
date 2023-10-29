@@ -1,3 +1,4 @@
+using System;
 using ACS.Dialog.Dialogs.Arguments;
 using DG.Tweening;
 using Sirenix.OdinInspector;
@@ -6,14 +7,15 @@ using UnityEngine.UI;
 
 namespace ACS.Dialog.Dialogs.View
 {
-    public class DialogView : Dialog, IReceiveArgs<DialogArgs>
+    public abstract class DialogView : Dialog, IReceiveArgs<DialogArgs>
     {
-        [BoxGroup("PARAMETERS"), SerializeField] private bool _ignoreAnimation = false;
-        [BoxGroup("PARAMETERS"), SerializeField] private bool _customDialogSize = false;
-        [BoxGroup("PARAMETERS"), ShowIf("@_customDialogSize"), SerializeField] private Vector3 _customPosition;
-        [BoxGroup("PARAMETERS"), ShowIf("@_customDialogSize"), SerializeField] private Vector3 _customScale;
+        public event Action ShowingAnimationFinished;
         
-        [BoxGroup("CLOSE"), SerializeField] private Button _closeButton;
+        [BoxGroup("Parameters"), SerializeField] private bool _ignoreAnimation = false;
+        [BoxGroup("Parameters"), SerializeField] private bool _customDialogSize = false;
+        [BoxGroup("Parameters"), ShowIf(nameof(_customDialogSize), true), SerializeField] private Vector3 _customPosition;
+        [BoxGroup("Parameters"), ShowIf(nameof(_customDialogSize), true), SerializeField] private Vector3 _customScale;
+        [BoxGroup("Close"), SerializeField] private Button _closeButton;
         
         private void Awake()
         {
@@ -22,7 +24,8 @@ namespace ACS.Dialog.Dialogs.View
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
             _canvasGroup.alpha = 0f;
             
-            _closeButton.onClick.AddListener(Hide);
+            if(_closeButton != null)
+                _closeButton.onClick.AddListener(Hide);
         }
         
         public void SetArgs(DialogArgs args) => _dialogArgs = args;
@@ -50,7 +53,7 @@ namespace ACS.Dialog.Dialogs.View
                     DOTween.To(() => _canvasGroup.alpha, alpha =>
                     {
                         _canvasGroup.alpha = alpha;
-                    }, 1f, 0.3f);
+                    }, 1f, 0.3f).OnComplete(() => ShowingAnimationFinished?.Invoke());
                 }
 
                 NotifyListeners();

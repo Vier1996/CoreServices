@@ -15,5 +15,5 @@ namespace Tests.SignalBus
         }
     }
    
-    [Signal] public struct RSignal { }
+    [Signal] public class RSignal { }
 }

@@ -20,12 +20,12 @@ namespace ject
             _services = GetTypesWithAttribute<DiService>(_sharpAssembly);
             _getters = GetTypesWithAttribute<DiGetter>(_sharpAssembly);
 
-            foreach (Type getterType in _getters)
-            {
-                DiGetter getter = GetAttribute<DiGetter>(getterType);
-                
-                getter.Created += instance => Debug.Log("Created");
-            }
+            //foreach (Type getterType in _getters)
+            //{
+            //    DiGetter getter = GetAttribute<DiGetter>(getterType);
+            //    
+            //    getter.Created += instance => Debug.Log("Created");
+            //}
             
             Debug.Log("1");
         }
@@ -50,9 +50,9 @@ namespace ject
                 .OfType<T>()
                 .SingleOrDefault();
 
-        private List<Type> GetTypes(System.Reflection.Assembly assembly, Type type)
-        {
-            assembly.GetTypes().Where(type => type)
-        }
+        //private List<Type> GetTypes(System.Reflection.Assembly assembly, Type type)
+        //{
+        //    assembly.GetTypes().Where(type => type)
+        //}
     }
 }
