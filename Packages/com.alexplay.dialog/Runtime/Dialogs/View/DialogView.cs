@@ -73,7 +73,11 @@ namespace ACS.Dialog.Dialogs.View
             if (gameObject != null) 
                 Destroy(gameObject);
         }
-        
+
+        public void TemporaryEnable() => gameObject.SetActive(true);
+
+        public void TemporaryDisable() => gameObject.SetActive(false);
+
         protected TArgs GetArgs<TArgs>() where TArgs : DialogArgs
         {
             if (_dialogArgs == null)
