@@ -88,6 +88,16 @@ namespace ACS.Dialog.Dialogs
             where TArgs : DialogArgs => 
             ShowDialog(await InstantiateDialog<TArgs>(dialogType, args, context));
 
+        public DialogView GetDialog(Type dialogType)
+        {
+            DialogView dialogView = _activeDialogs.FirstOrDefault(dlg => dlg.GetType() == dialogType);
+            
+            if (dialogView == default)
+                return null;
+
+            return dialogView;
+        }
+        
         public bool TryGetDialog<T>(out T dialog) where T : DialogView
         {
             DialogView dialogView = _activeDialogs.FirstOrDefault(dlg => dlg.GetType() == typeof(T));

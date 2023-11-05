@@ -17,6 +17,7 @@ namespace ACS.Dialog.Dialogs
         public void CallDialog(Type dialogType, SourceContext context = SourceContext.PROJECT_CONTEXT);
         public void CallDialog<TArgs>(Type dialogType, TArgs args, SourceContext context = SourceContext.PROJECT_CONTEXT) where TArgs : DialogArgs;
         public void CloseAllDialogs();
+        public DialogView GetDialog(Type dialogType);
         public bool TryGetDialog<T>(out T dialog) where T : DialogView;
         public void ChangeRenderMode(RenderMode mode);
     }
