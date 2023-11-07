@@ -17,7 +17,7 @@ namespace ACS.Dialog.Dialogs.View
         [BoxGroup("Parameters"), ShowIf(nameof(_customDialogSize), true), SerializeField] private Vector3 _customScale;
         [BoxGroup("Close"), SerializeField] private Button _closeButton;
         
-        private void Awake()
+        protected virtual void Awake()
         {
             transform.DOLocalMove(_customDialogSize ? _customPosition : Vector3.zero, 0);
             
