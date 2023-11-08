@@ -6,6 +6,7 @@ namespace ACS.SignalBus.SignalBus
     {
         public void Subscribe<TSignalType>(Action<TSignalType> callback);
         public void Unsubscribe<TSignalType>(Action<TSignalType> callback);
+        public void TryUnsubscribeAllSignalByType<TSignal>();
         public void Fire<TSignalType>(TSignalType signalMessage);
         public void IsSignalDeclared<TSignalType>(TSignalType signalMessage);
     }

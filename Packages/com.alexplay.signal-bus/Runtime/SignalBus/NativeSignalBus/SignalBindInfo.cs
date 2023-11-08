@@ -17,5 +17,7 @@ namespace ACS.SignalBus.SignalBus.NativeSignalBus
             if (_callback is Action<TSignal> typedCallback) 
                 typedCallback?.Invoke(callback);
         }
+        
+        public bool IsEqualCallback<TSignal>(Action<TSignal> callback) => (Action<TSignal>)_callback == callback;
     }
 }

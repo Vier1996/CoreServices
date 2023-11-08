@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ACS.SignalBus.SignalBus.NativeSignalBus
 {
@@ -18,11 +19,19 @@ namespace ACS.SignalBus.SignalBus.NativeSignalBus
             
             if (_declaredSignals.ContainsKey(signalType))
             {
-                SignalBindInfo bindInfo = new SignalBindInfo().Setup(callback);
+                SignalBindInfo bindInfo = _declaredSignals[signalType].FirstOrDefault(sgn => sgn.IsEqualCallback(callback));
                 
-                if(_declaredSignals[signalType].Contains(bindInfo))
+                if(bindInfo != default)
                     _declaredSignals[signalType].Remove(bindInfo);
             }
+        }
+        
+        public void TryUnsubscribeAllSignalByType<TSignal>()
+        {
+            Type signalType = typeof(TSignal);
+            
+            if (_declaredSignals.ContainsKey(signalType)) 
+                _declaredSignals[signalType].Clear();
         }
 
         public void TryFire<TSignal>(TSignal signal)
@@ -48,5 +57,7 @@ namespace ACS.SignalBus.SignalBus.NativeSignalBus
         }
         
         public bool IsSignalDeclared<TSignal>() => _declaredSignals.ContainsKey(typeof(TSignal));
+
+        public void ClearAll() => _declaredSignals.Clear();
     }
 }

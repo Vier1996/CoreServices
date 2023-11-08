@@ -50,6 +50,9 @@ namespace ACS.SignalBus.SignalBus
         }
 
         public void Unsubscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.TryUnsubscribe(callback);
+        
+        public void TryUnsubscribeAllSignalByType<TSignal>() => _signalBus.TryUnsubscribeAllSignalByType<TSignal>();
+
         public void Fire<TSignalType>(TSignalType signalMessage) => _signalBus.TryFire(signalMessage);
         public void IsSignalDeclared<TSignalType>(TSignalType signalMessage) => _signalBus.IsSignalDeclared<TSignalType>();
 
@@ -89,6 +92,10 @@ namespace ACS.SignalBus.SignalBus
             return types;
         }
 
-        public void Dispose() => _disposables.Dispose();
+        public void Dispose()
+        {
+            _disposables.Dispose();
+            _signalBus.ClearAll();
+        }
     }
 }
