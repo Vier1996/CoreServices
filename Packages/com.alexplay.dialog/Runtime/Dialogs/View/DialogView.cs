@@ -77,6 +77,10 @@ namespace ACS.Dialog.Dialogs.View
         public void TemporaryEnable() => gameObject.SetActive(true);
 
         public void TemporaryDisable() => gameObject.SetActive(false);
+        
+        public void ShowCloseButton() => _closeButton.gameObject.SetActive(true);
+        
+        public void HideCloseButton() => _closeButton.gameObject.SetActive(false);
 
         protected TArgs GetArgs<TArgs>() where TArgs : DialogArgs
         {
