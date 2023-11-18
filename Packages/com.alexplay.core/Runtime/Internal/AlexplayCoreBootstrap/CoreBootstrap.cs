@@ -36,14 +36,14 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
 
                 CreateDialogParent();
                 
+                SceneManager.sceneLoaded += UpdateCanvasesCamera;
+                Core.PostInitialized += OnProjectContextPostInstall;
+                
 #if COM_ALEXPLAY_ZENJECT_EXTENSION
                 ProjectContext.PreInstall += OnInstalled;
 #else
                 OnInstalled();
 #endif
-                
-                SceneManager.sceneLoaded += UpdateCanvasesCamera;
-                Core.PostInitialized += OnProjectContextPostInstall;
                 
                 DontDestroyOnLoad(this);
             }
