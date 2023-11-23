@@ -107,6 +107,12 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 "UI"
             });
             
+            dialogCanvasScaler.referenceResolution = new Vector2(
+                _config._dialogsSettings.ReferenceResolutionX,
+                _config._dialogsSettings.ReferenceResolutionY * Mathf.Max(1f, Screen.height / (float) Screen.width / _config._dialogsSettings.BaseScreenRatio));
+
+            transform.localScale = Vector3.one * 0.01f;
+            
             _customCanvases.Add(new CachedCustomCanvas()
             {
                 Canvas = dialogCanvas,
