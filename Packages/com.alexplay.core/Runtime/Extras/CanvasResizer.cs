@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ACS.Core.Extras
@@ -27,7 +28,7 @@ namespace ACS.Core.Extras
                 _baseCanvasWidth,
                 _baseCanvasHeight * Mathf.Max(1f, Screen.height / (float)Screen.width / _baseScreenRatio));
 
-            _scaler.transform.localScale = Vector3.one * 0.01f;
+            _scaler.transform.DOScale(0.01f, 0f);
         }
     }
 }
