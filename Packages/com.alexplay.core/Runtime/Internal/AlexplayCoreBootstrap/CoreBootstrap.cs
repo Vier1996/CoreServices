@@ -80,26 +80,29 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
 
         private void SetupDialogParent()
         {
-            float referenceResolutionLength = Screen.height / (float)Screen.width / _config._dialogsSettings.BaseScreenRatio;
+            float referenceResolutionLength = _config._dialogsSettings.ResizeOnSceneChanged
+                ? Screen.height / (float)Screen.width / _config._dialogsSettings.BaseScreenRatio
+                : 1f;
+
             Canvas dialogCanvas = _rectForDialogs.gameObject.AddComponent<Canvas>();
 
             SetupRenderMode(dialogCanvas, _config._dialogsSettings.RenderMode);
-            
+
             CanvasScaler dialogCanvasScaler = _rectForDialogs.gameObject.AddComponent<CanvasScaler>();
             dialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             dialogCanvasScaler.referenceResolution = new Vector2(
-                _config._dialogsSettings.ReferenceResolutionX, 
+                _config._dialogsSettings.ReferenceResolutionX,
                 _config._dialogsSettings.ReferenceResolutionY * Mathf.Max(1f, referenceResolutionLength));
             dialogCanvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
             dialogCanvasScaler.matchWidthOrHeight = 1f;
             dialogCanvasScaler.referencePixelsPerUnit = 100;
-            
+
             dialogCanvas.transform.localScale *= 0.01f;
-                
+
             GraphicRaycaster dialogGraphicRaycaster = _rectForDialogs.gameObject.AddComponent<GraphicRaycaster>();
             dialogGraphicRaycaster.ignoreReversedGraphics = true;
             dialogGraphicRaycaster.blockingObjects = GraphicRaycaster.BlockingObjects.None;
-            dialogGraphicRaycaster.blockingMask = LayerMask.GetMask(new []
+            dialogGraphicRaycaster.blockingMask = LayerMask.GetMask(new[]
             {
                 "Default",
                 "TransparentFX",
@@ -107,15 +110,18 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 "Water",
                 "UI"
             });
-            
-            CanvasResizer dialogCanvasResizer = _rectForDialogs.gameObject.AddComponent<CanvasResizer>();
-            dialogCanvasResizer.SetupResizer(
-                dialogCanvasScaler,
-                _config._dialogsSettings.ReferenceResolutionY,
-                _config._dialogsSettings.ReferenceResolutionX,
-                _config._dialogsSettings.BaseScreenRatio
+
+            if (_config._dialogsSettings.ResizeOnSceneChanged)
+            {
+                CanvasResizer dialogCanvasResizer = _rectForDialogs.gameObject.AddComponent<CanvasResizer>();
+                dialogCanvasResizer.SetupResizer(
+                    dialogCanvasScaler,
+                    _config._dialogsSettings.ReferenceResolutionY,
+                    _config._dialogsSettings.ReferenceResolutionX,
+                    _config._dialogsSettings.BaseScreenRatio
                 );
-            
+            }
+
             _customCanvases.Add(new CachedCustomCanvas()
             {
                 Canvas = dialogCanvas,

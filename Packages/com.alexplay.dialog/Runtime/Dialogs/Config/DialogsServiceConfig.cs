@@ -22,6 +22,9 @@ namespace ACS.Dialog.Dialogs.Config
         public int DialogSortingOrder;
         
         [ShowIf("@IsEnabled == true")]
+        public bool ResizeOnSceneChanged = true;
+
+        [ShowIf("@IsEnabled == true")]
         public int ReferenceResolutionX = 720;
         
         [ShowIf("@IsEnabled == true")]
