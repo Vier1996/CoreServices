@@ -109,16 +109,18 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
             });
             
             CanvasResizer dialogCanvasResizer = _rectForDialogs.gameObject.AddComponent<CanvasResizer>();
-            dialogCanvasResizer.SetupCanvas(
+            dialogCanvasResizer.SetupResizer(
                 dialogCanvasScaler,
                 _config._dialogsSettings.ReferenceResolutionY,
                 _config._dialogsSettings.ReferenceResolutionX,
                 _config._dialogsSettings.BaseScreenRatio
                 );
+            dialogCanvasResizer.Resize();
             
             _customCanvases.Add(new CachedCustomCanvas()
             {
                 Canvas = dialogCanvas,
+                Resizer = dialogCanvasResizer,
                 CustomCanvasType = CustomCanvasType.DIALOG_CANVAS,
             });
             
@@ -160,8 +162,11 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         
         private void UpdateCanvasesCamera(Scene arg0, LoadSceneMode arg1)
         {
-            for (int i = 0; i < _customCanvases.Count; i++) 
+            for (int i = 0; i < _customCanvases.Count; i++)
+            {
                 SetupRenderMode(_customCanvases[i].Canvas, _config._dialogsSettings.RenderMode);
+                _customCanvases[i].Resizer.Resize();
+            }
         }
 
         private void OnDestroy()
