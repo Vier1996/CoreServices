@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
+﻿#define ADS_FIREBASE_IMPRESSION
+#undef ADS_FIREBASE_IMPRESSION
+
+using System.Collections.Generic;
+#if ADS_FIREBASE_IMPRESSION
 using Firebase;
 using Firebase.Analytics;
+#endif
 using UnityEngine;
 
 namespace ACS.Ads
 {
     public class FirebaseImpressionHandler : IImpressionHandler
     {
+        
         private bool _isDebug = false;
         private bool _isReady = false;
 
@@ -14,17 +20,20 @@ namespace ACS.Ads
         {
             _isDebug = isDebug;
             
+#if ADS_FIREBASE_IMPRESSION
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
             {
                 var dependencyStatus = task.Result;
                 if (dependencyStatus == DependencyStatus.Available) _isReady = true;
             });
+#endif
         }
 
         public void HandleImpression(Dictionary<string, string> impressionParam, double revenue)
         {
             if(!_isReady) return;
             
+#if ADS_FIREBASE_IMPRESSION
             Parameter[] adParameters =
             {
                 new Parameter(FirebaseAnalytics.ParameterAdPlatform, "ironsource"),
@@ -71,6 +80,7 @@ namespace ACS.Ads
             FirebaseAnalytics.LogEvent(adRevenueKey, 
                 new Parameter(FirebaseAnalytics.ParameterValue, revenue),
                 new Parameter(FirebaseAnalytics.ParameterCurrency, "USD"));
+#endif
         }
     }
 }

@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#define ADS_APPSFLYER_IMPRESSION
+#undef ADS_APPSFLYER_IMPRESSION
+
+using System.Collections.Generic;
+#if ADS_FIREBASE_IMPRESSION
 using AppsFlyerSDK;
+#endif
 using UnityEngine;
 
 namespace ACS.Ads
@@ -12,6 +17,7 @@ namespace ACS.Ads
 
         public void HandleImpression(Dictionary<string, string> impressionParam, double revenue)
         {
+#if ADS_FIREBASE_IMPRESSION
             if(!(AppsFlyer.instance is { isInit: true })) return;
             
             string impressionKey = "";
@@ -37,6 +43,7 @@ namespace ACS.Ads
 
             AppsFlyer.sendEvent(impressionKey, impressionParam);
             AppsFlyer.sendEvent(adRevenueKey, impressionParam);
+#endif
         }
     }
 }
