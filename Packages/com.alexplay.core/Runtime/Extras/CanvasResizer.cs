@@ -1,5 +1,7 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace ACS.Core.Extras
@@ -17,9 +19,16 @@ namespace ACS.Core.Extras
             _baseCanvasHeight = baseCanvasHeight;
             _baseCanvasWidth = baseCanvasWidth;
             _baseScreenRatio = baseScreenRatio;
+            
+            SceneManager.activeSceneChanged += ChangeSize;
         }
 
-        public void Resize()
+        private void ChangeSize(Scene arg0, Scene arg1)
+        {
+            Resize();
+        }
+
+        private void Resize()
         {
             if(_scaler == null)
                 return;
@@ -29,6 +38,11 @@ namespace ACS.Core.Extras
                 _baseCanvasHeight * Mathf.Max(1f, Screen.height / (float)Screen.width / _baseScreenRatio));
 
             _scaler.transform.DOScale(0.01f, 0f);
+        }
+
+        private void OnDestroy()
+        {
+            SceneManager.activeSceneChanged -= ChangeSize;
         }
     }
 }

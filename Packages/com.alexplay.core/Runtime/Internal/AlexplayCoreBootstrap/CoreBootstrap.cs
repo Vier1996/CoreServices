@@ -115,12 +115,10 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 _config._dialogsSettings.ReferenceResolutionX,
                 _config._dialogsSettings.BaseScreenRatio
                 );
-            dialogCanvasResizer.Resize();
             
             _customCanvases.Add(new CachedCustomCanvas()
             {
                 Canvas = dialogCanvas,
-                Resizer = dialogCanvasResizer,
                 CustomCanvasType = CustomCanvasType.DIALOG_CANVAS,
             });
             
@@ -165,7 +163,6 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
             for (int i = 0; i < _customCanvases.Count; i++)
             {
                 SetupRenderMode(_customCanvases[i].Canvas, _config._dialogsSettings.RenderMode);
-                _customCanvases[i].Resizer.Resize();
             }
         }
 
