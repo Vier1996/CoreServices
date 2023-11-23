@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ACS.Core.Extras;
 using Constants;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -107,11 +108,13 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 "UI"
             });
             
-            dialogCanvasScaler.referenceResolution = new Vector2(
+            CanvasResizer dialogCanvasResizer = _rectForDialogs.gameObject.AddComponent<CanvasResizer>();
+            dialogCanvasResizer.SetupCanvas(
+                dialogCanvasScaler,
+                _config._dialogsSettings.ReferenceResolutionY,
                 _config._dialogsSettings.ReferenceResolutionX,
-                _config._dialogsSettings.ReferenceResolutionY * Mathf.Max(1f, Screen.height / (float) Screen.width / _config._dialogsSettings.BaseScreenRatio));
-
-            transform.localScale = Vector3.one * 0.01f;
+                _config._dialogsSettings.BaseScreenRatio
+                );
             
             _customCanvases.Add(new CachedCustomCanvas()
             {
