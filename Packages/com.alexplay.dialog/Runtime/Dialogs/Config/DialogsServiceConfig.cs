@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using ACS.Dialog.Dialogs.View;
 using Config;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -35,6 +39,11 @@ namespace ACS.Dialog.Dialogs.Config
 
         [ShowIf("@IsEnabled == true")] 
         public string DefaultResources = "Dialogs/";
+        
+        [ShowIf("@IsEnabled == true")]
+        public List<DialogInfo> ActiveDialogs = new List<DialogInfo>();
+        
+#if UNITY_EDITOR
         public string GetLayerName() => LayerName;
 
         public void OnValidate() => TryCreateLayer();
@@ -57,6 +66,27 @@ namespace ACS.Dialog.Dialogs.Config
             #endif
         }
         
+        [ShowIf("@_isEnabled == true"), GUIColor(0.5f, 1, 1), PropertyOrder(-1)]
+        [Button] private void UpdateActiveDialogs()
+        {
+            Type dialogViewType = typeof(DialogView);
+            Assembly assembly = Assembly.GetExecutingAssembly();
+
+            Type[] allTypes = assembly.GetTypes();
+            Type[] subclasses = allTypes.Where(t => t.IsSubclassOf(dialogViewType)).ToArray();
+            
+            List<Type> availableAgents = subclasses.ToList();
+
+            foreach (var t in availableAgents)
+            {
+                DialogInfo agentInfo = new DialogInfo(t);
+
+                if (ActiveDialogs.Contains(agentInfo) == false) 
+                    ActiveDialogs.Add(new DialogInfo(t));
+            }
+        }
+        
         [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
+#endif
     }
 }

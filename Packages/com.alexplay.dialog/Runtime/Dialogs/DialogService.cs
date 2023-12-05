@@ -188,7 +188,7 @@ namespace ACS.Dialog.Dialogs
         {
             _activeDialogs.Remove(dialogView);
 
-            ClearResource(dialogView.GetType());
+            //ClearResource(dialogView.GetType());
             
             DialogHide?.Invoke(dialogView.GetType());
         }
@@ -199,8 +199,11 @@ namespace ACS.Dialog.Dialogs
 
             _dialogResources.Remove(dialogType.Name);
 
-            if (request != null && request.asset != null) 
-                Resources.UnloadAsset(request.asset as GameObject);
+            if (request != null && request.asset != null)
+            {
+                Object unloadableAsset = request.asset;
+                Resources.UnloadAsset(request.asset);
+            }
         }
 
         private void OnDialogsCountChanged(object sender, NotifyCollectionChangedEventArgs e)
