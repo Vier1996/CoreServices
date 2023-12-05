@@ -76,6 +76,9 @@ namespace ACS.Dialog.Dialogs
         {
             foreach (DialogInfo info in _dialogsServiceConfig.ActiveDialogs)
             {
+                if(info.IsPreloaded == false)
+                    continue;
+                
                 ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + info.Name);
                 
                 await resourceRequest;
