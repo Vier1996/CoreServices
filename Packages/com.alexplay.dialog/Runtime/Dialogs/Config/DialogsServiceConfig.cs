@@ -87,7 +87,15 @@ namespace ACS.Dialog.Dialogs.Config
                     ActiveDialogs.Add(new DialogInfo(t));
             }
         }
-        
+
+        [ShowIf("@_isEnabled == true"), GUIColor(0.5f, 1, 1), PropertyOrder(-1)]
+        [Button]
+        private void Clear()
+        {
+            ActiveDialogs.Clear();
+            ActiveDialogs = new List<DialogInfo>();
+        }
+
         [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
 #endif
     }

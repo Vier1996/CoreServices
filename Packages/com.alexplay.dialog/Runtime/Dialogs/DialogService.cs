@@ -66,9 +66,23 @@ namespace ACS.Dialog.Dialogs
             SceneManager.activeSceneChanged += OnSceneChanged;
 
             OnSceneChanged(default, default);
+            PreloadDialogs();
         }
+        
 
         public void PrepareService() => CreateRaycastLocker();
+
+        private async void PreloadDialogs()
+        {
+            foreach (DialogInfo info in _dialogsServiceConfig.ActiveDialogs)
+            {
+                ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + info.Name);
+                
+                await resourceRequest;
+                
+                _dialogResources.Add(info.Name, resourceRequest);
+            }
+        }
 
         private void CreateRaycastLocker()
         {

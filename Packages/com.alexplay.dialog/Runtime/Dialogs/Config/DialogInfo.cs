@@ -8,17 +8,19 @@ namespace ACS.Dialog.Dialogs.Config
     [Serializable]
     public struct DialogInfo : IEquatable<DialogInfo>
     {
+        [ReadOnly] public string Name;
         [ReadOnly] public string TypeFullName;
         [ReadOnly] public string AssemblyName;
      
-        public bool PreBake;
+        public bool IsPreloaded;
         
         public DialogInfo(Type type)
         {
+            Name = type.Name;
             TypeFullName = type.FullName;
             AssemblyName = type.Assembly.GetName().Name;
             
-            PreBake = false;
+            IsPreloaded = false;
         }
 
         public Type GetAgentType()
