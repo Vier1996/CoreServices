@@ -13,6 +13,8 @@ namespace ACS.Dialog.Dialogs.Config
     [Serializable]
     public class DialogsServiceConfig : ServiceConfigBase
     {
+        private const string _sharpAssemblyName = "Assembly-CSharp";
+
         [ReadOnly]
         [HideInInspector] 
         public string PackageURL = "https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.dialog";
@@ -70,7 +72,7 @@ namespace ACS.Dialog.Dialogs.Config
         [Button] private void UpdateActiveDialogs()
         {
             Type dialogViewType = typeof(DialogView);
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(_sharpAssemblyName));
 
             Type[] allTypes = assembly.GetTypes();
             Type[] subclasses = allTypes.Where(t => t.IsSubclassOf(dialogViewType)).ToArray();
