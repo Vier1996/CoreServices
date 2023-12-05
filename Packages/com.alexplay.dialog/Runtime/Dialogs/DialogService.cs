@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace ACS.Dialog.Dialogs
         }
 
         private readonly ObservableCollection<DialogView> _activeDialogs = new ObservableCollection<DialogView>();
+        private Dictionary<string, ResourceRequest> _dialogResources = new Dictionary<string, ResourceRequest>();
         
 #if COM_ALEXPLAY_ZENJECT_EXTENSION
         private readonly DiContainer _projectContextContainer;
@@ -124,8 +126,15 @@ namespace ACS.Dialog.Dialogs
         {
             _raycastLocker.gameObject.SetActive(true);
 
-            ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + dialogType.Name);
-            GameObject dialogPrefab = await resourceRequest as GameObject;
+            if (_dialogResources.ContainsKey(dialogType.Name) == false)
+            {
+                ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + dialogType.Name);
+                
+                await resourceRequest;
+                
+                _dialogResources.Add(dialogType.Name, resourceRequest);
+            }
+
 #if COM_ALEXPLAY_ZENJECT_EXTENSION
             DiContainer container = null;
 
@@ -145,6 +154,8 @@ namespace ACS.Dialog.Dialogs
                 return instance;
             }
 #else
+            GameObject dialogPrefab = _dialogResources[dialogType.Name].asset as GameObject;
+            
             if (dialogPrefab != null) 
             {
                 DialogView instance = Object.Instantiate(dialogPrefab).GetComponent<DialogView>();
@@ -176,7 +187,20 @@ namespace ACS.Dialog.Dialogs
         private void OnDialogHidden(DialogView dialogView)
         {
             _activeDialogs.Remove(dialogView);
+
+            ClearResource(dialogView.GetType());
+            
             DialogHide?.Invoke(dialogView.GetType());
+        }
+
+        private void ClearResource(Type dialogType)
+        {
+            ResourceRequest request = _dialogResources[dialogType.Name];
+
+            _dialogResources.Remove(dialogType.Name);
+
+            if (request != null && request.asset != null) 
+                Resources.UnloadAsset(request.asset as GameObject);
         }
 
         private void OnDialogsCountChanged(object sender, NotifyCollectionChangedEventArgs e)

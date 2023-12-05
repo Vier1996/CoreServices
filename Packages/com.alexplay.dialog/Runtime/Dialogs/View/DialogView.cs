@@ -68,8 +68,6 @@ namespace ACS.Dialog.Dialogs.View
 
             gameObject.SetActive(false);
             
-            Resources.UnloadUnusedAssets();
-
             if (gameObject != null) 
                 Destroy(gameObject);
         }
