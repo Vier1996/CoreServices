@@ -45,7 +45,6 @@ namespace ACS.Dialog.Dialogs.Config
         [ShowIf("@IsEnabled == true")]
         public List<DialogInfo> ActiveDialogs = new List<DialogInfo>();
         
-#if UNITY_EDITOR
         public string GetLayerName() => LayerName;
 
         public void OnValidate() => TryCreateLayer();
@@ -68,6 +67,7 @@ namespace ACS.Dialog.Dialogs.Config
             #endif
         }
         
+#if UNITY_EDITOR
         [ShowIf("@_isEnabled == true"), GUIColor(0.5f, 1, 1), PropertyOrder(-1)]
         [Button] private void UpdateActiveDialogs()
         {
