@@ -212,6 +212,9 @@ namespace ACS.Dialog.Dialogs
 
         private void ClearResource(Type dialogType)
         {
+            if(_dialogResources.ContainsKey(dialogType.Name) == false)
+                return;
+            
             ResourceRequest request = _dialogResources[dialogType.Name];
 
             _dialogResources.Remove(dialogType.Name);
