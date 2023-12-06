@@ -205,7 +205,7 @@ namespace ACS.Dialog.Dialogs
         {
             _activeDialogs.Remove(dialogView);
 
-            //ClearResource(dialogView.GetType());
+            ClearResource(dialogView.GetType());
             
             DialogHide?.Invoke(dialogView.GetType());
         }
@@ -216,11 +216,8 @@ namespace ACS.Dialog.Dialogs
 
             _dialogResources.Remove(dialogType.Name);
 
-            if (request != null && request.asset != null)
-            {
-                Object unloadableAsset = request.asset;
-                Resources.UnloadAsset(request.asset);
-            }
+            if (request != null && request.asset != null) 
+                Resources.UnloadUnusedAssets();
         }
 
         private void OnDialogsCountChanged(object sender, NotifyCollectionChangedEventArgs e)

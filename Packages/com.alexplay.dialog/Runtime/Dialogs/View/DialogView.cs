@@ -63,13 +63,14 @@ namespace ACS.Dialog.Dialogs.View
         public virtual void Hide()
         {
             _visible = false;
-
-            NotifyListeners();
-
-            gameObject.SetActive(false);
             
-            if (gameObject != null) 
+            gameObject.SetActive(false);
+
+            if (gameObject != null)
+            {
+                NotifyListeners();
                 Destroy(gameObject);
+            }
         }
 
         public void TemporaryEnable() => gameObject.SetActive(true);
