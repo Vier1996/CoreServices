@@ -37,13 +37,19 @@ namespace ACS.Dialog.Dialogs.View
         {
             if (_visible)
             {
-                if (_onDialogShown != null) 
+                if (_onDialogShown != null)
+                {
                     _onDialogShown((DialogView)this);
+                    _onDialogShown = null;
+                }
             }
             else
             {
-                if (_onDialogHidden != null) 
+                if (_onDialogHidden != null)
+                {
                     _onDialogHidden((DialogView)this);
+                    _onDialogShown = null;
+                }
             }
         }
         
