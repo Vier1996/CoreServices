@@ -22,6 +22,7 @@ namespace ACS.Ads
 
         [ShowIf("@IsEnabled == true")] public bool HandleImpression = false;
         [ShowIf("@IsEnabled == true")] public bool IsDebug = false;
+        [ShowIf("@IsEnabled == true")] public float RewardDelay = 1f;
         
         [Button] private void UpdatePackage() => UpdatePackage(PackageURL);
     }

@@ -272,7 +272,8 @@ namespace ACS.Ads
 
         private async void RewardPlayer()
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            if(_config.RewardDelay > 0)
+                await UniTask.Delay(TimeSpan.FromSeconds(_config.RewardDelay));
             
             _shownCallback?.Invoke();
             _shownCallback = null;
