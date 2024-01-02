@@ -153,7 +153,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                     break;
                 case RenderMode.ScreenSpaceCamera:
                     canvas.renderMode = RenderMode.ScreenSpaceCamera;
-                    canvas.worldCamera = Camera.main;
+                    canvas.worldCamera = FindObjectOfType<Camera>();
                     canvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
                     canvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
                     break;
