@@ -41,8 +41,11 @@ namespace ACS.Data.DataService.Service
             _backgroundDataSaver = new BackgroundDataSaver(_dataTools, dataServiceConfig);
         }
 
-        public string GetSerializedData()
+        public string GetSerializedData(bool forceSerialization = false)
         {
+            if(forceSerialization)
+                _backgroundDataSaver.DemandStorageSaving();
+            
             SerializedModelsData serializedModelsDatas = new SerializedModelsData();
 
             foreach (KeyValuePair<Type,ProgressModel> modelPair in _modelsContainer.Models)
