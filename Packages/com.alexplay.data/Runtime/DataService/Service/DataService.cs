@@ -64,7 +64,12 @@ namespace ACS.Data.DataService.Service
         public void ApplySerializedData(string serializedData)
         {
             SerializedModelsData deserializedData = JsonUtility.FromJson<SerializedModelsData>(serializedData);
-            List<SerializedModel> deserializedModels = deserializedData.SerializedModels ?? new List<SerializedModel>();
+            List<SerializedModel> deserializedModels;
+
+            if (deserializedData is { SerializedModels: { } })
+                deserializedModels = deserializedData.SerializedModels;
+            else 
+                deserializedModels = new List<SerializedModel>();
             
             ClearLocalData(true);
             
