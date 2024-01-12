@@ -287,7 +287,9 @@ namespace ACS.Core
             }
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            Screen.orientation = bootstrapOptions.ScreenOrientation;
+            
+            if(bootstrapOptions.IgnoreScreenOrientation == false)
+                Screen.orientation = bootstrapOptions.ScreenOrientation;
             
             DOTween.SetTweensCapacity(bootstrapOptions.TweenersCapacity, bootstrapOptions.SequencesCapacity);
         }

@@ -35,6 +35,7 @@ namespace ACS.Core
         public int TargetRate = 60;
         public int TweenersCapacity = 500;
         public int SequencesCapacity = 125;
+        public bool IgnoreScreenOrientation = false;
         public ScreenOrientation ScreenOrientation = ScreenOrientation.Portrait;
 
         public void Validate() => _ignoreEnableButton = true;
