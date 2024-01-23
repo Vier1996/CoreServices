@@ -191,6 +191,7 @@ namespace ACS.Dialog.Dialogs
         
             _raycastLocker.gameObject.SetActive(false);
 
+            ((RectTransform)dialogView.transform).sizeDelta = _dialogsParent.sizeDelta;
             dialogView.SetParent(_dialogsParent);
             dialogView.Show();
         }
