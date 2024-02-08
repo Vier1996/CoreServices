@@ -229,9 +229,11 @@ namespace ACS.Dialog.Dialogs
             GameObject dialog = _dialogResources[dialogType.Name].Dialog;
 
             _dialogResources.Remove(dialogType.Name);
+            
+            if(dialog != null)
+                Object.Destroy(dialog);
 
-            if (dialog != null) 
-                Resources.UnloadAsset(dialog);
+            Resources.UnloadUnusedAssets();
         }
 
         private void OnDialogsCountChanged(object sender, NotifyCollectionChangedEventArgs e)
