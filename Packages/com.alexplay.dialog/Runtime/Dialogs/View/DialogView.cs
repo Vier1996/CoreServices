@@ -64,15 +64,10 @@ namespace ACS.Dialog.Dialogs.View
         {
             _visible = false;
             
-            NotifyListeners();
-            
             DOTween.To(() => _canvasGroup.alpha, alpha =>
             {
                 _canvasGroup.alpha = alpha;
-            }, 0f, 0.3f).OnComplete(() =>
-            {
-                Destroy(gameObject);
-            });
+            }, 0f, 0.3f).OnComplete(NotifyListeners);
         }
 
         public void TemporaryEnable() => gameObject.SetActive(true);

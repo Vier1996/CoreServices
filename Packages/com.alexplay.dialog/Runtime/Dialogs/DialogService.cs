@@ -34,7 +34,7 @@ namespace ACS.Dialog.Dialogs
         }
 
         private readonly ObservableCollection<DialogView> _activeDialogs = new ObservableCollection<DialogView>();
-        private Dictionary<string, ResourceRequest> _dialogResources = new Dictionary<string, ResourceRequest>();
+        private readonly Dictionary<string, DialogRequestPair> _dialogResources = new Dictionary<string, DialogRequestPair>();
         
 #if COM_ALEXPLAY_ZENJECT_EXTENSION
         private readonly DiContainer _projectContextContainer;
@@ -83,7 +83,10 @@ namespace ACS.Dialog.Dialogs
                 
                 await resourceRequest;
                 
-                _dialogResources.Add(info.Name, resourceRequest);
+                _dialogResources.Add(info.Name, new DialogRequestPair()
+                {
+                    Request = resourceRequest
+                });
             }
         }
 
@@ -149,7 +152,10 @@ namespace ACS.Dialog.Dialogs
                 
                 await resourceRequest;
                 
-                _dialogResources.Add(dialogType.Name, resourceRequest);
+                _dialogResources.Add(dialogType.Name, new DialogRequestPair()
+                {
+                    Request = resourceRequest
+                });
             }
 
 #if COM_ALEXPLAY_ZENJECT_EXTENSION
@@ -171,12 +177,16 @@ namespace ACS.Dialog.Dialogs
                 return instance;
             }
 #else
-            GameObject dialogPrefab = _dialogResources[dialogType.Name].asset as GameObject;
+            GameObject dialogPrefab = _dialogResources[dialogType.Name].Request.asset as GameObject;
             
             if (dialogPrefab != null) 
             {
                 DialogView instance = Object.Instantiate(dialogPrefab).GetComponent<DialogView>();
+                
                 (instance as IReceiveArgs<TArgs>).SetArgs(args);
+
+                _dialogResources[dialogType.Name].Dialog = instance.gameObject;
+                
                 return instance;
             }
 #endif
@@ -216,12 +226,12 @@ namespace ACS.Dialog.Dialogs
             if(_dialogResources.ContainsKey(dialogType.Name) == false)
                 return;
             
-            ResourceRequest request = _dialogResources[dialogType.Name];
+            GameObject dialog = _dialogResources[dialogType.Name].Dialog;
 
             _dialogResources.Remove(dialogType.Name);
 
-            if (request != null && request.asset != null) 
-                Resources.UnloadUnusedAssets();
+            if (dialog != null) 
+                Resources.UnloadAsset(dialog);
         }
 
         private void OnDialogsCountChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -248,6 +258,12 @@ namespace ACS.Dialog.Dialogs
             SceneManager.activeSceneChanged -= OnSceneChanged;
         }
     }
-    
+
+    public class DialogRequestPair
+    {
+        public ResourceRequest Request { get; set; }
+        public GameObject Dialog { get; set; }
+    }
+
     public enum SourceContext { SCENE_CONTEXT, PROJECT_CONTEXT }
 }
