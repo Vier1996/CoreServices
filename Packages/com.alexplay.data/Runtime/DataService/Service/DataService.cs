@@ -31,14 +31,16 @@ namespace ACS.Data.DataService.Service
         private readonly DataLoader _dataLoader;
         private readonly DataCleaner _dataCleaner;
         private readonly BackgroundDataSaver _backgroundDataSaver;
+        private readonly DataServiceConfig _dataServiceConfig;
         private ProgressModelsContainer _modelsContainer;
         
         public DataService(DataServiceConfig dataServiceConfig, IntentService.IntentService intentService)
         {
-            _dataTools = new DataTool(dataServiceConfig, intentService);
+            _dataServiceConfig = dataServiceConfig;
+            _dataTools = new DataTool(_dataServiceConfig, intentService);
             _dataLoader = new DataLoader(_dataTools);
             _dataCleaner = new DataCleaner(_dataTools);
-            _backgroundDataSaver = new BackgroundDataSaver(_dataTools, dataServiceConfig);
+            _backgroundDataSaver = new BackgroundDataSaver(_dataTools, _dataServiceConfig);
         }
 
         public string GetSerializedData(bool forceSerialization = false)
@@ -107,13 +109,25 @@ namespace ACS.Data.DataService.Service
 
             foreach (KeyValuePair<Type, ProgressModel> modelPair in _modelsContainer.Models)
             {
+                ModelsInfo modelInfo =
+                    _dataServiceConfig.ActiveModels.FirstOrDefault(mt => mt.GetModelType() == modelPair.Key);
+
+                if (modelInfo.Equals(default(ModelsInfo)) == false)
+                {
+                    if(modelInfo.LockErrasing)
+                        continue;
+                }
+                
                 _dataCleaner.DeleteModel<ProgressModel>(modelPair.Value.GetType());
+                
                 actualModelTypes.Add(modelPair.Key);
             }
 
             for (int i = 0; i < actualModelTypes.Count(); i++)
-                _modelsContainer.Models[actualModelTypes[i]] =
+            {
+                _modelsContainer.Models[actualModelTypes[i]] = 
                     (ProgressModel)Activator.CreateInstance(actualModelTypes[i]);
+            }
 
             if(!ignoreBroadcastingChangeEvent)
                 ModelsDataChanged?.Invoke();
