@@ -5,7 +5,7 @@ namespace ACS.Ads
     public interface IAdvertisementService
     {
         public event Action<bool> OnVideoStateChanged;
-        public event Action<string> RewardedVideoEventShow;
+        public event Action<string> RewardedEventShow;
         public event Action<string> RewardedEventShown;
         public event Action<string> RewardedEventCancel;
         

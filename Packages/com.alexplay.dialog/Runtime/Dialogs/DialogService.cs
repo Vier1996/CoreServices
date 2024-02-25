@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using ACS.Dialog.Dialogs.Arguments;
 using ACS.Dialog.Dialogs.Config;
 using ACS.Dialog.Dialogs.View;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-using Zenject;
-#endif
 
 namespace ACS.Dialog.Dialogs
 {
@@ -22,72 +21,35 @@ namespace ACS.Dialog.Dialogs
         public event Action<Type> DialogShown;
         public event Action<Type> DialogHide;
         public event Action<int> OnCountChanged;
-        public event Action<RenderMode> RenderModeChanged;
 
         public bool HasActiveDialog
         {
             get => _activeDialogs.Count > 0;
-            set
-            {
-                
-            }
+            set { }
         }
 
-        private readonly ObservableCollection<DialogView> _activeDialogs = new ObservableCollection<DialogView>();
-        private readonly Dictionary<string, DialogRequestPair> _dialogResources = new Dictionary<string, DialogRequestPair>();
-        
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-        private readonly DiContainer _projectContextContainer;
-        private DiContainer _sceneContextContainer;
-#endif
-        
-        private readonly DialogsServiceConfig _dialogsServiceConfig;
-        private readonly RectTransform _dialogsParent;
         private GameObject _raycastLocker;
-        
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-        public DialogService(DiContainer diContainer, DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
-        {
-            _projectContextContainer = diContainer;
-            _dialogsServiceConfig = dialogsServiceConfig;
-            _dialogsParent = rectForDialogs;
-            _activeDialogs.CollectionChanged += OnDialogsCountChanged;
-            SceneManager.activeSceneChanged += OnSceneChanged;
+        private readonly RectTransform _dialogsParent;
+        private readonly DialogsServiceConfig _dialogsServiceConfig;
+        private readonly ObservableCollection<DialogView> _activeDialogs = new ObservableCollection<DialogView>();
+        private readonly Dictionary<string, AsyncOperationHandle<DialogView>> _dialogHandles = new Dictionary<string, AsyncOperationHandle<DialogView>>();
 
-            OnSceneChanged(default, default);
-        }
-#endif
+        private Action<RenderMode> _renderModeChangeDelegate;
      
         public DialogService(DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
         {
             _dialogsServiceConfig = dialogsServiceConfig;
             _dialogsParent = rectForDialogs;
             _activeDialogs.CollectionChanged += OnDialogsCountChanged;
-            SceneManager.activeSceneChanged += OnSceneChanged;
-
-            OnSceneChanged(default, default);
-            PreloadDialogs();
+            
+            CreateRaycastLocker();
         }
-        
 
-        public void PrepareService() => CreateRaycastLocker();
-
-        private async void PreloadDialogs()
+        public DialogService AddRenderModeChangeDelegate(Action<RenderMode> renderModeChangeDelegate)
         {
-            foreach (DialogInfo info in _dialogsServiceConfig.ActiveDialogs)
-            {
-                if(info.IsPreloaded == false)
-                    continue;
-                
-                ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + info.Name);
-                
-                await resourceRequest;
-                
-                _dialogResources.Add(info.Name, new DialogRequestPair()
-                {
-                    Request = resourceRequest
-                });
-            }
+            _renderModeChangeDelegate = renderModeChangeDelegate;
+
+            return this;
         }
 
         private void CreateRaycastLocker()
@@ -103,12 +65,12 @@ namespace ACS.Dialog.Dialogs
             lockerImage.color = Color.clear;
         }
         
-        public async void CallDialog(Type dialogType, SourceContext context = SourceContext.PROJECT_CONTEXT) => 
-            ShowDialog(await InstantiateDialog<DialogArgs>(dialogType, null, context));
+        public async void CallDialog(Type dialogType) => 
+            ShowDialog(await InstantiateDialog<DialogArgs>(dialogType, null));
 
-        public async void CallDialog<TArgs>(Type dialogType, TArgs args, SourceContext context = SourceContext.PROJECT_CONTEXT) 
-            where TArgs : DialogArgs => 
-            ShowDialog(await InstantiateDialog<TArgs>(dialogType, args, context));
+        public async void CallDialog<TArgs>(Type dialogType, TArgs args) 
+            where TArgs : DialogArgs =>
+            ShowDialog(await InstantiateDialog(dialogType, args));
 
         public DialogView GetDialog(Type dialogType)
         {
@@ -134,7 +96,7 @@ namespace ACS.Dialog.Dialogs
             return true;
         }
 
-        public void ChangeRenderMode(RenderMode mode) => RenderModeChanged?.Invoke(mode);
+        public void ChangeRenderMode(RenderMode mode) => _renderModeChangeDelegate?.Invoke(mode);
 
         public void CloseAllDialogs()
         {
@@ -142,55 +104,18 @@ namespace ACS.Dialog.Dialogs
                 _activeDialogs[0].Hide();
         }
 
-        private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args, SourceContext context = SourceContext.PROJECT_CONTEXT) where TArgs : DialogArgs
+        private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs
         {
             _raycastLocker.gameObject.SetActive(true);
-
-            if (_dialogResources.ContainsKey(dialogType.Name) == false)
-            {
-                ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(_dialogsServiceConfig.DefaultResources + dialogType.Name);
-                
-                await resourceRequest;
-                
-                _dialogResources.Add(dialogType.Name, new DialogRequestPair()
-                {
-                    Request = resourceRequest
-                });
-            }
-
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-            DiContainer container = null;
-
-            switch (context)
-            {
-                case SourceContext.SCENE_CONTEXT: container = _sceneContextContainer; break;
-                case SourceContext.PROJECT_CONTEXT: container = _projectContextContainer; break;
-            }
-
-            if (dialogPrefab != null) 
-            {
-                if (container == null)
-                    container = _projectContextContainer;
-                
-                DialogView instance = container.InstantiatePrefab(dialogPrefab).GetComponent<DialogView>();
-                (instance as IReceiveArgs<TArgs>).SetArgs(args);
-                return instance;
-            }
-#else
-            GameObject dialogPrefab = _dialogResources[dialogType.Name].Request.asset as GameObject;
             
-            if (dialogPrefab != null) 
-            {
-                DialogView instance = Object.Instantiate(dialogPrefab).GetComponent<DialogView>();
-                
-                (instance as IReceiveArgs<TArgs>).SetArgs(args);
-
-                _dialogResources[dialogType.Name].Dialog = instance.gameObject;
-                
-                return instance;
-            }
-#endif
-            throw new Exception("You try to instantiate dialog that has no instance or contains name not equal to its type");
+            DialogInfo dialogInfo = _dialogsServiceConfig.ActiveDialogs.FirstOrDefault(adt => adt.TypeFullName == dialogType.FullName);
+            AsyncOperationHandle<DialogView> instantiateHandle = dialogInfo.AddressableReference.InstantiateAsync();
+            
+            await instantiateHandle.Task;
+            
+            _dialogHandles[dialogInfo.TypeFullName] = instantiateHandle;
+            
+            return ((IReceiveArgs<TArgs>)instantiateHandle.Result).SetArgs(args);
         }
 
         private void ShowDialog(DialogView dialogView)
@@ -214,26 +139,25 @@ namespace ACS.Dialog.Dialogs
 
         private void OnDialogHidden(DialogView dialogView)
         {
+            string typeName = dialogView.GetType().FullName;
+
             _activeDialogs.Remove(dialogView);
 
-            ClearResource(dialogView.GetType());
-            
+            ReleaseAssetReference(typeName);
+
             DialogHide?.Invoke(dialogView.GetType());
         }
 
-        private void ClearResource(Type dialogType)
+        private void ReleaseAssetReference(string typeName)
         {
-            if(_dialogResources.ContainsKey(dialogType.Name) == false)
-                return;
-            
-            GameObject dialog = _dialogResources[dialogType.Name].Dialog;
+            if (typeName != null && _dialogHandles.TryGetValue(typeName, out AsyncOperationHandle<DialogView> handle))
+            {
+                _dialogHandles.Remove(typeName);
 
-            _dialogResources.Remove(dialogType.Name);
-            
-            if(dialog != null)
-                Object.Destroy(dialog);
+                Object.Destroy(handle.Result);
 
-            Resources.UnloadUnusedAssets();
+                Addressables.Release(handle);
+            }
         }
 
         private void OnDialogsCountChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -246,26 +170,7 @@ namespace ACS.Dialog.Dialogs
                     break;
             }
         }
-        
-        private void OnSceneChanged(Scene arg0, Scene arg1)
-        {
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-            _sceneContextContainer = UnityEngine.Object.FindObjectOfType<SceneContext>().Container;
-#endif
-        }
 
-        public void Dispose()
-        {
-            _activeDialogs.CollectionChanged -= OnDialogsCountChanged;
-            SceneManager.activeSceneChanged -= OnSceneChanged;
-        }
+        public void Dispose() => _activeDialogs.CollectionChanged -= OnDialogsCountChanged;
     }
-
-    public class DialogRequestPair
-    {
-        public ResourceRequest Request { get; set; }
-        public GameObject Dialog { get; set; }
-    }
-
-    public enum SourceContext { SCENE_CONTEXT, PROJECT_CONTEXT }
 }

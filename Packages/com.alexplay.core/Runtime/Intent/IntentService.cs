@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace IntentService
+namespace Intent
 {
     public class IntentService : MonoBehaviour
     {

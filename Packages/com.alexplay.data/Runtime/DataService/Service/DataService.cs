@@ -8,6 +8,7 @@ using ACS.Data.DataService.Loader;
 using ACS.Data.DataService.Model;
 using ACS.Data.DataService.Saver;
 using ACS.Data.DataService.Tool;
+using Intent;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -27,20 +28,25 @@ namespace ACS.Data.DataService.Service
             }
         }
 
-        private readonly DataTool _dataTools;
-        private readonly DataLoader _dataLoader;
-        private readonly DataCleaner _dataCleaner;
-        private readonly BackgroundDataSaver _backgroundDataSaver;
-        private readonly DataServiceConfig _dataServiceConfig;
+        private DataTool _dataTools;
+        private DataLoader _dataLoader;
+        private DataCleaner _dataCleaner;
+        private BackgroundDataSaver _backgroundDataSaver;
+        private DataServiceConfig _dataServiceConfig;
         private ProgressModelsContainer _modelsContainer;
         
-        public DataService(DataServiceConfig dataServiceConfig, IntentService.IntentService intentService)
+        public DataService(DataServiceConfig dataServiceConfig, IntentService intentService)
         {
             _dataServiceConfig = dataServiceConfig;
             _dataTools = new DataTool(_dataServiceConfig, intentService);
             _dataLoader = new DataLoader(_dataTools);
             _dataCleaner = new DataCleaner(_dataTools);
             _backgroundDataSaver = new BackgroundDataSaver(_dataTools, _dataServiceConfig);
+            
+            TryCreateDirectory();
+            LoadData();
+            
+            _backgroundDataSaver.Initialize(_modelsContainer);
         }
 
         public string GetSerializedData(bool forceSerialization = false)
@@ -50,20 +56,15 @@ namespace ACS.Data.DataService.Service
             
             SerializedModelsData serializedModelsDatas = new SerializedModelsData();
 
-            foreach (KeyValuePair<Type,ProgressModel> modelPair in _modelsContainer.Models)
+            foreach (KeyValuePair<Type, ProgressModel> modelPair in _modelsContainer.Models)
             {
                 string modelData = modelPair.Value.GetData();
 
                 if(!modelData.Equals(""))
-                    serializedModelsDatas.SerializedModels.Add(new SerializedModel()
-                    {
-                        ModelName = modelPair.Value.GetType().Name,
-                        ModelData = modelData
-                    });
+                    serializedModelsDatas.SerializedModels.Add(new SerializedModel(modelPair.Value.GetType().Name, modelData));
             }
 
-            string serializedData = JsonUtility.ToJson(serializedModelsDatas);
-            return serializedData;
+            return JsonUtility.ToJson(serializedModelsDatas);
         }
 
         public void ApplySerializedData(string serializedData)
@@ -71,7 +72,7 @@ namespace ACS.Data.DataService.Service
             SerializedModelsData deserializedData = JsonUtility.FromJson<SerializedModelsData>(serializedData);
             List<SerializedModel> deserializedModels;
 
-            if (deserializedData is { SerializedModels: { } })
+            if (deserializedData is { SerializedModels: not null })
                 deserializedModels = deserializedData.SerializedModels;
             else 
                 deserializedModels = new List<SerializedModel>();
@@ -80,7 +81,7 @@ namespace ACS.Data.DataService.Service
             
             for (int i = 0; i < deserializedModels.Count; i++)
             {
-                KeyValuePair<Type,ProgressModel> progressPair = _modelsContainer.Models
+                KeyValuePair<Type, ProgressModel> progressPair = _modelsContainer.Models
                     .FirstOrDefault(md => md.Value.GetType().Name.Equals(deserializedModels[i].ModelName));
 
                 if (progressPair.Value != default)
@@ -124,22 +125,11 @@ namespace ACS.Data.DataService.Service
             }
 
             for (int i = 0; i < actualModelTypes.Count(); i++)
-            {
-                _modelsContainer.Models[actualModelTypes[i]] = 
+                _modelsContainer.Models[actualModelTypes[i]] =
                     (ProgressModel)Activator.CreateInstance(actualModelTypes[i]);
-            }
 
             if(!ignoreBroadcastingChangeEvent)
                 ModelsDataChanged?.Invoke();
-        }
-        
-
-        public void PrepareService()
-        {
-            TryCreateDirectory();
-            LoadData();
-            
-            _backgroundDataSaver.Initialize(_modelsContainer);
         }
 
         private void LoadData()
@@ -165,25 +155,42 @@ namespace ACS.Data.DataService.Service
 
         private void TryCreateDirectory()
         {
-            if(!Directory.Exists(_dataTools.ModelDirectoriesPath)) Directory.CreateDirectory(_dataTools.ModelDirectoriesPath);
-            if(!Directory.Exists(_dataTools.ModelDebugDirectoriesPath)) Directory.CreateDirectory(_dataTools.ModelDebugDirectoriesPath);
+            if(!Directory.Exists(_dataTools.ModelDirectoriesPath)) 
+                Directory.CreateDirectory(_dataTools.ModelDirectoriesPath);
+
+#if UNITY_EDITOR
+            if(!Directory.Exists(_dataTools.ModelDebugDirectoriesPath)) 
+                Directory.CreateDirectory(_dataTools.ModelDebugDirectoriesPath);
+#endif
         }
 
         public void Dispose()
         {
+            _dataTools = null;
+            _dataLoader = null;
+            _dataCleaner = null;
+            _backgroundDataSaver = null;
+            _dataServiceConfig = null;
+            _modelsContainer = null;
         }
-    }
+        
+        [System.Serializable]
+        private class SerializedModelsData
+        {
+            public List<SerializedModel> SerializedModels { get; private set; } = new();
+        }
+        
+        [System.Serializable]
+        private class SerializedModel
+        {
+            public string ModelName { get; private set; }
+            public string ModelData { get; private set; }
 
-    [System.Serializable]
-    public class SerializedModelsData
-    {
-        public List<SerializedModel> SerializedModels = new List<SerializedModel>();
-    }
-
-    [System.Serializable]
-    public class SerializedModel
-    {
-        public string ModelName;
-        public string ModelData;
+            public SerializedModel(string modelName, string modelData)
+            {
+                ModelName = modelName;
+                ModelData = modelData;
+            }
+        }
     }
 }

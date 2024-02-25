@@ -1,6 +1,6 @@
 {
   "name": "com.alexplay.dialog",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "displayName": "ACS Dialog",
   "author": {
     "name": "Alexplay",
@@ -14,5 +14,9 @@
     }
   ],
   "description": "\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0432 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0435...",
-  "unity": "2020.3"
+  "unity": "2020.3",
+  "dependencies": {
+    "com.alexplay.core": "2.0.0",
+    "com.unity.addressables": "1.21.20"
+  }
 }

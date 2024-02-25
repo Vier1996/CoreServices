@@ -2,26 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Zenject;
+
 using Object = UnityEngine.Object;
 
 namespace ACS.ObjectPool.ObjectPool.Default
 {
     public class ObjectPool : IObjectPool, IPool
     {
-        public Dictionary<string, List<GameObject>> Pool { get; set; }
+        public Dictionary<string, List<GameObject>> Pool { get; set; } = new();
+
+        private readonly Dictionary<string, GameObject> _poolOfInstances = new();
         
-        private readonly Dictionary<string, GameObject> _poolOfInstances;
-
-        private DiContainer _diContainer;
         private Transform _defaultParent = null;
-
-        public ObjectPool()
-        {
-            Pool = new Dictionary<string, List<GameObject>>();
-            _poolOfInstances = new Dictionary<string, GameObject>();
-            _diContainer = ProjectContext.Instance.Container;
-        }
 
         public void SetDefaultParent(Transform defaultParent) => _defaultParent = defaultParent;
 
@@ -153,8 +145,10 @@ namespace ACS.ObjectPool.ObjectPool.Default
         
         private GameObject AddNewInstance(string poolID)
         {
-            GameObject element = _diContainer.InstantiatePrefab(_poolOfInstances[poolID]);
+            GameObject element = UnityEngine.Object.Instantiate(_poolOfInstances[poolID]);
+            
             Pool[poolID].Add(element);
+            
             return element;
         }
 

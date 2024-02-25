@@ -37,8 +37,6 @@ namespace ACS.Core
         public int SequencesCapacity = 125;
         public bool IgnoreScreenOrientation = false;
         public ScreenOrientation ScreenOrientation = ScreenOrientation.Portrait;
-
-        public void Validate() => _ignoreEnableButton = true;
     }
 
     public enum TargetFrameRateType { ADAPTIVE, CONSTANT, UNLIMITED, EQUALS }

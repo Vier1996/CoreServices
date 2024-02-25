@@ -1,7 +1,7 @@
 {
   "name": "com.alexplay.signal_bus",
   "displayName": "ACS Signal Bus",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "unity": "2020.3",
   "description": "\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0432 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0435...",
   "author": {
@@ -14,5 +14,8 @@
       "description": "This is sample for using ISignalBus",
       "path": "Samples~/SignalBusSample"
     }
-  ]
+  ],
+  "dependencies": {
+    "com.alexplay.core": "2.0.0"
+  }
 }

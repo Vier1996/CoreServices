@@ -4,7 +4,6 @@
     "references": [
         "Core.Intent",
         "Core.Constants",
-        "Zenject",
         "ServicesConfigDefenition",
         "ACS.Data",
         "ACS.SignalBus",

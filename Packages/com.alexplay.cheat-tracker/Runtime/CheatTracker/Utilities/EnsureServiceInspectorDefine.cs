@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace ACS.Cheat.CheatTracker.Utilities
 {
@@ -8,6 +11,7 @@ namespace ACS.Cheat.CheatTracker.Utilities
     {
         private static readonly string[] DEFINES = new string[] { "COM_ALEXPLAY_NET_CHEAT_TRACKER" };
 
+#if UNITY_EDITOR
         [InitializeOnLoadMethod]
         private static void EnsureScriptingDefineSymbol()
         {
@@ -42,5 +46,6 @@ namespace ACS.Cheat.CheatTracker.Utilities
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(currentTarget, definesString);
             }
         }
+#endif
     }
 }

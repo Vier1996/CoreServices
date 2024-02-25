@@ -1,4 +1,5 @@
-﻿using ACS.Dialog.Dialogs.Arguments;
+﻿using System;
+using ACS.Dialog.Dialogs.Arguments;
 using UnityEngine;
 
 namespace ACS.Dialog.Dialogs.View

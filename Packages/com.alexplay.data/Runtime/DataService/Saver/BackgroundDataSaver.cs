@@ -5,7 +5,7 @@ using ACS.Data.DataService.Container;
 using ACS.Data.DataService.Model;
 using ACS.Data.DataService.Tool;
 using Newtonsoft.Json;
-using UniRx;
+using R3;
 using UnityEngine;
 
 namespace ACS.Data.DataService.Saver
@@ -47,17 +47,17 @@ namespace ACS.Data.DataService.Saver
             {
                 BreakTime();
                 
-                _fixedUpdateDisposable = Observable.EveryFixedUpdate().Subscribe(OnTick);
+                _fixedUpdateDisposable = Observable.EveryUpdate().Subscribe(OnTick);
             }
         }
 
         public void DemandStorageSaving() => ExecuteStorageSaving();
 
-        private void OnTick(long tick)
+        private void OnTick(Unit state)
         {
             if (_cycleSaveTime > 0)
             {
-                _cycleSaveTime -= Time.fixedDeltaTime;
+                _cycleSaveTime -= Time.deltaTime;
                 return;
             }
 

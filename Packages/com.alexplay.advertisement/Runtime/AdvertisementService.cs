@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Intent;
+using IS.IronSource.Scripts;
 using UnityEngine;
 
 namespace ACS.Ads
@@ -11,7 +12,7 @@ namespace ACS.Ads
     {
         public event Action<bool> OnVideoStateChanged;
         
-        public event Action<string> RewardedVideoEventShow;
+        public event Action<string> RewardedEventShow;
         public event Action<string> RewardedEventShown;
         public event Action<string> RewardedEventCancel;
         
@@ -20,7 +21,7 @@ namespace ACS.Ads
         public event Action<string> InterstitialEventCancel;
 
         private readonly AdvertisementServiceConfig _config;
-        private readonly IntentService.IntentService _intentService;
+        private readonly IntentService _intentService;
 
         private bool _canPlayRewarded = true;
         private bool _canPlayInterstitial = true;
@@ -39,7 +40,7 @@ namespace ACS.Ads
         
         private readonly TimeSpan _initDelay;
 
-        public AdvertisementService(IntentService.IntentService intentService, AdvertisementServiceConfig config)
+        public AdvertisementService(IntentService intentService, AdvertisementServiceConfig config)
         {
             _intentService = intentService;
             _initDelay = TimeSpan.FromSeconds(1);
@@ -100,7 +101,7 @@ namespace ACS.Ads
             _failedCallback = failedCallback;
             _lastAdPlayingTime = DateTime.UtcNow;
             
-            RewardedVideoEventShow?.Invoke(_place);
+            RewardedEventShow?.Invoke(_place);
 
             IronSource.Agent.showRewardedVideo();
 #endif

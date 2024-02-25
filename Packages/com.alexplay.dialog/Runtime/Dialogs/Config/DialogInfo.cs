@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using ACS.Dialog.Dialogs.View;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,16 +12,15 @@ namespace ACS.Dialog.Dialogs.Config
         [ReadOnly] public string Name;
         [ReadOnly] public string TypeFullName;
         [ReadOnly] public string AssemblyName;
-     
-        public bool IsPreloaded;
+        
+        public DialogReference AddressableReference;
         
         public DialogInfo(Type type)
         {
             Name = type.Name;
             TypeFullName = type.FullName;
             AssemblyName = type.Assembly.GetName().Name;
-            
-            IsPreloaded = false;
+            AddressableReference = null;
         }
 
         public Type GetAgentType()

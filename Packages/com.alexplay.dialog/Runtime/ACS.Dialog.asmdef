@@ -4,7 +4,8 @@
     "references": [
         "ServicesConfigDefenition",
         "UniTask",
-        "Zenject"
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

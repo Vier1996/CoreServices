@@ -2,70 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ACS.SignalBus.SignalBus.Parent;
-using UniRx;
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-using Zenject;
-#endif
 
 namespace ACS.SignalBus.SignalBus
 {
     public class SignalBusService : ISignalBusService, IDisposable
     {
-        private const string _sharpAssemblyName = "Assembly-CSharp";
+        private const string SharpAssemblyName = "Assembly-CSharp";
         
-        private readonly CompositeDisposable _disposables = new CompositeDisposable();
-        private System.Reflection.Assembly _sharpAssembly;
-        
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-        private DiContainer _diContainer;
-        private Zenject.SignalBus _signalBus;
-        
-        public SignalBusService(DiContainer diContainer)
-        {
-            _diContainer = diContainer;
-            _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(_sharpAssemblyName));
-        }
-#else
+        private readonly System.Reflection.Assembly _sharpAssembly;
         private NativeSignalBus.SignalBus _signalBus;
         
-        public SignalBusService()
-        {
-            _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(_sharpAssemblyName));
-        }
-#endif
-        
+        public SignalBusService() => 
+            _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(SharpAssemblyName));
+
         public void PrepareService()
         {
-            InstallSignalBus();
+            _signalBus = new NativeSignalBus.SignalBus();
+            
             DeclareSignals();
         }
-        
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-        public void Subscribe<TSignalType>(Action<TSignalType> callback)
-#else
-        public void Subscribe<TSignalType>(Action<TSignalType> callback)
-#endif
-        {
-            _signalBus.Subscribe(callback);
-        }
+        public void Subscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.Subscribe(callback);
 
         public void Unsubscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.TryUnsubscribe(callback);
         
         public void TryUnsubscribeAllSignalByType<TSignal>() => _signalBus.TryUnsubscribeAllSignalByType<TSignal>();
 
         public void Fire<TSignalType>(TSignalType signalMessage) => _signalBus.TryFire(signalMessage);
+        
         public void IsSignalDeclared<TSignalType>(TSignalType signalMessage) => _signalBus.IsSignalDeclared<TSignalType>();
-
-
-        private void InstallSignalBus()
-        {
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-            SignalBusInstaller.Install(_diContainer);
-            _signalBus = _diContainer.Resolve<Zenject.SignalBus>();
-#else
-            _signalBus = new NativeSignalBus.SignalBus();
-#endif
-        }
         
         private void DeclareSignals()
         {
@@ -92,10 +56,6 @@ namespace ACS.SignalBus.SignalBus
             return types;
         }
 
-        public void Dispose()
-        {
-            _disposables.Dispose();
-            _signalBus.ClearAll();
-        }
+        public void Dispose() => _signalBus.ClearAll();
     }
 }

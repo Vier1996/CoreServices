@@ -28,7 +28,12 @@ namespace ACS.Dialog.Dialogs.View
                 _closeButton.onClick.AddListener(Hide);
         }
         
-        public void SetArgs(DialogArgs args) => _dialogArgs = args;
+        public DialogView SetArgs(DialogArgs args)
+        { 
+            _dialogArgs = args;
+
+            return this;
+        }
 
         public void SetParent(RectTransform parentTransform)
         {
@@ -88,5 +93,11 @@ namespace ACS.Dialog.Dialogs.View
             
             return (TArgs) _dialogArgs;
         }
+    }
+    
+    [Serializable]
+    public class DialogReference : ComponentReference<DialogView>
+    {
+        public DialogReference(string guid) : base(guid) { }
     }
 }

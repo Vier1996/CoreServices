@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using UniRx;
+using IS.IronSource.Scripts;
+using R3;
 using UnityEngine;
 
 namespace ACS.Ads
@@ -87,10 +88,10 @@ namespace ACS.Ads
                 PlayerPrefs.Save();
             }
 
-            _disposable = Observable.EveryFixedUpdate().Subscribe(OnTick);
+            _disposable = Observable.EveryUpdate().Subscribe(OnTick);
         }
 
-        private void OnTick(long next)
+        private void OnTick(Unit state)
         {
             if (_disposableTimer > 0)
             {

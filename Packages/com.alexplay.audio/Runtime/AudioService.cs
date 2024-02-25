@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 
 namespace ACS.Audio
 {
-    public class AudioService
+    public class AudioService : IAudioService
     {
         public AudioPlayer Player => _player;
         public AudioPlayer3D Player3D => _player3d;
@@ -26,25 +26,25 @@ namespace ACS.Audio
             _config = config;
             _agent = new GameObject("Audio Service").AddComponent<AudioServiceAgent>();
             _audioMixer = _config.Mixer;
+            
+            _agent.Initialize(this);
+            
             InstantiatePlayers();
             InitializeMixerGroups().Forget();
-            _agent.Initialize(this);
         }
 
-        public float GetGroupVolume(string paramId) => 
-            PlayerPrefs.GetFloat(paramId);
+        public float GetGroupVolume(string paramId) => PlayerPrefs.GetFloat(paramId);
 
         public void SetGroupVolumeByName(string groupName, float normalizedVolume)
         {
             SetGroupVolumeWithoutSaving(groupName, normalizedVolume);
+            
             PlayerPrefs.SetFloat(groupName, normalizedVolume);
         }
 
-        public bool IsGroupActive(string paramId) => 
-            GetGroupVolume(paramId) > 0;
+        public bool IsGroupActive(string paramId) => GetGroupVolume(paramId) > 0;
 
-        public void SetActiveGroup(string paramId, bool isActive) => 
-            SetGroupVolumeByName(paramId, isActive ? 1 : 0);
+        public void SetActiveGroup(string paramId, bool isActive) => SetGroupVolumeByName(paramId, isActive ? 1 : 0);
 
         private void InstantiatePlayers()
         {
@@ -72,11 +72,9 @@ namespace ACS.Audio
             }
         }
 
-        private void SetGroupVolumeWithoutSaving(string groupName, float normalizedVolume) => 
-            _audioMixer.SetFloat(groupName, GetVolume(normalizedVolume));
+        private void SetGroupVolumeWithoutSaving(string groupName, float normalizedVolume) => _audioMixer.SetFloat(groupName, GetVolume(normalizedVolume));
 
-        private float GetVolume(float value) => 
-            Mathf.Lerp(-80, 0, value);
+        private float GetVolume(float value) => Mathf.Lerp(-80, 0, value);
         
         public enum Priority { Default, High }
     }

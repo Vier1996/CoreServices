@@ -4,9 +4,6 @@ using ACS.ObjectPool.ObjectPool.Assets;
 using ACS.ObjectPool.ObjectPool.Config;
 using ACS.ObjectPool.ObjectPool.Default;
 using UnityEngine;
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-using Zenject;
-#endif
 
 namespace ACS.ObjectPool.ObjectPool
 {
@@ -51,22 +48,13 @@ namespace ACS.ObjectPool.ObjectPool
         private readonly Transform _coreParent;
         private Transform _defaultPoolParent;
         
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-        public ObjectPoolService(Transform coreParent, DiContainer diContainer, ObjectPoolConfig objectPoolConfig)
-        {
-            _assetService = new AssetService(diContainer);
-            _coreParent = coreParent;
-            _objectPoolConfig = objectPoolConfig;
-        }
-#else
         public ObjectPoolService(Transform coreParent, ObjectPoolConfig objectPoolConfig)
         {
             _assetService = new AssetService();
             _coreParent = coreParent;
             _objectPoolConfig = objectPoolConfig;
         }
-#endif
-
+        
         public void PrepareService()
         {
             GameObject defaultParent = new GameObject("DefaultPoolParent");
@@ -89,11 +77,5 @@ namespace ACS.ObjectPool.ObjectPool
                 _objectPool.SetDefaultParent(_defaultPoolParent);
             }
         }
-    }
-
-    public interface IObjectPoolService
-    {
-        public IAddressableObjectsPool AddressableObjectPool { get; set; }
-        public IObjectPool StandardObjectPool { get; set; }
     }
 }

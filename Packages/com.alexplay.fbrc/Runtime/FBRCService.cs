@@ -7,17 +7,21 @@ using UnityEngine;
 
 namespace ACS.FBRC
 {
-    public class FBRCService
+    public class FBRCService : IFBRCService
     {
-        private readonly FirebaseRemoteConfig _remoteConfig = FirebaseRemoteConfig.DefaultInstance;
+        private readonly FirebaseRemoteConfig _remoteConfig;
         private readonly FBRCConfig _config;
         private bool _isDefaultsInitialized;
         private bool _isFetchedDataActivated;
-
-
+        
         public FBRCService(FBRCConfig config)
         {
+            if(config.IsEnabled == false)
+                return;
+            
             _config = config;
+            _remoteConfig = FirebaseRemoteConfig.DefaultInstance;
+            
             InitializeAsync().Forget();
         }
 
@@ -36,9 +40,9 @@ namespace ACS.FBRC
             switch (_config.LoadingStrategy)
             {
                 case LoadStrategy.ActivateThenLoad:
-                // await ActivateAsync();
-                // await FetchAsync();
-                // break;
+                     await ActivateAsync();
+                     await FetchAsync();
+                     break;
                 case LoadStrategy.LoadThenActivate:
                     await FetchAsync();
                     await ActivateAsync();

@@ -20,6 +20,9 @@ namespace ACS.CoreEditor.Editor
 {
     public class AlexplayEditor : OdinMenuEditorWindow
     {
+        private const string DocumentationURL =
+            "https://docs.google.com/document/d/1PORrcDtGcskwvLADl1r7Vcs8eJlcicsKJyL8jW8-c-k/edit?usp=sharing";
+        
         private static AlexplayCoreKitConfig _coreConfig;
         private OdinMenuTree _menuTree;
 
@@ -38,17 +41,8 @@ namespace ACS.CoreEditor.Editor
 #if COM_ALEXPLAY_NET_DIALOG
             { "Dialog Service", ACSConst.DialogPackageAssetPath },
 #endif
-#if COM_ALEXPLAY_NET_GDPR
-            { "Gdpr Service", ACSConst.GDPRPackageAssetPath },
-#endif
-#if COM_ALEXPLAY_NET_OBJECT_POOL
-            { "Object Pool Service", ACSConst.ObjectPoolPackageAssetPath },
-#endif
 #if COM_ALEXPLAY_NET_SIGNAL_BUS
             { "Signal Bus Service", ACSConst.SignalBusPackageAssetPath },
-#endif
-#if COM_ALEXPLAY_NET_PURCHASE
-            { "Purchase Service", ACSConst.PurchasePackageAssetPath },
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
             { "Analytics Service", ACSConst.AnalyticsPackageAssetPath },
@@ -56,19 +50,8 @@ namespace ACS.CoreEditor.Editor
 #if COM_ALEXPLAY_NET_FBRC
             {"Remote Config (Firebase)", ACSConst.FBRCPackageAssetPath},
 #endif
-#if COM_ALEXPLAY_NET_CHEAT_TRACKER
-            {"Cheat Tracker (in-dev)", ACSConst.CheatTrackerPackageAssetPath}
-#endif
         };
         
-        #region Constants
-
-        private const string DocumentationURL =
-            "https://docs.google.com/document/d/1PORrcDtGcskwvLADl1r7Vcs8eJlcicsKJyL8jW8-c-k/edit?usp=sharing";
-
-
-        #endregion
-
         [MenuItem("Alexplay/Configuration")]
         private static void OpenWindow()
         {
@@ -80,11 +63,6 @@ namespace ACS.CoreEditor.Editor
         [MenuItem("GameObject/Alexplay/Core", false, 10)]
         public static void CreateCore(MenuCommand menuCommand)
         {
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-            if(FindObjectOfType<SceneContext>() == null)
-                CreateSceneContext();
-#endif
-            
             if(FindObjectOfType<CoreBootstrap>() != null)
                 return;
             
@@ -102,16 +80,6 @@ namespace ACS.CoreEditor.Editor
 
             EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
         }
-        
-#if COM_ALEXPLAY_ZENJECT_EXTENSION
-        private static void CreateSceneContext()
-        {
-            var root = new GameObject("SceneContext").AddComponent<SceneContext>();
-            Selection.activeGameObject = root.gameObject;
-
-            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-        }
-#endif
 
         protected override OdinMenuTree BuildMenuTree()
         {
@@ -121,42 +89,28 @@ namespace ACS.CoreEditor.Editor
             
             OdinMenuTree menuTree = new OdinMenuTree();
             
-            menuTree.Add("Core", _coreConfig._bootstrapOptions, EditorIcons.House);
-            _coreConfig._bootstrapOptions.Validate();
+            menuTree.Add("Core", _coreConfig.BootstrapOptions, EditorIcons.House);
 
 #if COM_ALEXPLAY_NET_ADS
-            menuTree.Add("Ads Service", _coreConfig._advertisementSettings, EditorIcons.Money);
+            menuTree.Add("Ads Service", _coreConfig.AdvertisementSettings, EditorIcons.Money);
 #endif
 #if COM_ALEXPLAY_NET_AUDIO
-            menuTree.Add("Audio Service", _coreConfig._audioSettings, EditorIcons.Sound);
+            menuTree.Add("Audio Service", _coreConfig.AudioSettings, EditorIcons.Sound);
 #endif
 #if COM_ALEXPLAY_NET_DATA
-            menuTree.Add("Data Service", _coreConfig._dataSettings, EditorIcons.GridBlocks);
+            menuTree.Add("Data Service", _coreConfig.DataSettings, EditorIcons.GridBlocks);
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
-            menuTree.Add("Dialog Service", _coreConfig._dialogsSettings, EditorIcons.Podium);
-#endif
-#if COM_ALEXPLAY_NET_GDPR
-            menuTree.Add("Gdpr Service", _coreConfig._gdprSettings, EditorIcons.GridImageTextList);
-#endif
-#if COM_ALEXPLAY_NET_OBJECT_POOL
-            menuTree.Add("Object Pool Service", _coreConfig._objectPoolSettings, EditorIcons.Eject);
+            menuTree.Add("Dialog Service", _coreConfig.DialogsSettings, EditorIcons.Podium);
 #endif
 #if COM_ALEXPLAY_NET_SIGNAL_BUS
-            menuTree.Add("Signal Bus Service", _coreConfig._signalBusSettings, EditorIcons.WifiSignal);
-#endif
-#if COM_ALEXPLAY_NET_PURCHASE
-            menuTree.Add("Purchase Service", _coreConfig._purchaseSettings, EditorIcons.GKey);
-            _coreConfig._purchaseSettings.Validate();
+            menuTree.Add("Signal Bus Service", _coreConfig.SignalBusSettings, EditorIcons.WifiSignal);
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-            menuTree.Add("Analytics Service", _coreConfig._analyticsSettings, EditorIcons.Clouds);
+            menuTree.Add("Analytics Service", _coreConfig.AnalyticsSettings, EditorIcons.Clouds);
 #endif
 #if COM_ALEXPLAY_NET_FBRC
-            menuTree.Add("Remote Config (Firebase)", _coreConfig._fbrcSettings, EditorIcons.SettingsCog);
-#endif
-#if COM_ALEXPLAY_NET_CHEAT_TRACKER
-            menuTree.Add("Cheat Tracker (DEV)", _coreConfig._cheatTrackerConfig, EditorIcons.Stop);
+            menuTree.Add("Remote Config (Firebase)", _coreConfig.FbrcSettings, EditorIcons.SettingsCog);
 #endif
             
             _menuTree = menuTree;
@@ -191,11 +145,6 @@ namespace ACS.CoreEditor.Editor
         {
             if(_coreConfig != null)
                 EditorUtility.SetDirty(_coreConfig);
-            
-#if COM_ALEXPLAY_NET_PURCHASE
-            if(_coreConfig != null && _coreConfig._purchaseSettings != null)
-                _coreConfig._purchaseSettings.Validate();
-#endif
         }
 
         protected override void OnDestroy()

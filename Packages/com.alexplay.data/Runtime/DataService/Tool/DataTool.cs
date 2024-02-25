@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ACS.Data.DataService.Config;
 using ACS.Data.DataService.Security;
+using Intent;
 using UnityEngine;
 
 namespace ACS.Data.DataService.Tool
@@ -10,7 +11,7 @@ namespace ACS.Data.DataService.Tool
     public class DataTool
     {
         public readonly DataSecurity Security;
-        public readonly IntentService.IntentService IntentService;
+        public readonly IntentService IntentService;
         public readonly DataServiceConfig DataServiceConfig;
         public string Path { get; }
         public string DebugPath { get; }
@@ -27,7 +28,7 @@ namespace ACS.Data.DataService.Tool
         private const string _modelDebugDirectoriesPath = "/Debug/Models";
         private const string _extension = ".apd";
 
-        public DataTool(DataServiceConfig dataServiceConfig, IntentService.IntentService intentService)
+        public DataTool(DataServiceConfig dataServiceConfig, IntentService intentService)
         {
             IntentService = intentService;
             DataServiceConfig = dataServiceConfig;

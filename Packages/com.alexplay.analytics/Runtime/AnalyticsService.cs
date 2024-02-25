@@ -12,17 +12,15 @@ namespace ACS.Analytics
         public AnalyticsService(AnalyticsServiceConfig config)
         {
             _bundles = new ObjectPool<EventBundle>(() => new EventBundle(this));
+            
             InitializeAgents(config);
         }
 
-        public void RegisterAgent(IAnalyticsAgent agent) => 
-            _agents.Add(agent);
+        public void RegisterAgent(IAnalyticsAgent agent) => _agents.Add(agent);
 
-        public IEventBundle Event(string eventName) => 
-            _bundles.Get().SetName(eventName);
+        public IEventBundle Event(string eventName) => _bundles.Get().SetName(eventName);
 
-        public void ReturnBundle(EventBundle bundle) => 
-            _bundles.Return(bundle);
+        public void ReturnBundle(EventBundle bundle) => _bundles.Return(bundle);
 
         public void TrackEvent(string eventName)
         {
