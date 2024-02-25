@@ -6,7 +6,7 @@ namespace ACS.Core.ServicesContainer
     [RequireComponent(typeof(ServiceContainer))]
     public abstract class Bootstrapper : MonoBehaviour
     {
-        internal ServiceContainer Container => _container ??= _container = GetComponent<ServiceContainer>();
+        public ServiceContainer Container => _container ??= _container = GetComponent<ServiceContainer>();
         
         private ServiceContainer _container;
         private bool _hasBeenBootstrapped;
