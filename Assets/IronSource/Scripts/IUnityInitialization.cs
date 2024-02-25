@@ -1,5 +1,9 @@
 ﻿using System;
-public interface IUnityInitialization
+
+namespace IS.IronSource.Scripts
 {
-     event Action OnSdkInitializationCompletedEvent;
+     public interface IUnityInitialization
+     {
+          event Action OnSdkInitializationCompletedEvent;
+     }
 }

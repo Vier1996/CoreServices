@@ -1,7 +1,6 @@
 ﻿using ACS.Analytics;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Zenject;
 
 namespace Analytics
 {
@@ -9,7 +8,6 @@ namespace Analytics
     {
         private IAnalyticsService _analytics;
 
-        [Inject]
         private void Inject(IAnalyticsService analytics) => 
             _analytics = analytics;
 

@@ -1,18 +1,22 @@
 ﻿using System;
-public interface IUnityLevelPlayInterstitial
+
+namespace IS.IronSource.Scripts
 {
-    //Mediation Interstitial callbacks
-    event Action<IronSourceError, IronSourceAdInfo> OnAdShowFailed;
+    public interface IUnityLevelPlayInterstitial
+    {
+        //Mediation Interstitial callbacks
+        event Action<IronSourceError, IronSourceAdInfo> OnAdShowFailed;
 
-    event Action<IronSourceError> OnAdLoadFailed;
+        event Action<IronSourceError> OnAdLoadFailed;
 
-    event Action<IronSourceAdInfo> OnAdReady;
+        event Action<IronSourceAdInfo> OnAdReady;
 
-    event Action<IronSourceAdInfo> OnAdOpened;
+        event Action<IronSourceAdInfo> OnAdOpened;
 
-    event Action<IronSourceAdInfo> OnAdClosed;
+        event Action<IronSourceAdInfo> OnAdClosed;
 
-    event Action<IronSourceAdInfo> OnAdShowSucceeded;
+        event Action<IronSourceAdInfo> OnAdShowSucceeded;
 
-    event Action<IronSourceAdInfo> OnAdClicked;
+        event Action<IronSourceAdInfo> OnAdClicked;
+    }
 }

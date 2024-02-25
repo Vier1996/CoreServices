@@ -2,30 +2,33 @@
 using System;
 using UnityEngine;
 
-public class IronSourceInitializationAndroid : AndroidJavaProxy,IUnityInitialization
+namespace IS.IronSource.Scripts
 {
-    public event Action OnSdkInitializationCompletedEvent = delegate { };
-
-    public IronSourceInitializationAndroid() : base(IronSourceConstants.initializeBridgeListenerClass)
+    public class IronSourceInitializationAndroid : AndroidJavaProxy,IUnityInitialization
     {
-        try
+        public event Action OnSdkInitializationCompletedEvent = delegate { };
+
+        public IronSourceInitializationAndroid() : base(IronSourceConstants.initializeBridgeListenerClass)
         {
-            using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
+            try
             {
-                var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
-                bridgeInstance.Call("setUnityInitializationListener", this);
+                using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
+                {
+                    var bridgeInstance = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
+                    bridgeInstance.Call("setUnityInitializationListener", this);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("setUnityInitializationListener method doesn't exist, error: " + e.Message);
             }
         }
-        catch (Exception e)
-        {
-            Debug.LogError("setUnityInitializationListener method doesn't exist, error: " + e.Message);
-        }
-    }
 
-    void onSdkInitializationCompleted() {
-        if (this.OnSdkInitializationCompletedEvent != null)
-        {
-            this.OnSdkInitializationCompletedEvent();
+        void onSdkInitializationCompleted() {
+            if (this.OnSdkInitializationCompletedEvent != null)
+            {
+                this.OnSdkInitializationCompletedEvent();
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using IS.IronSource.Scripts;
 using UnityEditor;
 using UnityEditor.Build;
 #if UNITY_2018_1_OR_NEWER
@@ -12,188 +13,191 @@ using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 
+namespace ISEditor.IronSource.Editor
+{
 #if UNITY_2018_1_OR_NEWER
-public class IronSourceManifestProcessor : IPreprocessBuildWithReport
+    public class IronSourceManifestProcessor : IPreprocessBuildWithReport
 #else
 public class IronSourceManifestProcessor : IPreprocessBuild
 #endif
-{
-    private const string META_APPLICATION_ID = "com.google.android.gms.ads.APPLICATION_ID";
-    private const string AD_ID_PERMISSION_ATTR = "com.google.android.gms.permission.AD_ID";
-    private const string MANIFEST_PERMISSION = "uses-permission";
-    private const string MANIFEST_META_DATA = "meta-data";
-    private const string IRONSOURCE_MANIFEST_PATH = "IronSource/Plugins/Android/IronSource.plugin/AndroidManifest.xml";
-    private string manifestPath = "";
-    private XNamespace ns = "http://schemas.android.com/apk/res/android";
+    {
+        private const string META_APPLICATION_ID = "com.google.android.gms.ads.APPLICATION_ID";
+        private const string AD_ID_PERMISSION_ATTR = "com.google.android.gms.permission.AD_ID";
+        private const string MANIFEST_PERMISSION = "uses-permission";
+        private const string MANIFEST_META_DATA = "meta-data";
+        private const string IRONSOURCE_MANIFEST_PATH = "IronSource/Plugins/Android/IronSource.plugin/AndroidManifest.xml";
+        private string manifestPath = "";
+        private XNamespace ns = "http://schemas.android.com/apk/res/android";
 
-    public int callbackOrder { get { return 0; } }
+        public int callbackOrder { get { return 0; } }
 
 #if UNITY_2018_1_OR_NEWER
-    public void OnPreprocessBuild(BuildReport report)
+        public void OnPreprocessBuild(BuildReport report)
 #else
     public void OnPreprocessBuild(BuildTarget target, string path)
 #endif
-    {
-        if (File.Exists(IronSourceMediatedNetworkSettings.MEDIATION_SETTINGS_ASSET_PATH) || File.Exists(IronSourceMediationSettings.IRONSOURCE_SETTINGS_ASSET_PATH))
         {
-
-
-            XElement elemManifest = ValidateAndroidManifest();
-
-            XElement elemApplication = elemManifest.Element("application");
-
-            if (File.Exists(IronSourceMediatedNetworkSettings.MEDIATION_SETTINGS_ASSET_PATH))
+            if (File.Exists(IronSourceMediatedNetworkSettings.MEDIATION_SETTINGS_ASSET_PATH) || File.Exists(IronSourceMediationSettings.IRONSOURCE_SETTINGS_ASSET_PATH))
             {
-                string appId = IronSourceMediatedNetworkSettingsInspector.IronSourceMediatedNetworkSettings.AdmobAndroidAppId;
 
-                IEnumerable<XElement> metas = elemApplication.Descendants()
-            .Where(elem => elem.Name.LocalName.Equals(MANIFEST_META_DATA));
 
-                if (IronSourceMediatedNetworkSettingsInspector.IronSourceMediatedNetworkSettings.EnableAdmob)
+                XElement elemManifest = ValidateAndroidManifest();
+
+                XElement elemApplication = elemManifest.Element("application");
+
+                if (File.Exists(IronSourceMediatedNetworkSettings.MEDIATION_SETTINGS_ASSET_PATH))
                 {
+                    string appId = IronSourceMediatedNetworkSettingsInspector.IronSourceMediatedNetworkSettings.AdmobAndroidAppId;
 
-                    XElement elemAdMobEnabled = GetMetaElement(metas, META_APPLICATION_ID);
+                    IEnumerable<XElement> metas = elemApplication.Descendants()
+                        .Where(elem => elem.Name.LocalName.Equals(MANIFEST_META_DATA));
 
-                    if (appId.Length == 0)
+                    if (IronSourceMediatedNetworkSettingsInspector.IronSourceMediatedNetworkSettings.EnableAdmob)
                     {
-                        StopBuildWithMessage(
-                            "Android AdMob app ID is empty. Please enter your app ID to run ads properly");
-                    }
-                    else if (!Regex.IsMatch(appId, "^[a-zA-Z0-9-~]*$"))
-                    {
-                        StopBuildWithMessage(
-                            "Android AdMob app ID is not valid. Please enter a valid app ID to run ads properly");
-                    }
 
-                    else if (elemAdMobEnabled == null)
-                    {
-                        elemApplication.Add(CreateMetaElement(META_APPLICATION_ID, appId));
-                    }
-                    else
-                    {
-                        elemAdMobEnabled.SetAttributeValue(ns + "value", appId);
-                    }
+                        XElement elemAdMobEnabled = GetMetaElement(metas, META_APPLICATION_ID);
 
+                        if (appId.Length == 0)
+                        {
+                            StopBuildWithMessage(
+                                "Android AdMob app ID is empty. Please enter your app ID to run ads properly");
+                        }
+                        else if (!Regex.IsMatch(appId, "^[a-zA-Z0-9-~]*$"))
+                        {
+                            StopBuildWithMessage(
+                                "Android AdMob app ID is not valid. Please enter a valid app ID to run ads properly");
+                        }
+
+                        else if (elemAdMobEnabled == null)
+                        {
+                            elemApplication.Add(CreateMetaElement(META_APPLICATION_ID, appId));
+                        }
+                        else
+                        {
+                            elemAdMobEnabled.SetAttributeValue(ns + "value", appId);
+                        }
+
+                    }
+                    else if (GetPermissionElement(metas, META_APPLICATION_ID) != null)
+                    {
+                        //remove admob app id in case flag is off
+                        GetPermissionElement(metas, META_APPLICATION_ID).Remove();
+                    }
                 }
-                else if (GetPermissionElement(metas, META_APPLICATION_ID) != null)
+
+                if (File.Exists(IronSourceMediationSettings.IRONSOURCE_SETTINGS_ASSET_PATH))
                 {
-                    //remove admob app id in case flag is off
-                    GetPermissionElement(metas, META_APPLICATION_ID).Remove();
+                    IEnumerable<XElement> permissons = elemManifest.Descendants().Where(elem => elem.Name.LocalName.Equals(MANIFEST_PERMISSION));
+
+                    if (IronSourceMediationSettingsInspector.IronSourceMediationSettings.DeclareAD_IDPermission && GetPermissionElement(permissons, AD_ID_PERMISSION_ATTR) == null)
+                    {
+
+                        elemManifest.Add(CreatePermissionElement(AD_ID_PERMISSION_ATTR));
+                    }
+
+                    else if (GetPermissionElement(permissons, AD_ID_PERMISSION_ATTR) != null && !IronSourceMediationSettingsInspector.IronSourceMediationSettings.DeclareAD_IDPermission)
+                    {
+                        //remove the permission if flag is false
+                        GetPermissionElement(permissons, AD_ID_PERMISSION_ATTR).Remove();
+                    }
                 }
+                manifestPath = Path.Combine(Application.dataPath, IRONSOURCE_MANIFEST_PATH);
+                elemManifest.Save(manifestPath);
+
             }
-
-            if (File.Exists(IronSourceMediationSettings.IRONSOURCE_SETTINGS_ASSET_PATH))
-            {
-                IEnumerable<XElement> permissons = elemManifest.Descendants().Where(elem => elem.Name.LocalName.Equals(MANIFEST_PERMISSION));
-
-                if (IronSourceMediationSettingsInspector.IronSourceMediationSettings.DeclareAD_IDPermission && GetPermissionElement(permissons, AD_ID_PERMISSION_ATTR) == null)
-                {
-
-                    elemManifest.Add(CreatePermissionElement(AD_ID_PERMISSION_ATTR));
-                }
-
-                else if (GetPermissionElement(permissons, AD_ID_PERMISSION_ATTR) != null && !IronSourceMediationSettingsInspector.IronSourceMediationSettings.DeclareAD_IDPermission)
-                {
-                    //remove the permission if flag is false
-                    GetPermissionElement(permissons, AD_ID_PERMISSION_ATTR).Remove();
-                }
-            }
-            manifestPath = Path.Combine(Application.dataPath, IRONSOURCE_MANIFEST_PATH);
-            elemManifest.Save(manifestPath);
-
         }
-    }
 
-    private XElement CreateMetaElement(string name, object value)
-    {
-        return new XElement(MANIFEST_META_DATA,
+        private XElement CreateMetaElement(string name, object value)
+        {
+            return new XElement(MANIFEST_META_DATA,
                 new XAttribute(ns + "name", name), new XAttribute(ns + "value", value));
-    }
+        }
 
-    private XElement CreatePermissionElement(string name)
-    {
-        return new XElement(MANIFEST_PERMISSION,
+        private XElement CreatePermissionElement(string name)
+        {
+            return new XElement(MANIFEST_PERMISSION,
                 new XAttribute(ns + "name", name));
-    }
+        }
 
-    private XElement GetMetaElement(IEnumerable<XElement> metas, string metaName)
-    {
-        foreach (XElement elem in metas)
+        private XElement GetMetaElement(IEnumerable<XElement> metas, string metaName)
         {
-            IEnumerable<XAttribute> attrs = elem.Attributes();
-            foreach (XAttribute attr in attrs)
+            foreach (XElement elem in metas)
             {
-                if (attr.Name.Namespace.Equals(ns)
+                IEnumerable<XAttribute> attrs = elem.Attributes();
+                foreach (XAttribute attr in attrs)
+                {
+                    if (attr.Name.Namespace.Equals(ns)
                         && attr.Name.LocalName.Equals("name") && attr.Value.Equals(metaName))
-                {
-                    return elem;
+                    {
+                        return elem;
+                    }
                 }
             }
+            return null;
         }
-        return null;
-    }
 
-    private XElement GetPermissionElement(IEnumerable<XElement> manifest, string permissionName)
-    {
-
-        foreach (XElement elem in manifest)
+        private XElement GetPermissionElement(IEnumerable<XElement> manifest, string permissionName)
         {
-            IEnumerable<XAttribute> attrs = elem.Attributes();
-            foreach (XAttribute attr in attrs)
+
+            foreach (XElement elem in manifest)
             {
-                if (attr.Name.Namespace.Equals(ns)
-                        && attr.Name.LocalName.Equals("name") && attr.Value.Equals(permissionName))
+                IEnumerable<XAttribute> attrs = elem.Attributes();
+                foreach (XAttribute attr in attrs)
                 {
-                    return elem;
+                    if (attr.Name.Namespace.Equals(ns)
+                        && attr.Name.LocalName.Equals("name") && attr.Value.Equals(permissionName))
+                    {
+                        return elem;
+                    }
                 }
             }
+            return null;
         }
-        return null;
-    }
 
-    private void StopBuildWithMessage(string message)
-    {
-        string prefix = "[IronSourceApplicationSettings] ";
+        private void StopBuildWithMessage(string message)
+        {
+            string prefix = "[IronSourceApplicationSettings] ";
 
-        EditorUtility.DisplayDialog(
-            "IronSource Developer Settings", "Error: " + message, "", "");
+            EditorUtility.DisplayDialog(
+                "IronSource Developer Settings", "Error: " + message, "", "");
 #if UNITY_2017_1_OR_NEWER
-        throw new System.OperationCanceledException(prefix + message);
+            throw new System.OperationCanceledException(prefix + message);
 #else
         throw new OperationCanceledException(prefix + message);
 #endif
-    }
-
-    private XElement ValidateAndroidManifest()
-    {
-
-        XDocument manifest = null;
-        try
-        {
-            manifestPath = Path.Combine(Application.dataPath, IRONSOURCE_MANIFEST_PATH);
-            manifest = XDocument.Load(manifestPath);
         }
+
+        private XElement ValidateAndroidManifest()
+        {
+
+            XDocument manifest = null;
+            try
+            {
+                manifestPath = Path.Combine(Application.dataPath, IRONSOURCE_MANIFEST_PATH);
+                manifest = XDocument.Load(manifestPath);
+            }
 #pragma warning disable 0168
-        catch (IOException e)
+            catch (IOException e)
 #pragma warning restore 0168
-        {
-            StopBuildWithMessage("AndroidManifest.xml is missing. Try re-importing the plugin.");
-        }
+            {
+                StopBuildWithMessage("AndroidManifest.xml is missing. Try re-importing the plugin.");
+            }
 
-        XElement elemManifest = manifest.Element("manifest");
-        if (elemManifest == null)
-        {
-            StopBuildWithMessage("AndroidManifest.xml is not valid. Try re-importing the plugin.");
-        }
+            XElement elemManifest = manifest.Element("manifest");
+            if (elemManifest == null)
+            {
+                StopBuildWithMessage("AndroidManifest.xml is not valid. Try re-importing the plugin.");
+            }
 
-        XElement elemApplication = elemManifest.Element("application");
-        if (elemApplication == null)
-        {
-            StopBuildWithMessage("AndroidManifest.xml is not valid. Try re-importing the plugin.");
-        }
+            XElement elemApplication = elemManifest.Element("application");
+            if (elemApplication == null)
+            {
+                StopBuildWithMessage("AndroidManifest.xml is not valid. Try re-importing the plugin.");
+            }
 
-        return elemManifest;
+            return elemManifest;
+        }
     }
 }
-
 #endif
+

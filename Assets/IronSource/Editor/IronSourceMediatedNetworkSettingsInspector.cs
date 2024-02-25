@@ -1,27 +1,31 @@
 ﻿using System.IO;
+using IS.IronSource.Scripts;
 using UnityEditor;
 
-[CustomEditor(typeof(IronSourceMediatedNetworkSettings))]
-public class IronSourceMediatedNetworkSettingsInspector : UnityEditor.Editor
+namespace ISEditor.IronSource.Editor
 {
-    private static IronSourceMediatedNetworkSettings ironSourceMediatedNetworkSettings;
-
-    public static IronSourceMediatedNetworkSettings IronSourceMediatedNetworkSettings
+    [CustomEditor(typeof(IronSourceMediatedNetworkSettings))]
+    public class IronSourceMediatedNetworkSettingsInspector : UnityEditor.Editor
     {
-        get
+        private static IronSourceMediatedNetworkSettings ironSourceMediatedNetworkSettings;
+
+        public static IronSourceMediatedNetworkSettings IronSourceMediatedNetworkSettings
         {
-            if (ironSourceMediatedNetworkSettings == null)
+            get
             {
-                ironSourceMediatedNetworkSettings = AssetDatabase.LoadAssetAtPath<IronSourceMediatedNetworkSettings>(IronSourceMediatedNetworkSettings.MEDIATION_SETTINGS_ASSET_PATH);
                 if (ironSourceMediatedNetworkSettings == null)
                 {
-                    IronSourceMediatedNetworkSettings asset = CreateInstance<IronSourceMediatedNetworkSettings>();
-                    Directory.CreateDirectory(IronSourceConstants.IRONSOURCE_RESOURCES_PATH);
-                    AssetDatabase.CreateAsset(asset, IronSourceMediatedNetworkSettings.MEDIATION_SETTINGS_ASSET_PATH);
-                    ironSourceMediatedNetworkSettings = asset;
+                    ironSourceMediatedNetworkSettings = AssetDatabase.LoadAssetAtPath<IronSourceMediatedNetworkSettings>(IronSourceMediatedNetworkSettings.MEDIATION_SETTINGS_ASSET_PATH);
+                    if (ironSourceMediatedNetworkSettings == null)
+                    {
+                        IronSourceMediatedNetworkSettings asset = CreateInstance<IronSourceMediatedNetworkSettings>();
+                        Directory.CreateDirectory(IronSourceConstants.IRONSOURCE_RESOURCES_PATH);
+                        AssetDatabase.CreateAsset(asset, IronSourceMediatedNetworkSettings.MEDIATION_SETTINGS_ASSET_PATH);
+                        ironSourceMediatedNetworkSettings = asset;
+                    }
                 }
+                return ironSourceMediatedNetworkSettings;
             }
-            return ironSourceMediatedNetworkSettings;
         }
     }
 }

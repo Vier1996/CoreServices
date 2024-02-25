@@ -1,198 +1,199 @@
 ﻿using System.Collections.Generic;
 
-public interface IronSourceIAgent
+namespace IS.IronSource.Scripts
 {
-	//******************* Base API *******************//
+	public interface IronSourceIAgent
+	{
+		//******************* Base API *******************//
 
-	void onApplicationPause(bool pause);
+		void onApplicationPause(bool pause);
 
-	string getAdvertiserId();
+		void setMediationSegment(string segment);
 
-	void validateIntegration();
+		string getAdvertiserId();
 
-	void shouldTrackNetworkState(bool track);
+		void validateIntegration();
 
-	bool setDynamicUserId(string dynamicUserId);
+		void shouldTrackNetworkState(bool track);
 
-	void setAdaptersDebug(bool enabled);
+		bool setDynamicUserId(string dynamicUserId);
 
-	void setMetaData(string key, string value);
+		void setAdaptersDebug(bool enabled);
 
-	void setMetaData(string key, params string[] values);
+		void setMetaData(string key, string value);
 
-	int? getConversionValue();
+		void setMetaData(string key, params string[] values);
 
-	void setManualLoadRewardedVideo(bool isOn);
+		int? getConversionValue();
 
-	void setNetworkData(string networkKey, string networkData);
+		void setManualLoadRewardedVideo(bool isOn);
 
-	void SetPauseGame(bool pause);
+		void setNetworkData(string networkKey, string networkData);
 
-	//******************* SDK Init *******************//
+		void SetPauseGame(bool pause);
 
-	void setUserId(string userId);
+		//******************* SDK Init *******************//
 
-	void init(string appKey);
+		void setUserId(string userId);
 
-	void init(string appKey, params string[] adUnits);
+		void init(string appKey);
 
-	void initISDemandOnly(string appKey, params string[] adUnits);
+		void init(string appKey, params string[] adUnits);
 
-	//******************* RewardedVideo API *******************//
+		void initISDemandOnly(string appKey, params string[] adUnits);
 
-	void loadRewardedVideo();
+		//******************* RewardedVideo API *******************//
 
-	void showRewardedVideo();
+		void loadRewardedVideo();
 
-	void showRewardedVideo(string placementName);
+		void showRewardedVideo();
 
-	bool isRewardedVideoAvailable();
+		void showRewardedVideo(string placementName);
 
-	bool isRewardedVideoPlacementCapped(string placementName);
+		bool isRewardedVideoAvailable();
 
-	IronSourcePlacement getPlacementInfo(string name);
+		bool isRewardedVideoPlacementCapped(string placementName);
 
-	void setRewardedVideoServerParams(Dictionary<string, string> parameters);
+		IronSourcePlacement getPlacementInfo(string name);
 
-	void clearRewardedVideoServerParams();
+		void setRewardedVideoServerParams(Dictionary<string, string> parameters);
 
-	//******************* RewardedVideo DemandOnly API *******************//
+		void clearRewardedVideoServerParams();
 
-	void showISDemandOnlyRewardedVideo(string instanceId);
+		//******************* RewardedVideo DemandOnly API *******************//
 
-	void loadISDemandOnlyRewardedVideo(string instanceId);
+		void showISDemandOnlyRewardedVideo(string instanceId);
 
-	bool isISDemandOnlyRewardedVideoAvailable(string instanceId);
+		void loadISDemandOnlyRewardedVideo(string instanceId);
 
-	//******************* Interstitial API *******************//
+		bool isISDemandOnlyRewardedVideoAvailable(string instanceId);
 
-	void loadInterstitial();
+		//******************* Interstitial API *******************//
 
-	void showInterstitial();
+		void loadInterstitial();
 
-	void showInterstitial(string placementName);
+		void showInterstitial();
 
-	bool isInterstitialReady();
+		void showInterstitial(string placementName);
 
-	bool isInterstitialPlacementCapped(string placementName);
+		bool isInterstitialReady();
 
-	//******************* Interstitial DemandOnly API *******************//
+		bool isInterstitialPlacementCapped(string placementName);
 
-	void loadISDemandOnlyInterstitial(string instanceId);
+		//******************* Interstitial DemandOnly API *******************//
 
-	void showISDemandOnlyInterstitial(string instanceId);
+		void loadISDemandOnlyInterstitial(string instanceId);
 
-	bool isISDemandOnlyInterstitialReady(string instanceId);
+		void showISDemandOnlyInterstitial(string instanceId);
 
-	//******************* Offerwall API *******************//
+		bool isISDemandOnlyInterstitialReady(string instanceId);
 
-	void showOfferwall();
+		//******************* Offerwall API *******************//
 
-	void showOfferwall(string placementName);
+		void showOfferwall();
 
-	bool isOfferwallAvailable();
+		void showOfferwall(string placementName);
 
-	void getOfferwallCredits();
+		bool isOfferwallAvailable();
 
-	//******************* Banner API *******************//
+		void getOfferwallCredits();
 
-	void loadBanner(IronSourceBannerSize size, IronSourceBannerPosition position);
+		//******************* Banner API *******************//
 
-	void loadBanner(IronSourceBannerSize size, IronSourceBannerPosition position, string placementName);
+		void loadBanner(IronSourceBannerSize size, IronSourceBannerPosition position);
 
-	void destroyBanner();
+		void loadBanner(IronSourceBannerSize size, IronSourceBannerPosition position, string placementName);
 
-	void displayBanner();
+		void destroyBanner();
 
-	void hideBanner();
+		void displayBanner();
 
-	bool isBannerPlacementCapped(string placementName);
+		void hideBanner();
 
-	void setSegment(IronSourceSegment segment);
+		bool isBannerPlacementCapped(string placementName);
 
-	void setConsent(bool consent);
+		void setSegment(IronSourceSegment segment);
 
-	//******************* ConsentView API *******************//
+		void setConsent(bool consent);
 
-	void loadConsentViewWithType(string consentViewType);
+		//******************* ConsentView API *******************//
 
-	void showConsentViewWithType(string consentViewType);
+		void loadConsentViewWithType(string consentViewType);
 
-	//******************* ILRD API *******************//
+		void showConsentViewWithType(string consentViewType);
 
-	void setAdRevenueData(string dataSource, Dictionary<string, string> impressionData);
+		//******************* ILRD API *******************//
 
-	//******************* TestSuite API *******************//
+		void setAdRevenueData(string dataSource, Dictionary<string, string> impressionData);
+	}
 
-	void launchTestSuite();
+	public static class dataSource
+	{
+		public static string MOPUB { get { return "MoPub"; } }
+
+	}
+
+
+	public static class IronSourceAdUnits
+	{
+		public static string REWARDED_VIDEO { get { return "rewardedvideo"; } }
+
+		public static string INTERSTITIAL { get { return "interstitial"; } }
+
+		public static string OFFERWALL { get { return "offerwall"; } }
+
+		public static string BANNER { get { return "banner"; } }
+	}
+
+	public class IronSourceBannerSize
+	{
+		private int width;
+		private int height;
+		private string description;
+		private bool isAdaptive;
+
+		public static IronSourceBannerSize BANNER = new IronSourceBannerSize("BANNER");
+		public static IronSourceBannerSize LARGE = new IronSourceBannerSize("LARGE");
+		public static IronSourceBannerSize RECTANGLE = new IronSourceBannerSize("RECTANGLE");
+		public static IronSourceBannerSize SMART = new IronSourceBannerSize("SMART");
+
+		private IronSourceBannerSize()
+		{
+
+		}
+
+		public IronSourceBannerSize(int width, int height)
+		{
+			this.width = width;
+			this.height = height;
+			this.description = "CUSTOM";
+		}
+
+		public IronSourceBannerSize(string description)
+		{
+			this.description = description;
+			this.width = 0;
+			this.height = 0;
+		}
+
+		public void SetAdaptive(bool adaptive)
+		{
+			this.isAdaptive = adaptive;
+		}
+
+		public bool IsAdaptiveEnabled()
+		{
+			return this.isAdaptive;
+		}
+
+		public string Description { get { return description; } }
+		public int Width { get { return width; } }
+		public int Height { get { return height; } }
+	}
+
+	public enum IronSourceBannerPosition
+	{
+		TOP = 1,
+		BOTTOM = 2
+	};
 }
-
-public static class dataSource
-{
-	public static string MOPUB { get { return "MoPub"; } }
-
-}
-
-
-public static class IronSourceAdUnits
-{
-	public static string REWARDED_VIDEO { get { return "rewardedvideo"; } }
-
-	public static string INTERSTITIAL { get { return "interstitial"; } }
-
-	public static string OFFERWALL { get { return "offerwall"; } }
-
-	public static string BANNER { get { return "banner"; } }
-}
-
-public class IronSourceBannerSize
-{
-	private int width;
-	private int height;
-	private string description;
-	private bool isAdaptive;
-
-	public static IronSourceBannerSize BANNER = new IronSourceBannerSize("BANNER");
-	public static IronSourceBannerSize LARGE = new IronSourceBannerSize("LARGE");
-	public static IronSourceBannerSize RECTANGLE = new IronSourceBannerSize("RECTANGLE");
-	public static IronSourceBannerSize SMART = new IronSourceBannerSize("SMART");
-
-	private IronSourceBannerSize()
-	{
-
-	}
-
-	public IronSourceBannerSize(int width, int height)
-	{
-		this.width = width;
-		this.height = height;
-		this.description = "CUSTOM";
-	}
-
-	public IronSourceBannerSize(string description)
-	{
-		this.description = description;
-		this.width = 0;
-		this.height = 0;
-	}
-
-	public void SetAdaptive(bool adaptive)
-	{
-		this.isAdaptive = adaptive;
-	}
-
-	public bool IsAdaptiveEnabled()
-	{
-		return this.isAdaptive;
-	}
-
-	public string Description { get { return description; } }
-	public int Width { get { return width; } }
-	public int Height { get { return height; } }
-}
-
-public enum IronSourceBannerPosition
-{
-	TOP = 1,
-	BOTTOM = 2
-};

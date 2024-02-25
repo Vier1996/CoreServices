@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using ACS.Core;
+using ACS.Core.ServicesContainer;
+using ACS.SignalBus.SignalBus;
 using UnityEngine;
 using Random = System.Random;
 
@@ -9,6 +11,8 @@ namespace Tests.SignalBus
     {
         public int CountLenght = 100000;
 
+        private ISignalBusService signalBusService;
+
         private List<int> largeList_1 = new List<int>();
         private List<int> largeList_2 = new List<int>();
         private List<int> largeList_3 = new List<int>();
@@ -17,11 +21,13 @@ namespace Tests.SignalBus
 
         private void OnEnable()
         {
-            Core.Instance.SignalBusService.Subscribe<RSignal>(GetLargeList);
-            Core.Instance.SignalBusService.Subscribe<RSignal>(GetLargeList_2);
-            Core.Instance.SignalBusService.Subscribe<RSignal>(GetLargeList_3);
-            Core.Instance.SignalBusService.Subscribe<RSignal>(GetLargeList_4);
-            Core.Instance.SignalBusService.Subscribe<RSignal>(GetLargeList_5);
+            ServiceContainer.Core.Get(out signalBusService);
+            
+            signalBusService.Subscribe<RSignal>(GetLargeList);
+            signalBusService.Subscribe<RSignal>(GetLargeList_2);
+            signalBusService.Subscribe<RSignal>(GetLargeList_3);
+            signalBusService.Subscribe<RSignal>(GetLargeList_4);
+            signalBusService.Subscribe<RSignal>(GetLargeList_5);
         }
         
         private void GetLargeList(RSignal signal)
@@ -83,11 +89,11 @@ namespace Tests.SignalBus
 
         private void OnDisable()
         {
-            Core.Instance.SignalBusService.Unsubscribe<RSignal>(GetLargeList);
-            Core.Instance.SignalBusService.Unsubscribe<RSignal>(GetLargeList_2);
-            Core.Instance.SignalBusService.Unsubscribe<RSignal>(GetLargeList_3);
-            Core.Instance.SignalBusService.Unsubscribe<RSignal>(GetLargeList_4);
-            Core.Instance.SignalBusService.Unsubscribe<RSignal>(GetLargeList_5);
+            signalBusService.Unsubscribe<RSignal>(GetLargeList);
+            signalBusService.Unsubscribe<RSignal>(GetLargeList_2);
+            signalBusService.Unsubscribe<RSignal>(GetLargeList_3);
+            signalBusService.Unsubscribe<RSignal>(GetLargeList_4);
+            signalBusService.Unsubscribe<RSignal>(GetLargeList_5);
 
             int a = largeList_1.Count;
             int b = largeList_2.Count;

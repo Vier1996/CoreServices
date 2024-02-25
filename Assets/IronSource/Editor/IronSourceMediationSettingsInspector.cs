@@ -1,27 +1,31 @@
 ﻿using System.IO;
+using IS.IronSource.Scripts;
 using UnityEditor;
 
-[CustomEditor(typeof(IronSourceMediationSettings))]
-public class IronSourceMediationSettingsInspector : UnityEditor.Editor
+namespace ISEditor.IronSource.Editor
 {
-    private static IronSourceMediationSettings ironSourceMediationSettings;
-    public static IronSourceMediationSettings IronSourceMediationSettings
+    [CustomEditor(typeof(IronSourceMediationSettings))]
+    public class IronSourceMediationSettingsInspector : UnityEditor.Editor
     {
-        get
+        private static IronSourceMediationSettings ironSourceMediationSettings;
+        public static IronSourceMediationSettings IronSourceMediationSettings
         {
-            if (ironSourceMediationSettings == null)
+            get
             {
-                ironSourceMediationSettings = AssetDatabase.LoadAssetAtPath<IronSourceMediationSettings>(IronSourceMediationSettings.IRONSOURCE_SETTINGS_ASSET_PATH);
                 if (ironSourceMediationSettings == null)
                 {
-                    IronSourceMediationSettings asset = CreateInstance<IronSourceMediationSettings>();
-                    Directory.CreateDirectory(IronSourceConstants.IRONSOURCE_RESOURCES_PATH);
-                    AssetDatabase.CreateAsset(asset, IronSourceMediationSettings.IRONSOURCE_SETTINGS_ASSET_PATH);
-                    ironSourceMediationSettings = asset;
+                    ironSourceMediationSettings = AssetDatabase.LoadAssetAtPath<IronSourceMediationSettings>(IronSourceMediationSettings.IRONSOURCE_SETTINGS_ASSET_PATH);
+                    if (ironSourceMediationSettings == null)
+                    {
+                        IronSourceMediationSettings asset = CreateInstance<IronSourceMediationSettings>();
+                        Directory.CreateDirectory(IronSourceConstants.IRONSOURCE_RESOURCES_PATH);
+                        AssetDatabase.CreateAsset(asset, IronSourceMediationSettings.IRONSOURCE_SETTINGS_ASSET_PATH);
+                        ironSourceMediationSettings = asset;
+                    }
                 }
-            }
 
-            return ironSourceMediationSettings;
+                return ironSourceMediationSettings;
+            }
         }
     }
 }

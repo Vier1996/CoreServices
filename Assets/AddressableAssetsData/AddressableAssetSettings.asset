@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
   m_DefaultGroup: 2465a18990345414a91c4640b2f0508e
+  m_currentHash:
+    serializedVersion: 2
+    Hash: a3c24c1eaa701de307c9423052edd99c
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -21,6 +24,7 @@ MonoBehaviour:
   m_IgnoreUnsupportedFilesInBuild: 0
   m_UniqueBundleIds: 0
   m_NonRecursiveBuilding: 0
+  m_CCDEnabled: 0
   m_maxConcurrentWebRequests: 500
   m_ContiguousBundles: 0
   m_StripUnityVersionFromBundleBuild: 0
@@ -28,16 +32,21 @@ MonoBehaviour:
   m_ShaderBundleNaming: 0
   m_ShaderBundleCustomNaming: 
   m_MonoScriptBundleNaming: 0
+  m_CheckForContentUpdateRestrictionsOption: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
     m_Id: 
   m_RemoteCatalogLoadPath:
     m_Id: 
+  m_ContentStateBuildPathProfileVariableName: 
+  m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
+  m_BuildAddressablesWithPlayerBuild: 2
   m_overridePlayerVersion: 
   m_GroupAssets:
   - {fileID: 11400000, guid: 3d166c25ebce93640a1c15e0de44e6ca, type: 2}
   - {fileID: 11400000, guid: 2422124f32bc101458b8d1057313ac5c, type: 2}
+  - {fileID: 11400000, guid: bb613802321773e46a7f08fc24009278, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -64,16 +73,16 @@ MonoBehaviour:
       m_Name: BuildTarget
       m_InlineUsage: 0
     - m_Id: 1bcadce7fc77a324e956fd0b0c3bb0a3
-      m_Name: LocalBuildPath
+      m_Name: Local.BuildPath
       m_InlineUsage: 0
     - m_Id: 3d500b2e01ed99541adcf15fa7d75906
-      m_Name: LocalLoadPath
+      m_Name: Local.LoadPath
       m_InlineUsage: 0
     - m_Id: 4c6f9167d5c3606468874b148b7c04c5
-      m_Name: RemoteBuildPath
+      m_Name: Remote.BuildPath
       m_InlineUsage: 0
     - m_Id: 675bd891cfd434240a22a633fa18a0e7
-      m_Name: RemoteLoadPath
+      m_Name: Remote.LoadPath
       m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:
@@ -98,3 +107,4 @@ MonoBehaviour:
     m_Settings: {fileID: 11400000}
     m_NextInstanceId: 0
     m_RegisteredServiceTypeRefs: []
+    m_PingTimeoutInMilliseconds: 5000

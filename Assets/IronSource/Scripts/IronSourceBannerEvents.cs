@@ -1,38 +1,38 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 
-
-public class IronSourceBannerEvents : MonoBehaviour
+namespace IS.IronSource.Scripts
 {
-
-#if UNITY_ANDROID
-    #pragma warning disable CS0067
-    public static event Action<IronSourceAdInfo> onAdLoadedEvent;
-    public static event Action<IronSourceAdInfo> onAdLeftApplicationEvent;
-    public static event Action<IronSourceAdInfo> onAdScreenDismissedEvent;
-    public static event Action<IronSourceAdInfo> onAdScreenPresentedEvent;
-    public static event Action<IronSourceAdInfo> onAdClickedEvent;
-    public static event Action<IronSourceError> onAdLoadFailedEvent;
-#endif
-
-#if UNITY_ANDROID
-    private IUnityLevelPlayBanner LevelPlaybannerAndroid;
-#endif
-
-    void Awake()
+    public class IronSourceBannerEvents : MonoBehaviour
     {
+
+#if UNITY_ANDROID
+#pragma warning disable CS0067
+        public static event Action<IronSourceAdInfo> onAdLoadedEvent;
+        public static event Action<IronSourceAdInfo> onAdLeftApplicationEvent;
+        public static event Action<IronSourceAdInfo> onAdScreenDismissedEvent;
+        public static event Action<IronSourceAdInfo> onAdScreenPresentedEvent;
+        public static event Action<IronSourceAdInfo> onAdClickedEvent;
+        public static event Action<IronSourceError> onAdLoadFailedEvent;
+#endif
+
+#if UNITY_ANDROID
+        private IUnityLevelPlayBanner LevelPlaybannerAndroid;
+#endif
+
+        void Awake()
+        {
 #if UNITY_ANDROID && !UNITY_EDITOR
         LevelPlaybannerAndroid = new IronSourceBannerLevelPlayAndroid();//sets this.bannerAndroid as listener for Banner(Mediation Only) events in the bridge
         registerBannerEvents();//subscribe to Banner events from this.bannerAndroid
 
 #endif
 
-        gameObject.name = "IronSourceBannerEvents";           //Change the GameObject name to IronSourceEvents.
-        DontDestroyOnLoad(gameObject);                 //Makes the object not be destroyed automatically when loading a new scene.
-    }
+            gameObject.name = "IronSourceBannerEvents";           //Change the GameObject name to IronSourceEvents.
+            DontDestroyOnLoad(gameObject);                 //Makes the object not be destroyed automatically when loading a new scene.
+        }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
 
@@ -301,53 +301,54 @@ public class IronSourceBannerEvents : MonoBehaviour
     }
 #endif
 
-    // ******************************* Helper methods *******************************   
+        // ******************************* Helper methods *******************************   
 
-    private IronSourceError getErrorFromErrorObject(object descriptionObject)
-    {
-        Dictionary<string, object> error = null;
-        if (descriptionObject is IDictionary)
+        private IronSourceError getErrorFromErrorObject(object descriptionObject)
         {
-            error = descriptionObject as Dictionary<string, object>;
-        }
-        else if (descriptionObject is String && !String.IsNullOrEmpty(descriptionObject.ToString()))
-        {
-            error = IronSourceJSON.Json.Deserialize(descriptionObject.ToString()) as Dictionary<string, object>;
-        }
+            Dictionary<string, object> error = null;
+            if (descriptionObject is IDictionary)
+            {
+                error = descriptionObject as Dictionary<string, object>;
+            }
+            else if (descriptionObject is String && !String.IsNullOrEmpty(descriptionObject.ToString()))
+            {
+                error = Json.Deserialize(descriptionObject.ToString()) as Dictionary<string, object>;
+            }
 
-        IronSourceError sse = new IronSourceError(-1, "");
-        if (error != null && error.Count > 0)
-        {
-            int eCode = Convert.ToInt32(error[IronSourceConstants.ERROR_CODE].ToString());
-            string eDescription = error[IronSourceConstants.ERROR_DESCRIPTION].ToString();
-            sse = new IronSourceError(eCode, eDescription);
-        }
+            IronSourceError sse = new IronSourceError(-1, "");
+            if (error != null && error.Count > 0)
+            {
+                int eCode = Convert.ToInt32(error[IronSourceConstants.ERROR_CODE].ToString());
+                string eDescription = error[IronSourceConstants.ERROR_DESCRIPTION].ToString();
+                sse = new IronSourceError(eCode, eDescription);
+            }
 
-        return sse;
-    }
-
-    private IronSourcePlacement getPlacementFromObject(object placementObject)
-    {
-        Dictionary<string, object> placementJSON = null;
-        if (placementObject is IDictionary)
-        {
-            placementJSON = placementObject as Dictionary<string, object>;
-        }
-        else if (placementObject is String)
-        {
-            placementJSON = IronSourceJSON.Json.Deserialize(placementObject.ToString()) as Dictionary<string, object>;
+            return sse;
         }
 
-        IronSourcePlacement ssp = null;
-        if (placementJSON != null && placementJSON.Count > 0)
+        private IronSourcePlacement getPlacementFromObject(object placementObject)
         {
-            int rewardAmount = Convert.ToInt32(placementJSON["placement_reward_amount"].ToString());
-            string rewardName = placementJSON["placement_reward_name"].ToString();
-            string placementName = placementJSON["placement_name"].ToString();
+            Dictionary<string, object> placementJSON = null;
+            if (placementObject is IDictionary)
+            {
+                placementJSON = placementObject as Dictionary<string, object>;
+            }
+            else if (placementObject is String)
+            {
+                placementJSON = Json.Deserialize(placementObject.ToString()) as Dictionary<string, object>;
+            }
 
-            ssp = new IronSourcePlacement(placementName, rewardName, rewardAmount);
+            IronSourcePlacement ssp = null;
+            if (placementJSON != null && placementJSON.Count > 0)
+            {
+                int rewardAmount = Convert.ToInt32(placementJSON["placement_reward_amount"].ToString());
+                string rewardName = placementJSON["placement_reward_name"].ToString();
+                string placementName = placementJSON["placement_name"].ToString();
+
+                ssp = new IronSourcePlacement(placementName, rewardName, rewardAmount);
+            }
+
+            return ssp;
         }
-
-        return ssp;
     }
 }
