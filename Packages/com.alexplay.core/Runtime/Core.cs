@@ -84,7 +84,7 @@ namespace ACS.Core
                     new FBRCService(installParams.CoreConfig._fbrcSettings)); 
 #endif
             
-            container.AsGlobal();
+            container.AsCore();
             
             PostInitialized?.Invoke();
         }

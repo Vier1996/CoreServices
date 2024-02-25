@@ -15,33 +15,59 @@ namespace ACS.Core.ServicesContainer
             {
                 if (_global != null) return _global;
 
-                throw new NullReferenceException("You can not use GlobalContext without Core instance");
+                throw new NullReferenceException("You can not use GlobalContainer without Core instance");
             }
         }
         
-        private static ServiceContainer _global;
-        private readonly ServiceManager _services = new();
-        
-        private static List<GameObject> _rootSceneGameObjects;
-        private static Dictionary<Scene, ServiceContainer> _sceneContainers;
+        public static ServiceContainer Core
+        {
+            get
+            {
+                if (_core != null) return _core;
 
-        internal void AsGlobal()
+                throw new NullReferenceException("You can not use CoreContainer without Core instance");
+            }
+        }
+        
+        private static ServiceContainer _core;
+        private static ServiceContainer _global;
+        private static Dictionary<Scene, ServiceContainer> _sceneContainers;
+        
+        private readonly ServiceManager _services = new();
+        private static List<GameObject> _rootSceneGameObjects;
+
+        internal void AsCore()
+        {
+            if (_core == this)
+                Debug.LogWarning($"ServiceLocator.AsCore: Already configured as core", this);
+            else if (_global != null)
+                Debug.LogWarning($"ServiceLocator.AsCore: Another ServiceContainer is already configured as core", this);
+            else
+                _core = this;
+        }
+        
+        public void AsGlobal(bool dontDestroyOnLoad)
         {
             if (_global == this)
-                Debug.LogWarning($"ServiceLocator.ConfigureAsGlobal: Already configured as global", this);
+                Debug.LogWarning($"ServiceLocator.AsGlobal: Already configured as global", this);
             else if (_global != null)
-                Debug.LogWarning($"ServiceLocator.ConfigureAsGlobal: Another ServiceLocator is already configured as global", this);
+                Debug.LogWarning($"ServiceLocator.AsGlobal: Another ServiceContainer is already configured as global", this);
             else
+            {
                 _global = this;
+                
+                if (dontDestroyOnLoad)
+                    DontDestroyOnLoad(gameObject);
+            }
         }
 
-        internal void AsScene()
+        public void AsScene()
         {
             Scene scene = gameObject.scene;
 
             if (_sceneContainers.ContainsKey(scene))
             {
-                Debug.LogWarning($"ServiceLocator.ConfigureForScene: Another ServiceLocator is already configured for this scene", this);
+                Debug.LogWarning($"ServiceLocator.AsScene: Another ServiceLocator is already configured for this scene", this);
                 return;
             }
             
