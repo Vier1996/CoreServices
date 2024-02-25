@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace ACS.Core.ServicesContainer
 {
+    [DefaultExecutionOrder(-12000)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(ServiceContainer))]
     public abstract class Bootstrapper : MonoBehaviour
