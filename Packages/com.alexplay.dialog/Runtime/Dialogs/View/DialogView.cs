@@ -37,10 +37,10 @@ namespace ACS.Dialog.Dialogs.View
 
         public void SetParent(RectTransform parentTransform)
         {
-            RectTransform dialogRect = GetComponent<RectTransform>();
+            RectTransform dialogRect = (RectTransform)transform;
                 
             dialogRect.SetParent(parentTransform);
-            dialogRect.position = Vector3.zero;
+            dialogRect.localPosition = Vector3.zero;
             dialogRect.localScale = _customDialogSize ? _customScale : Vector3.one;
             dialogRect.rotation = new Quaternion(0, 0, 0, 0);
         }
