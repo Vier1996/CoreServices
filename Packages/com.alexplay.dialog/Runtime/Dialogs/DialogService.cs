@@ -143,6 +143,8 @@ namespace ACS.Dialog.Dialogs
 
             _activeDialogs.Remove(dialogView);
 
+            Object.Destroy(dialogView.gameObject);
+
             ReleaseAssetReference(typeName);
 
             DialogHide?.Invoke(dialogView.GetType());
@@ -153,9 +155,7 @@ namespace ACS.Dialog.Dialogs
             if (typeName != null && _dialogHandles.TryGetValue(typeName, out AsyncOperationHandle<DialogView> handle))
             {
                 _dialogHandles.Remove(typeName);
-
-                Object.Destroy(handle.Result);
-
+                
                 Addressables.Release(handle);
             }
         }

@@ -84,8 +84,10 @@ namespace ACS.Core.ServicesContainer
             return SearchInScene(scene);
         }
         
-        public static ServiceContainer For(Scene scene)
+        public static ServiceContainer ForCurrentScene()
         {
+            Scene scene = SceneManager.GetActiveScene();
+            
             if (_sceneContainers.TryGetValue(scene, out ServiceContainer container))
                 return container;
 
