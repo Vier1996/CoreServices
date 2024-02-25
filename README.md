@@ -7,7 +7,7 @@ Before installing ACS services you need to install dependencies below:
 * [IronSource](https://developers.is.com/ironsource-mobile/unity/unity-plugin/)
 * [NewtonSoftJson](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
 * [Odin](https://odininspector.com/)
-* [UniRx](https://github.com/neuecc/UniRx)
+* [R3](https://github.com/Cysharp/R3?tab=readme-ov-file#unity)
 * [UniTask](https://github.com/Cysharp/UniTask)
 * [Zenject](https://github.com/modesttree/Zenject)
 
@@ -24,8 +24,5 @@ Before installing ACS services you need to install dependencies below:
 4. Audio -      `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.audio`
 5. Data -       `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.data`
 6. Dialog -     `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.dialog`
-7. GDPR -       `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.gdpr`
-8. Object Pool - `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.object-pool`
-9. Purchases -  `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.purchase`
-10. Signal Bus - `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus`
-11. Remote config (Firebase)- `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.fbrc`
+7. Signal Bus - `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.signal-bus`
+8. Remote config (Firebase)- `https://github.com/Vier1996/CoreServices.git?path=Packages/com.alexplay.fbrc`
