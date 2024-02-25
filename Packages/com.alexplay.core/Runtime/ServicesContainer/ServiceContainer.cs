@@ -81,20 +81,15 @@ namespace ACS.Core.ServicesContainer
             if (_sceneContainers.TryGetValue(scene, out ServiceContainer container) && container != behaviour)
                 return container;
 
-            _rootSceneGameObjects.Clear();
-            
-            scene.GetRootGameObjects(_rootSceneGameObjects);
+            return SearchInScene(scene);
+        }
+        
+        public static ServiceContainer For(Scene scene)
+        {
+            if (_sceneContainers.TryGetValue(scene, out ServiceContainer container))
+                return container;
 
-            foreach (GameObject go in _rootSceneGameObjects.Where(go => go.GetComponent<ServiceContainerLocal>() != null))
-            {
-                if (go.TryGetComponent(out ServiceContainerLocal bootstrapper) && bootstrapper.Container != behaviour)
-                {
-                    bootstrapper.BootstrapOnDemand();
-                    return bootstrapper.Container;
-                }
-            }
-
-            return Global;
+            return SearchInScene(scene);
         }
 
         public ServiceContainer Register<T>(T service)
@@ -123,7 +118,7 @@ namespace ACS.Core.ServicesContainer
         
         public bool TryGetService<T>(out T service) where T : class => _services.TryGet(out service);
 
-        public bool TryGetNextInHierarchy(out ServiceContainer container)
+        private bool TryGetNextInHierarchy(out ServiceContainer container)
         {
             if (this == _global)
             {
@@ -146,6 +141,24 @@ namespace ACS.Core.ServicesContainer
             }
 
             return container != null;
+        }
+        
+        private static ServiceContainer SearchInScene(Scene scene)
+        {
+            _rootSceneGameObjects.Clear();
+            
+            scene.GetRootGameObjects(_rootSceneGameObjects);
+
+            foreach (GameObject go in _rootSceneGameObjects.Where(go => go.GetComponent<ServiceContainerLocal>() != null))
+            {
+                if (go.TryGetComponent(out ServiceContainerLocal bootstrapper))
+                {
+                    bootstrapper.BootstrapOnDemand();
+                    return bootstrapper.Container;
+                }
+            }
+
+            return Global;
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
