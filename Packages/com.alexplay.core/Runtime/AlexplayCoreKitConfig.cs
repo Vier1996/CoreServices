@@ -37,38 +37,38 @@ using ACS.Cheat.CheatTracker;
 
 namespace ACS.Core
 {
-        [Serializable]
-        public class AlexplayCoreKitConfig : ScriptableObject
-        {
-                public CoreBootstrapOptions BootstrapOptions { get; private set; } = new();
-
+    [Serializable]
+    public class AlexplayCoreKitConfig : ScriptableObject
+    {
+        public CoreBootstrapOptions _bootstrapOptions = new();
+        
 #if COM_ALEXPLAY_NET_DATA
-                public DataServiceConfig DataSettings { get; private set; } = new();
+        public DataServiceConfig _dataSettings = new();
 #endif
 #if COM_ALEXPLAY_NET_SIGNAL_BUS
-                public SignalBusServiceConfig SignalBusSettings { get; private set; } = new();
+        public SignalBusServiceConfig _signalBusSettings = new();
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
-                public DialogsServiceConfig DialogsSettings { get; private set; } = new();
+        public DialogsServiceConfig _dialogsSettings = new();
 #endif
 #if COM_ALEXPLAY_NET_ADS
-                public AdvertisementServiceConfig AdvertisementSettings { get; private set; } = new();
+        public AdvertisementServiceConfig _advertisementSettings = new();
 #endif
 #if COM_ALEXPLAY_NET_AUDIO
-                public AudioServiceConfig AudioSettings { get; private set; } = new();
+        public AudioServiceConfig _audioSettings = new();
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-                public AnalyticsServiceConfig AnalyticsSettings { get; private set; } = new();
+        public AnalyticsServiceConfig _analyticsSettings = new();
 #endif
 #if COM_ALEXPLAY_NET_FBRC
-                public FBRCConfig FbrcSettings { get; private set; } = new();
+        public FBRCConfig _fbrcSettings = new();
 #endif
 
-                private void OnValidate()
-                {
+        private void OnValidate()
+        {
 #if COM_ALEXPLAY_NET_DIALOG
-                        DialogsSettings.OnValidate();
+            _dialogsSettings.OnValidate();
 #endif
-                }
         }
+    }
 }

@@ -45,11 +45,11 @@ namespace ACS.Core
             ServiceContainer container = installParams.Installer.AddComponent<ServiceContainer>();
             IntentService intentService = installParams.Installer.AddComponent<IntentService>();
             
-            SetupOptions(installParams.CoreConfig.BootstrapOptions);
+            SetupOptions(installParams.CoreConfig._bootstrapOptions);
 
 #if COM_ALEXPLAY_NET_DATA
             container.Register(typeof(IDataService), 
-                new DataService(installParams.CoreConfig.DataSettings, intentService)); 
+                new DataService(installParams.CoreConfig._dataSettings, intentService)); 
 #endif
 
 #if COM_ALEXPLAY_NET_SIGNAL_BUS
@@ -59,29 +59,29 @@ namespace ACS.Core
 
 #if COM_ALEXPLAY_NET_DIALOG
             container.Register(typeof(IDialogService),
-                new DialogService(installParams.CoreConfig.DialogsSettings, installParams.DialogRect)
+                new DialogService(installParams.CoreConfig._dialogsSettings, installParams.DialogRect)
                     .AddRenderModeChangeDelegate(installParams.RenderModeChangeDelegate)
             );
 #endif
 
 #if COM_ALEXPLAY_NET_ADS
             container.Register(typeof(IAdvertisementService), 
-                new AdvertisementService(intentService, installParams.CoreConfig.AdvertisementSettings)); 
+                new AdvertisementService(intentService, installParams.CoreConfig._advertisementSettings)); 
 #endif
 
 #if COM_ALEXPLAY_NET_AUDIO
             container.Register(typeof(IAudioService), 
-                new AudioService(installParams.CoreConfig.AudioSettings)); 
+                new AudioService(installParams.CoreConfig._audioSettings)); 
 #endif
 
 #if COM_ALEXPLAY_NET_ANALYTICS
             container.Register(typeof(IAnalyticsService),
-                new AnalyticsService(installParams.CoreConfig.AnalyticsSettings)); 
+                new AnalyticsService(installParams.CoreConfig._analyticsSettings)); 
 #endif
 
 #if COM_ALEXPLAY_NET_FBRC
                 container.Register(typeof(IFBRCService), 
-                    new FBRCService(installParams.CoreConfig.FbrcSettings)); 
+                    new FBRCService(installParams.CoreConfig._fbrcSettings)); 
 #endif
             
             container.AsGlobal();

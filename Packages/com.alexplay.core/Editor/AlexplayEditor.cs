@@ -89,28 +89,28 @@ namespace ACS.CoreEditor.Editor
             
             OdinMenuTree menuTree = new OdinMenuTree();
             
-            menuTree.Add("Core", _coreConfig.BootstrapOptions, EditorIcons.House);
+            menuTree.Add("Core", _coreConfig._bootstrapOptions, EditorIcons.House);
 
 #if COM_ALEXPLAY_NET_ADS
-            menuTree.Add("Ads Service", _coreConfig.AdvertisementSettings, EditorIcons.Money);
+            menuTree.Add("Ads Service", _coreConfig._advertisementSettings, EditorIcons.Money);
 #endif
 #if COM_ALEXPLAY_NET_AUDIO
-            menuTree.Add("Audio Service", _coreConfig.AudioSettings, EditorIcons.Sound);
+            menuTree.Add("Audio Service", _coreConfig._audioSettings, EditorIcons.Sound);
 #endif
 #if COM_ALEXPLAY_NET_DATA
-            menuTree.Add("Data Service", _coreConfig.DataSettings, EditorIcons.GridBlocks);
+            menuTree.Add("Data Service", _coreConfig._dataSettings, EditorIcons.GridBlocks);
 #endif
 #if COM_ALEXPLAY_NET_DIALOG
-            menuTree.Add("Dialog Service", _coreConfig.DialogsSettings, EditorIcons.Podium);
+            menuTree.Add("Dialog Service", _coreConfig._dialogsSettings, EditorIcons.Podium);
 #endif
 #if COM_ALEXPLAY_NET_SIGNAL_BUS
-            menuTree.Add("Signal Bus Service", _coreConfig.SignalBusSettings, EditorIcons.WifiSignal);
+            menuTree.Add("Signal Bus Service", _coreConfig._signalBusSettings, EditorIcons.WifiSignal);
 #endif
 #if COM_ALEXPLAY_NET_ANALYTICS
-            menuTree.Add("Analytics Service", _coreConfig.AnalyticsSettings, EditorIcons.Clouds);
+            menuTree.Add("Analytics Service", _coreConfig._analyticsSettings, EditorIcons.Clouds);
 #endif
 #if COM_ALEXPLAY_NET_FBRC
-            menuTree.Add("Remote Config (Firebase)", _coreConfig.FbrcSettings, EditorIcons.SettingsCog);
+            menuTree.Add("Remote Config (Firebase)", _coreConfig._fbrcSettings, EditorIcons.SettingsCog);
 #endif
             
             _menuTree = menuTree;

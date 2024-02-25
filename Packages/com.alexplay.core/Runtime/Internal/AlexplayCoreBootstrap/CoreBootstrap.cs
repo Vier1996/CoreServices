@@ -71,19 +71,19 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
 
         private void SetupDialogParent()
         {
-            float referenceResolutionLength = _config.DialogsSettings.ResizeOnSceneChanged
-                ? Screen.height / (float)Screen.width / _config.DialogsSettings.BaseScreenRatio
+            float referenceResolutionLength = _config._dialogsSettings.ResizeOnSceneChanged
+                ? Screen.height / (float)Screen.width / _config._dialogsSettings.BaseScreenRatio
                 : 1f;
 
             Canvas dialogCanvas = _rectForDialogs.gameObject.AddComponent<Canvas>();
 
-            SetupRenderMode(dialogCanvas, _config.DialogsSettings.RenderMode);
+            SetupRenderMode(dialogCanvas, _config._dialogsSettings.RenderMode);
 
             CanvasScaler dialogCanvasScaler = _rectForDialogs.gameObject.AddComponent<CanvasScaler>();
             dialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             dialogCanvasScaler.referenceResolution = new Vector2(
-                _config.DialogsSettings.ReferenceResolutionX,
-                _config.DialogsSettings.ReferenceResolutionY * Mathf.Max(1f, referenceResolutionLength));
+                _config._dialogsSettings.ReferenceResolutionX,
+                _config._dialogsSettings.ReferenceResolutionY * Mathf.Max(1f, referenceResolutionLength));
             dialogCanvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
             dialogCanvasScaler.matchWidthOrHeight = 1f;
             dialogCanvasScaler.referencePixelsPerUnit = 100;
@@ -102,14 +102,14 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 "UI"
             });
 
-            if (_config.DialogsSettings.ResizeOnSceneChanged)
+            if (_config._dialogsSettings.ResizeOnSceneChanged)
             {
                 CanvasResizer dialogCanvasResizer = _rectForDialogs.gameObject.AddComponent<CanvasResizer>();
                 dialogCanvasResizer.SetupResizer(
                     dialogCanvasScaler,
-                    _config.DialogsSettings.ReferenceResolutionY,
-                    _config.DialogsSettings.ReferenceResolutionX,
-                    _config.DialogsSettings.BaseScreenRatio
+                    _config._dialogsSettings.ReferenceResolutionY,
+                    _config._dialogsSettings.ReferenceResolutionX,
+                    _config._dialogsSettings.BaseScreenRatio
                 );
             }
 
@@ -135,18 +135,18 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
                 case RenderMode.WorldSpace:
                     canvas.renderMode = RenderMode.WorldSpace;
                     canvas.worldCamera = Camera.main;
-                    canvas.sortingLayerName = _config.DialogsSettings.GetLayerName();
-                    canvas.sortingOrder = _config.DialogsSettings.DialogSortingOrder;
+                    canvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
+                    canvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
                     break;
                 case RenderMode.ScreenSpaceCamera:
                     canvas.renderMode = RenderMode.ScreenSpaceCamera;
                     canvas.worldCamera = FindObjectOfType<Camera>();
-                    canvas.sortingLayerName = _config.DialogsSettings.GetLayerName();
-                    canvas.sortingOrder = _config.DialogsSettings.DialogSortingOrder;
+                    canvas.sortingLayerName = _config._dialogsSettings.GetLayerName();
+                    canvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
                     break;
                 case RenderMode.ScreenSpaceOverlay:
                     canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                    canvas.sortingOrder = _config.DialogsSettings.DialogSortingOrder;
+                    canvas.sortingOrder = _config._dialogsSettings.DialogSortingOrder;
                     break;
             }
         }
@@ -154,7 +154,7 @@ namespace ACS.Core.Internal.AlexplayCoreBootstrap
         private void UpdateCanvasesCamera(Scene arg0, LoadSceneMode arg1)
         {
             for (int i = 0; i < _customCanvases.Count; i++)
-                SetupRenderMode(_customCanvases[i].Canvas, _config.DialogsSettings.RenderMode);
+                SetupRenderMode(_customCanvases[i].Canvas, _config._dialogsSettings.RenderMode);
         }
 #endif
 

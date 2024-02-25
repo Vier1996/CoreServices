@@ -34,9 +34,7 @@
       "version": "file:com.alexplay.core",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {
-        "com.github-glitchenzo.nugetforunity": "4.0.2"
-      }
+      "dependencies": {}
     },
     "com.alexplay.data": {
       "version": "file:com.alexplay.data",
