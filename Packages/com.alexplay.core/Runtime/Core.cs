@@ -2,7 +2,6 @@ using System;
 using ACS.Core.ServicesContainer;
 using DG.Tweening;
 using Intent;
-using R3;
 using UnityEngine;
 
 #if COM_ALEXPLAY_NET_ADS
@@ -123,8 +122,6 @@ namespace ACS.Core
                 Screen.orientation = bootstrapOptions.ScreenOrientation;
             
             DOTween.SetTweensCapacity(bootstrapOptions.TweenersCapacity, bootstrapOptions.SequencesCapacity);
-            
-            ObservableSystem.DefaultFrameProvider = new NewThreadSleepFrameProvider();
         }
 
         public class CoreInstallParams
