@@ -95,7 +95,7 @@ namespace ACS.Core
             {
                 case TargetFrameRateType.ADAPTIVE:
 #if UNITY_EDITOR
-                    Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
+                    Application.targetFrameRate = Screen.currentResolution.refreshRate;
 #else
                     if (SystemInfo.systemMemorySize < 3000) Application.targetFrameRate = 30;
                     else if (SystemInfo.systemMemorySize < 4000) Application.targetFrameRate = 45;
@@ -112,7 +112,7 @@ namespace ACS.Core
                     break;
                 
                 case TargetFrameRateType.EQUALS:
-                    Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
+                    Application.targetFrameRate = Screen.currentResolution.refreshRate;
                     break;
             }
 
