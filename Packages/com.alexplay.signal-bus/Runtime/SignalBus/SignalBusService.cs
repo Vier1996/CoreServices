@@ -12,15 +12,16 @@ namespace ACS.SignalBus.SignalBus
         private readonly System.Reflection.Assembly _sharpAssembly;
         private NativeSignalBus.SignalBus _signalBus;
         
-        public SignalBusService() => 
-            _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies().First(atr => atr.GetName().Name.Equals(SharpAssemblyName));
-
-        public void PrepareService()
+        public SignalBusService()
         {
+            _sharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
+                .First(atr => atr.GetName().Name.Equals(SharpAssemblyName));
+            
             _signalBus = new NativeSignalBus.SignalBus();
             
             DeclareSignals();
         }
+        
         public void Subscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.Subscribe(callback);
 
         public void Unsubscribe<TSignalType>(Action<TSignalType> callback) => _signalBus.TryUnsubscribe(callback);
