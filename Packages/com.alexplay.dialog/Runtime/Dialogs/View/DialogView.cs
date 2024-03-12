@@ -2,7 +2,6 @@ using System;
 using ACS.Dialog.Dialogs.Arguments;
 using DG.Tweening;
 using Sirenix.OdinInspector;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace ACS.Dialog.Dialogs.View
@@ -11,17 +10,17 @@ namespace ACS.Dialog.Dialogs.View
     {
         public event Action ShowingAnimationFinished;
         
-        [BoxGroup("Parameters"), SerializeField] private bool _ignoreAnimation = false;
-        [BoxGroup("Parameters"), SerializeField] private bool _customDialogSize = false;
-        [BoxGroup("Parameters"), ShowIf(nameof(_customDialogSize), true), SerializeField] private Vector3 _customPosition;
-        [BoxGroup("Parameters"), ShowIf(nameof(_customDialogSize), true), SerializeField] private Vector3 _customScale;
-        [BoxGroup("Close"), SerializeField] private Button _closeButton;
+        [BoxGroup("Parameters"), UnityEngine.SerializeField] private bool _ignoreAnimation = false;
+        [BoxGroup("Parameters"), UnityEngine.SerializeField] private bool _customDialogSize = false;
+        [BoxGroup("Parameters"), ShowIf(nameof(_customDialogSize), true), UnityEngine.SerializeField] private UnityEngine.Vector3 _customPosition;
+        [BoxGroup("Parameters"), ShowIf(nameof(_customDialogSize), true), UnityEngine.SerializeField] private UnityEngine.Vector3 _customScale;
+        [BoxGroup("Close"), UnityEngine.SerializeField] private Button _closeButton;
         
         protected virtual void Awake()
         {
-            transform.DOLocalMove(_customDialogSize ? _customPosition : Vector3.zero, 0);
+            transform.DOLocalMove(_customDialogSize ? _customPosition : UnityEngine.Vector3.zero, 0);
             
-            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            _canvasGroup = gameObject.AddComponent<UnityEngine.CanvasGroup>();
             _canvasGroup.alpha = 0f;
             
             if(_closeButton != null)
@@ -35,14 +34,14 @@ namespace ACS.Dialog.Dialogs.View
             return this;
         }
 
-        public void SetParent(RectTransform parentTransform)
+        public void SetParent(UnityEngine.RectTransform parentTransform)
         {
-            RectTransform dialogRect = (RectTransform)transform;
+            UnityEngine.RectTransform dialogRect = (UnityEngine.RectTransform)transform;
                 
             dialogRect.SetParent(parentTransform);
-            dialogRect.localPosition = Vector3.zero;
-            dialogRect.localScale = _customDialogSize ? _customScale : Vector3.one;
-            dialogRect.rotation = new Quaternion(0, 0, 0, 0);
+            dialogRect.localPosition = UnityEngine.Vector3.zero;
+            dialogRect.localScale = _customDialogSize ? _customScale : UnityEngine.Vector3.one;
+            dialogRect.rotation = new UnityEngine.Quaternion(0, 0, 0, 0);
         }
         
         public virtual void Show()
@@ -87,7 +86,7 @@ namespace ACS.Dialog.Dialogs.View
         {
             if (_dialogArgs == null)
             {
-                Debug.LogError($"Trying to receive {typeof(TArgs)} - NULL args");
+                UnityEngine.Debug.LogError($"Trying to receive {typeof(TArgs)} - NULL args");
                 return null;
             }
             
