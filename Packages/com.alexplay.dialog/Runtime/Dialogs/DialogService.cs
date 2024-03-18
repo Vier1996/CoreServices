@@ -100,8 +100,10 @@ namespace ACS.Dialog.Dialogs
 
         public void CloseAllDialogs()
         {
-            while (_activeDialogs.Count > 0) 
-                _activeDialogs[0].Hide();
+            foreach (DialogView dialog in _activeDialogs) 
+                dialog.Hide();
+
+            _activeDialogs.Clear();
         }
 
         private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs
