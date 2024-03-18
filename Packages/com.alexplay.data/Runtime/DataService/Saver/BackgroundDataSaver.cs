@@ -5,7 +5,7 @@ using ACS.Data.DataService.Container;
 using ACS.Data.DataService.Model;
 using ACS.Data.DataService.Tool;
 using Newtonsoft.Json;
-using R3;
+using UniRx;
 using UnityEngine;
 
 namespace ACS.Data.DataService.Saver
@@ -53,7 +53,7 @@ namespace ACS.Data.DataService.Saver
 
         public void DemandStorageSaving() => ExecuteStorageSaving();
 
-        private void OnTick(Unit state)
+        private void OnTick(long tick)
         {
             if (_cycleSaveTime > 0)
             {
