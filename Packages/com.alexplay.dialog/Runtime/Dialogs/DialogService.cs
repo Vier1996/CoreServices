@@ -35,14 +35,20 @@ namespace ACS.Dialog.Dialogs
         private readonly Dictionary<string, AsyncOperationHandle<DialogView>> _dialogHandles = new Dictionary<string, AsyncOperationHandle<DialogView>>();
 
         private Action<RenderMode> _renderModeChangeDelegate;
-     
+
         public DialogService(DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
         {
             _dialogsServiceConfig = dialogsServiceConfig;
             _dialogsParent = rectForDialogs;
             _activeDialogs.CollectionChanged += OnDialogsCountChanged;
-            
+
             CreateRaycastLocker();
+
+            foreach (DialogInfo dialogInfo in _dialogsServiceConfig.ActiveDialogs)
+            {
+                if(dialogInfo.AddressableReference != null)
+                    Debug.Log($"[DS] - Dialog References : {dialogInfo.AddressableReference.AssetGUID}");
+            }
         }
 
         public DialogService AddRenderModeChangeDelegate(Action<RenderMode> renderModeChangeDelegate)

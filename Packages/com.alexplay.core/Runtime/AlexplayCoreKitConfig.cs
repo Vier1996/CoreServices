@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #if COM_ALEXPLAY_NET_ADS
@@ -38,7 +39,7 @@ using ACS.Cheat.CheatTracker;
 namespace ACS.Core
 {
     [Serializable]
-    public class AlexplayCoreKitConfig : ScriptableObject
+    public class AlexplayCoreKitConfig : SerializedScriptableObject
     {
         public CoreBootstrapOptions _bootstrapOptions = new();
         
