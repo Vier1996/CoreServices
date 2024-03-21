@@ -108,38 +108,19 @@ namespace ACS.Dialog.Dialogs
 
         private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs
         {
-            DialogView createdWindow = null;
-            
             _raycastLocker.gameObject.SetActive(true);
             
-            Debug.Log($"[DS] - TargetType : {dialogType.Name}");
-            Debug.Log($"[DS] - ActiveDialogs : {_dialogsServiceConfig.ActiveDialogs.Count}");
-            
+            DialogView createdWindow = null;
             DialogInfo dialogInfo = _dialogsServiceConfig.ActiveDialogs.FirstOrDefault(adt => adt.Name == dialogType.Name);
-
-            if(dialogInfo.Equals(default))
-                Debug.Log($"[DS] - Info is null");
-
-            if(dialogInfo.AddressableReference == null)
-                Debug.Log($"[DS] - Reference is null");
-            
             AsyncOperationHandle<DialogView> instantiateHandle = dialogInfo.AddressableReference.InstantiateAsync();
-            
-            Debug.Log($"[DS] - Instantiate handle");
             
             await instantiateHandle.Task;
             
-            Debug.Log($"[DS] - Task awaited");
-            
             _dialogHandles[dialogInfo.TypeFullName] = instantiateHandle;
             
-            Debug.Log($"[DS] - Prisvoen");
-
             createdWindow = args == null
                 ? instantiateHandle.Result
                 : ((IReceiveArgs<TArgs>)instantiateHandle.Result).SetArgs(args);
-            
-            Debug.Log($"[DS] - Args setted");
             
             return createdWindow;
         }
