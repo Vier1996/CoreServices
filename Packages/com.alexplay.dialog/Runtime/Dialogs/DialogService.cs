@@ -112,6 +112,9 @@ namespace ACS.Dialog.Dialogs
             
             _raycastLocker.gameObject.SetActive(true);
             
+            Debug.Log($"[DS] - TargetType : {dialogType.Name}");
+            Debug.Log($"[DS] - ActiveDialogs : {_dialogsServiceConfig.ActiveDialogs.Count}");
+            
             DialogInfo dialogInfo = _dialogsServiceConfig.ActiveDialogs.FirstOrDefault(adt => adt.Name == dialogType.Name);
 
             if(dialogInfo.Equals(default))
