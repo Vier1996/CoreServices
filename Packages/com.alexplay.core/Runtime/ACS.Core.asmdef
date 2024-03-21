@@ -16,7 +16,9 @@
         "ACS.Audio",
         "ACS.Analytics",
         "ACS.FBRC",
-        "ACS.CheatTracker"
+        "ACS.CheatTracker",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

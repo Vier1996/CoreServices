@@ -43,12 +43,6 @@ namespace ACS.Dialog.Dialogs
             _activeDialogs.CollectionChanged += OnDialogsCountChanged;
 
             CreateRaycastLocker();
-
-            foreach (DialogInfo dialogInfo in _dialogsServiceConfig.ActiveDialogs)
-            {
-                if(dialogInfo.AddressableReference != null)
-                    Debug.Log($"[DS] - Dialog References : {dialogInfo.AddressableReference.AssetGUID}");
-            }
         }
 
         public DialogService AddRenderModeChangeDelegate(Action<RenderMode> renderModeChangeDelegate)
@@ -114,16 +108,37 @@ namespace ACS.Dialog.Dialogs
 
         private async UniTask<DialogView> InstantiateDialog<TArgs>(Type dialogType, TArgs args) where TArgs : DialogArgs
         {
+            DialogView createdWindow = null;
+            
             _raycastLocker.gameObject.SetActive(true);
             
-            DialogInfo dialogInfo = _dialogsServiceConfig.ActiveDialogs.FirstOrDefault(adt => adt.TypeFullName == dialogType.FullName);
+            DialogInfo dialogInfo = _dialogsServiceConfig.ActiveDialogs.FirstOrDefault(adt => adt.Name == dialogType.Name);
+
+            if(dialogInfo.Equals(default))
+                Debug.Log($"[DS] - Info is null");
+
+            if(dialogInfo.AddressableReference == null)
+                Debug.Log($"[DS] - Reference is null");
+            
             AsyncOperationHandle<DialogView> instantiateHandle = dialogInfo.AddressableReference.InstantiateAsync();
+            
+            Debug.Log($"[DS] - Instantiate handle");
             
             await instantiateHandle.Task;
             
+            Debug.Log($"[DS] - Task awaited");
+            
             _dialogHandles[dialogInfo.TypeFullName] = instantiateHandle;
             
-            return ((IReceiveArgs<TArgs>)instantiateHandle.Result).SetArgs(args);
+            Debug.Log($"[DS] - Prisvoen");
+
+            createdWindow = args == null
+                ? instantiateHandle.Result
+                : ((IReceiveArgs<TArgs>)instantiateHandle.Result).SetArgs(args);
+            
+            Debug.Log($"[DS] - Args setted");
+            
+            return createdWindow;
         }
 
         private void ShowDialog(DialogView dialogView)
