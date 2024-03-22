@@ -85,6 +85,8 @@ namespace ACS.Core
             
             container.AsCore();
             
+            Initialized = true;
+            
             PostInitialized?.Invoke();
         }
 
