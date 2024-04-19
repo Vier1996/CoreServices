@@ -24,12 +24,6 @@
         "com.alexplay.core": "2.0.0"
       }
     },
-    "com.alexplay.cheat_tracker": {
-      "version": "file:com.alexplay.cheat-tracker",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.alexplay.core": {
       "version": "file:com.alexplay.core",
       "depth": 0,
@@ -60,24 +54,6 @@
       "dependencies": {
         "com.alexplay.core": "2.0.0"
       }
-    },
-    "com.alexplay.gdpr": {
-      "version": "file:com.alexplay.gdpr",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.alexplay.iap": {
-      "version": "file:com.alexplay.purchase",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.alexplay.object-pool": {
-      "version": "file:com.alexplay.object-pool",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
     },
     "com.alexplay.signal_bus": {
       "version": "file:com.alexplay.signal-bus",

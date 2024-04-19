@@ -5,15 +5,6 @@ using UnityEngine;
 #if COM_ALEXPLAY_NET_ADS
 using ACS.Ads;
 #endif
-#if COM_ALEXPLAY_NET_GDPR
-using ACS.GDPR.Config;
-#endif
-#if COM_ALEXPLAY_NET_PURCHASE
-using ACS.IAP.InAppPurchase.Config;
-#endif
-#if COM_ALEXPLAY_NET_OBJECT_POOL
-using ACS.ObjectPool.ObjectPool.Config;
-#endif
 #if COM_ALEXPLAY_NET_DIALOG
 using ACS.Dialog.Dialogs.Config;
 #endif
@@ -31,9 +22,6 @@ using ACS.Analytics;
 #endif
 #if COM_ALEXPLAY_NET_FBRC
 using ACS.FBRC.StaticData;
-#endif
-#if COM_ALEXPLAY_NET_CHEAT_TRACKER
-using ACS.Cheat.CheatTracker;
 #endif
 
 namespace ACS.Core
