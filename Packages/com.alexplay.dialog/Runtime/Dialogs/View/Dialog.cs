@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ACS.Dialog.Dialogs.View
 {
-    public class Dialog : MonoBehaviour
+    public class Dialog : MonoBehaviour, IDialog
     {
         public delegate void DialogHiddenHandler(DialogView dialogView);
         public delegate void DialogShownHandler(DialogView dialogView);
