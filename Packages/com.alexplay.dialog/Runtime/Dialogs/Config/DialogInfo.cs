@@ -2,6 +2,7 @@
 using System.Reflection;
 using ACS.Dialog.Dialogs.View;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace ACS.Dialog.Dialogs.Config
@@ -12,9 +13,9 @@ namespace ACS.Dialog.Dialogs.Config
         [ReadOnly] public string Name;
         [ReadOnly] public string TypeFullName;
         [ReadOnly] public string AssemblyName;
-        
-        public DialogReference AddressableReference;
-        
+
+        [field: OdinSerialize] public DialogReference AddressableReference;
+
         public DialogInfo(Type type)
         {
             Name = type.Name;

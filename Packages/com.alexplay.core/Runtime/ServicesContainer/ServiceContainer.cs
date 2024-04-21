@@ -9,15 +9,7 @@ namespace ACS.Core.ServicesContainer
 {
     public class ServiceContainer : MonoBehaviour
     {
-        public static ServiceContainer Global
-        {
-            get
-            {
-                if (_global != null) return _global;
-
-                throw new NullReferenceException("You can not use GlobalContainer without Core instance");
-            }
-        }
+        public static ServiceContainer Global => _global;
         
         public static ServiceContainer Core
         {

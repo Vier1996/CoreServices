@@ -35,13 +35,13 @@ namespace ACS.Dialog.Dialogs
         private readonly Dictionary<string, AsyncOperationHandle<DialogView>> _dialogHandles = new Dictionary<string, AsyncOperationHandle<DialogView>>();
 
         private Action<RenderMode> _renderModeChangeDelegate;
-     
+
         public DialogService(DialogsServiceConfig dialogsServiceConfig, RectTransform rectForDialogs)
         {
             _dialogsServiceConfig = dialogsServiceConfig;
             _dialogsParent = rectForDialogs;
             _activeDialogs.CollectionChanged += OnDialogsCountChanged;
-            
+
             CreateRaycastLocker();
         }
 
@@ -110,14 +110,19 @@ namespace ACS.Dialog.Dialogs
         {
             _raycastLocker.gameObject.SetActive(true);
             
-            DialogInfo dialogInfo = _dialogsServiceConfig.ActiveDialogs.FirstOrDefault(adt => adt.TypeFullName == dialogType.FullName);
+            DialogView createdWindow = null;
+            DialogInfo dialogInfo = _dialogsServiceConfig.ActiveDialogs.FirstOrDefault(adt => adt.Name == dialogType.Name);
             AsyncOperationHandle<DialogView> instantiateHandle = dialogInfo.AddressableReference.InstantiateAsync();
             
             await instantiateHandle.Task;
             
             _dialogHandles[dialogInfo.TypeFullName] = instantiateHandle;
             
-            return ((IReceiveArgs<TArgs>)instantiateHandle.Result).SetArgs(args);
+            createdWindow = args == null
+                ? instantiateHandle.Result
+                : ((IReceiveArgs<TArgs>)instantiateHandle.Result).SetArgs(args);
+            
+            return createdWindow;
         }
 
         private void ShowDialog(DialogView dialogView)

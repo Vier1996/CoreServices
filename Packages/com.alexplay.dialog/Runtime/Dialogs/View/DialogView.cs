@@ -54,10 +54,9 @@ namespace ACS.Dialog.Dialogs.View
                     _canvasGroup.alpha = 1f;
                 else
                 {
-                    DOTween.To(() => _canvasGroup.alpha, alpha =>
-                    {
-                        _canvasGroup.alpha = alpha;
-                    }, 1f, 0.3f).OnComplete(() => ShowingAnimationFinished?.Invoke());
+                    DOTween.To(() => _canvasGroup.alpha, alpha => _canvasGroup.alpha = alpha, 1f, 0.3f)
+                        .OnComplete(() => ShowingAnimationFinished?.Invoke())
+                        .SetUpdate(true);
                 }
 
                 NotifyListeners();
@@ -68,10 +67,9 @@ namespace ACS.Dialog.Dialogs.View
         {
             _visible = false;
             
-            DOTween.To(() => _canvasGroup.alpha, alpha =>
-            {
-                _canvasGroup.alpha = alpha;
-            }, 0f, 0.3f).OnComplete(NotifyListeners);
+            DOTween.To(() => _canvasGroup.alpha, alpha => _canvasGroup.alpha = alpha, 0f, 0.3f)
+                .OnComplete(NotifyListeners)
+                .SetUpdate(true);
         }
 
         public void TemporaryEnable() => gameObject.SetActive(true);
