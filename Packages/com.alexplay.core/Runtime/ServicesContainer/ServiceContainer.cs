@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace ACS.Core.ServicesContainer
 {
-    public class ServiceContainer : MonoBehaviour
+    public class ServiceContainer : MonoBehaviour, IDisposable
     {
         public static ServiceContainer Global => _global;
         
@@ -177,5 +177,6 @@ namespace ACS.Core.ServicesContainer
         [MenuItem("ServiceContainer/Create local scene container")]
         static void AddScene() => new GameObject("ServiceContainer [Local]", typeof(ServiceContainerLocal));
 #endif
+        public void Dispose() => _services.Dispose();
     }
 }
